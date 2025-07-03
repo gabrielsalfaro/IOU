@@ -18,6 +18,13 @@ Expenses:
 - One expense has many comments
 - One expense has many expense_members
 
+Expenses Status Codes:
+- paid
+- partially_paid
+
+Payments Status Codes:
+- completed
+
 <br>
 
 # API Documentation
