@@ -97,7 +97,7 @@ information.
     }
     ```
 
-# Expenses API Documentation
+## Expenses API Documentation
 
 ### Get all Expenses for Current User
 
@@ -114,7 +114,7 @@ Returns all pending and settled expenses for the current user.
   * Body:
     ```json
     {
-      "expense": [
+      "expenses": [
         {
           "id": 1,
           "description": "Dinner",
@@ -122,7 +122,29 @@ Returns all pending and settled expenses for the current user.
           "expense_owner": 2,
           "status": "pending",
           "created_at": "2024-07-03T12:00:00",
-          "updated_at": "2024-07-03T12:00:00"
+          "updated_at": "2024-07-03T12:00:00",
+          "expense_members": [
+            {
+              "id": 1,
+              "expense_id": 1,
+              "user_id": 2,
+              "amount_owed": 50.00,
+              "amount_paid": 0.00,
+              "settled": false,
+              "created_at": "2024-07-03T12:00:00",
+              "updated_at": "2024-07-03T12:00:00"
+            },
+            {
+              "id": 2,
+              "expense_id": 1,
+              "user_id": 3,
+              "amount_owed": 50.00,
+              "amount_paid": 0.00,
+              "settled": false,
+              "created_at": "2024-07-03T12:00:00",
+              "updated_at": "2024-07-03T12:00:00"
+            }
+          ]
         }
       ]
     }
@@ -153,37 +175,37 @@ Creates a new expense and splits it with other users.
     * Content-Type: application/json
   * Body:
     ```json
-  "expense": {
-    "id": 2,
-    "description": "Lunch",
-    "amount": 60.00,
-    "expense_owner": 1,
-    "status": "pending",
-    "created_at": "2024-07-03T12:00:00",
-    "updated_at": "2024-07-03T12:00:00",
-    "expense_members": [ //show associated members part of expense (from expense_members table)
-      {
-        "id": 1,
-        "expense_id": 2,
-        "user_id": 2,
-        "amount_owed": 30.00,
-        "amount_paid": 0.00,
-        "settled": false,
-        "created_at": "2024-07-03T12:00:00",
-        "updated_at": "2024-07-03T12:00:00"
-      },
-      {
-        "id": 2,
-        "expense_id": 2,
-        "user_id": 3,
-        "amount_owed": 30.00,
-        "amount_paid": 0.00,
-        "settled": false,
-        "created_at": "2024-07-03T12:00:00",
-        "updated_at": "2024-07-03T12:00:00"
-      }
-    ]
-  }
+    "expense": {
+      "id": 2,
+      "description": "Lunch",
+      "amount": 60.00,
+      "expense_owner": 1,
+      "status": "pending",
+      "created_at": "2024-07-03T12:00:00",
+      "updated_at": "2024-07-03T12:00:00",
+      "expense_members": [ //show associated members part of expense (from expense_members table)
+        {
+          "id": 1,
+          "expense_id": 2,
+          "user_id": 2,
+          "amount_owed": 30.00,
+          "amount_paid": 0.00,
+          "settled": false,
+          "created_at": "2024-07-03T12:00:00",
+          "updated_at": "2024-07-03T12:00:00"
+        },
+        {
+          "id": 2,
+          "expense_id": 2,
+          "user_id": 3,
+          "amount_owed": 30.00,
+          "amount_paid": 0.00,
+          "settled": false,
+          "created_at": "2024-07-03T12:00:00",
+          "updated_at": "2024-07-03T12:00:00"
+        }
+      ]
+    }
     ```
 * Error Response: Validation
   * Status Code: 400 - Bad Request
@@ -220,47 +242,47 @@ Updates an expense for the current user.
   * Status Code: 200
   * Body:
     ```json
-  "expense": {
-    "id": 1,
-    "description": "Dinner - Updated",
-    "amount": 150.00,
-    "expense_owner": 1,
-    "status": "pending",
-    "created_at": "2024-07-03T12:00:00",
-    "updated_at": "2024-07-03T12:00:00",
-    "expense_members": [
-      {
-        "id": 1,
-        "expense_id": 1,
-        "user_id": 2,
-        "amount_owed": 50.00,
-        "amount_paid": 0.00,
-        "settled": false,
-        "created_at": "2024-07-03T12:00:00",
-        "updated_at": "2024-07-03T12:00:00"
-      },
-      {
-        "id": 2,
-        "expense_id": 1,
-        "user_id": 3,
-        "amount_owed": 50.00,
-        "amount_paid": 0.00,
-        "settled": false,
-        "created_at": "2024-07-03T12:00:00",
-        "updated_at": "2024-07-03T12:00:00"
-      },
-      {
-        "id": 3,
-        "expense_id": 1,
-        "user_id": 4,
-        "amount_owed": 50.00,
-        "amount_paid": 0.00,
-        "settled": false,
-        "created_at": "2024-07-03T12:00:00",
-        "updated_at": "2024-07-03T12:00:00"
-      }
-    ]
-  }
+    "expense": {
+      "id": 1,
+      "description": "Dinner - Updated",
+      "amount": 150.00,
+      "expense_owner": 1,
+      "status": "pending",
+      "created_at": "2024-07-03T12:00:00",
+      "updated_at": "2024-07-03T12:00:00",
+      "expense_members": [
+        {
+          "id": 1,
+          "expense_id": 1,
+          "user_id": 2,
+          "amount_owed": 50.00,
+          "amount_paid": 0.00,
+          "settled": false,
+          "created_at": "2024-07-03T12:00:00",
+          "updated_at": "2024-07-03T12:00:00"
+        },
+        {
+          "id": 2,
+          "expense_id": 1,
+          "user_id": 3,
+          "amount_owed": 50.00,
+          "amount_paid": 0.00,
+          "settled": false,
+          "created_at": "2024-07-03T12:00:00",
+          "updated_at": "2024-07-03T12:00:00"
+        },
+        {
+          "id": 3,
+          "expense_id": 1,
+          "user_id": 4,
+          "amount_owed": 50.00,
+          "amount_paid": 0.00,
+          "settled": false,
+          "created_at": "2024-07-03T12:00:00",
+          "updated_at": "2024-07-03T12:00:00"
+        }
+      ]
+    }
     ```
 * Error Response: Not Owner
   * Status Code: 403 - Forbidden
