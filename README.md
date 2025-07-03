@@ -19,6 +19,7 @@ Expenses:
 - One expense has many expense_members
 
 Expenses Status Codes:
+- pending
 - paid
 - partially_paid
 
@@ -96,20 +97,241 @@ information.
     }
     ```
 
-## Get the Current User
+# Expenses API Documentation
 
-## Log In a User
+### Get all Expenses for Current User
 
-## Sign Up a User
+Returns all pending and settled expenses for the current user.
 
-# BUDGET
+* Require Authentication: true
+* Request
+  * Method: `GET`
+  * Route path: `/api/expenses`
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+    {
+      "expense": [
+        {
+          "id": 1,
+          "description": "Dinner",
+          "amount": 100.00,
+          "expense_owner": 2,
+          "status": "pending",
+          "created_at": "2024-07-03T12:00:00",
+          "updated_at": "2024-07-03T12:00:00"
+        }
+      ]
+    }
+    ```
 
-## Get all expenses
+### Create a New Expense
 
-## Create a budget
+Creates a new expense and splits it with other users.
 
-## Edit a budget
+* Require Authentication: true
+* Request
+  * Method: `POST`
+  * Route path: `/api/expenses`
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+    {
+      "description": "Lunch",
+      "amount": 60.00,
+      "members": [2, 3],
+      "splits": [30.00, 30.00]
+    }
+    ```
+* Successful Response
+  * Status Code: 201
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+  "expense": {
+    "id": 2,
+    "description": "Lunch",
+    "amount": 60.00,
+    "expense_owner": 1,
+    "status": "pending",
+    "created_at": "2024-07-03T12:00:00",
+    "updated_at": "2024-07-03T12:00:00",
+    "expense_members": [ //show associated members part of expense (from expense_members table)
+      {
+        "id": 1,
+        "expense_id": 2,
+        "user_id": 2,
+        "amount_owed": 30.00,
+        "amount_paid": 0.00,
+        "settled": false,
+        "created_at": "2024-07-03T12:00:00",
+        "updated_at": "2024-07-03T12:00:00"
+      },
+      {
+        "id": 2,
+        "expense_id": 2,
+        "user_id": 3,
+        "amount_owed": 30.00,
+        "amount_paid": 0.00,
+        "settled": false,
+        "created_at": "2024-07-03T12:00:00",
+        "updated_at": "2024-07-03T12:00:00"
+      }
+    ]
+  }
+    ```
+* Error Response: Validation
+  * Status Code: 400 - Bad Request
+  * Body:
+    ```json
+    {
+      "message": "Validation error",
+      "errors": {
+        "amount": "Amount must be positive",
+        "members": "At least one member required"
+      }
+    }
+    ```
+### Update an Expense
 
-## Delete a budget
+Updates an expense for the current user.
+**Should be disallowed if status for expense is ```partially_paid```**
+* Require Authentication: true
+* Request
+  * Method: `PUT`
+  * Route path: `/api/expenses/:expenseId`
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+    {
+      "description": "Dinner - Updated",
+      "amount": 150.00,
+      "members": [2, 3, 4],
+      "splits": [50.00, 50.00, 50.00]
+    }
+    ```
+* Successful Response
+  * Status Code: 200
+  * Body:
+    ```json
+  "expense": {
+    "id": 1,
+    "description": "Dinner - Updated",
+    "amount": 150.00,
+    "expense_owner": 1,
+    "status": "pending",
+    "created_at": "2024-07-03T12:00:00",
+    "updated_at": "2024-07-03T12:00:00",
+    "expense_members": [
+      {
+        "id": 1,
+        "expense_id": 1,
+        "user_id": 2,
+        "amount_owed": 50.00,
+        "amount_paid": 0.00,
+        "settled": false,
+        "created_at": "2024-07-03T12:00:00",
+        "updated_at": "2024-07-03T12:00:00"
+      },
+      {
+        "id": 2,
+        "expense_id": 1,
+        "user_id": 3,
+        "amount_owed": 50.00,
+        "amount_paid": 0.00,
+        "settled": false,
+        "created_at": "2024-07-03T12:00:00",
+        "updated_at": "2024-07-03T12:00:00"
+      },
+      {
+        "id": 3,
+        "expense_id": 1,
+        "user_id": 4,
+        "amount_owed": 50.00,
+        "amount_paid": 0.00,
+        "settled": false,
+        "created_at": "2024-07-03T12:00:00",
+        "updated_at": "2024-07-03T12:00:00"
+      }
+    ]
+  }
+    ```
+* Error Response: Not Owner
+  * Status Code: 403 - Forbidden
+  * Body:
+    ```json
+    {
+      "message": "Forbidden: Only the expense owner can update this expense"
+    }
+    ```
+* Error Response: Expense Not Found
+  * Status Code: 404 - Not found
+  * Body:
+    ```json
+    {
+      "message": "Expense not found"
+    }
+    ```
+* Error Response: Already Settled expense
+  * Status Code: 400 - Bad Request
+  * Body:
+    ```json
+    {
+      "message": "Cannot update a settled expense"
+    }
+    ```
+* Error Response: Already partially paid expense
+  * Status Code: 400 - Bad Request
+  * Body:
+    ```json
+    {
+      "message": "Cannot update a partially paid expense"
+    }
+    ```
 
-## Add Query Filters to Get All Budgets
+### Delete an Expense
+
+Deletes an expense if it has not been settled.
+
+* Require Authentication: true
+* Request
+  * Method: `DELETE`
+  * Route path: `/api/expenses/:expenseId`
+* Successful Response
+  * Status Code: 200
+  * Body:
+    ```json
+    {
+      "message": "Expense deleted successfully"
+    }
+    ```
+* Error Response: Already Settled Expense
+  * Status Code: 400 - Bad Request
+  * Body:
+    ```json
+    {
+      "message": "Cannot delete a settled expense"
+    }
+    ```
+* Error Response: Not Owner
+  * Status Code: 403 - Forbidden
+  * Body:
+    ```json
+    {
+      "message": "Forbidden: Only the expense owner can delete this expense"
+    }
+    ```
+* Error Response: Expense Not Found
+  * Status Code: 404 - Not found
+  * Body:
+    ```json
+    {
+      "message": "Expense not found"
+    }
+    ```
