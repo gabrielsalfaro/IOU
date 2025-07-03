@@ -1,9 +1,22 @@
 # Budget Project
 
 ## DB Schema Design
-![airbnb-database-schema]
+SplitwiseClone-database-schema
 
-[airbnb-database-schema]: https://i.imgur.com/MER6rux.png
+![Screen Shot 2025-07-02 at 8 14 36 PM](https://github.com/user-attachments/assets/e25da185-6fa5-4656-bd73-5851d306b108)
+
+User:
+- One user has many expenses (as expense owner)
+- One user has many expenses (as expense_members)
+- One user has many comments
+- One user has many payments (as expense payer)
+- One user has many payments (as expense payee)
+- One user has many friends
+
+Expenses:
+- Zero or one expense has many payments
+- One expense has many comments
+- One expense has many expense_members
 
 <br>
 
