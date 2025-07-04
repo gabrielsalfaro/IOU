@@ -34,7 +34,7 @@ git clone https://github.com/gabrielsalfaro/pgp.git
 Set up the backend:
 
 ```
-pip install -r requirements.txt
+pipenv install -r requirements.txt
 flask db upgrade
 flask run
 ```
