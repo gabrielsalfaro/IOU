@@ -9,8 +9,8 @@ class ExpenseMember(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     expense_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('expenses.id')), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
-    amount_owed = db.Column(db.Numeric(precision=10, scale=2))
-    settled = db.Column(db.Boolean, nullable=False)
+    amount_owed = db.Column(db.Numeric(precision=10, scale=2), default=0)
+    settled = db.Column(db.Boolean, nullable=False, default=False)
 
     def to_dict(self):
         return {
