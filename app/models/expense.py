@@ -13,8 +13,8 @@ class Expense(db.Model):
 
   def to_dict(self):
       return {
-          'id': self.id,
-          'description': self.description,
-          'expense_owner': self.expense_owner,
-          'status': self.status
+        'id': self.id,
+        'description': self.description,
+        'expense_owner': self.expense_owner,
+        'status': self.status
       }
