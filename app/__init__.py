@@ -28,6 +28,10 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.config.from_mapping({
+  'SQLALCHEMY_DATABASE_URI': os.environ.get('DATABASE_URL'),
+  'SQLALCHEMY_TRACK_MODIFICATIONS': False,
+})
 db.init_app(app)
 Migrate(app, db)
 
