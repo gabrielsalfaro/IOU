@@ -17,8 +17,8 @@ class Friends(db.Model, UserMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     friend_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     status = db.Column(db.String, nullable=False) # CheckConstraint
-    created_at = db.Column(db.DateTime, nullable=False) # check date stuff
-    updated_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now) # check date stuff
+    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     # only allow friends or pending in status
 

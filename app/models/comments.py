@@ -13,8 +13,8 @@ class Friends(db.Model):
     expense_id = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, nullable=False)
     content = db.Column(db.String())
-    created_at = db.Column(db.DateTime, nullable=False) # check date stuff
-    updated_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now) # check date stuff
+    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 def to_dict(self):
     return {
