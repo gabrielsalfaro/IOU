@@ -26,7 +26,9 @@ def upgrade():
         sa.Column('id', sa.Integer(), primary_key=True),
         sa.Column('user_id', sa.Integer(), sa.ForeignKey('users.id', ondelete='CASCADE'), nullable=False),
         sa.Column('friend_id', sa.Integer(), sa.ForeignKey('users.id', ondelete='CASCADE'), nullable=False),
-        sa.Column('created_at', sa.DateTime()), # check datetime format
+        sa.Column('status', sa.String(), nullable=False),
+        sa.Column('created_at', sa.DateTime()), 
+        sa.Column('updated_at', sa.DateTime()), 
         sa.UniqueConstraint('user_id', 'friend_id', name='unique_user_friend') # prevent duplicates
     )
 
