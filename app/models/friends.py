@@ -16,15 +16,11 @@ class Friends(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     friend_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
-    status = db.Column(db.String, nullable=False)
-
-    created_at = db.Column(db.DateTime, nullable=False)
+    status = db.Column(db.String, nullable=False) # CheckConstraint
+    created_at = db.Column(db.DateTime, nullable=False) # check date stuff
     updated_at = db.Column(db.DateTime, nullable=False)
 
     # only allow friends or pending in status
-    __table_args__ = (
-       
-    )
 
     # relationships
     user = db.relationship('User', foreign_keys=[user_id], backref=db.backref('friends', lazy=True))
