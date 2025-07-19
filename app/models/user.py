@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     firstname = db.Column(db.String(30), nullable=False)
     lastname = db.Column(db.String(30), nullable=False)
     hashed_password = db.Column(db.String(255), nullable=False)
-    profile_img = db.Column(db.String(255))
+    profile_img = db.Column(db.String(255), default='/react-vite/public/user.png')
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
