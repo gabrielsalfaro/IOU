@@ -15,17 +15,19 @@ down_revision = '11d3cbee282d'
 branch_labels = None
 depends_on = None
 
-
 def upgrade():
-   op.create_table('payments',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('note', sa.String(length=255), nullable=True),
-    sa.Column('status', sa.String(length=20), nullable=False),
-    sa.Column('created_at', sa.DateTime(), nullable=True),
-    sa.Column('updated_at', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['expense_id'], ['expenses.id'], ),
-    sa.ForeignKeyConstraint(['payer_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    op.create_table(
+        'payments',
+        sa.Column('id', sa.Integer(), nullable=False),
+        sa.Column('expense_id', sa.Integer(), nullable=False),
+        sa.Column('payer_id', sa.Integer(), nullable=False),
+        sa.Column('amount', sa.Numeric(precision=10, scale=2), nullable=False),
+        sa.Column('status', sa.String(length=20), nullable=False),
+        sa.Column('created_at', sa.DateTime(), nullable=True),
+        sa.Column('updated_at', sa.DateTime(), nullable=True),
+        sa.ForeignKeyConstraint(['expense_id'], ['expenses.id']),
+        sa.ForeignKeyConstraint(['payer_id'], ['users.id']),
+        sa.PrimaryKeyConstraint('id')
     )
 
  if environment == "production":

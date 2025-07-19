@@ -18,8 +18,6 @@ class Payment(db.Model):
     # I believe this stores the amount paid
     amount = db.Column(db.Numeric(10, 2), nullable=False)
 
-    # I believe this stores optional note (like "Thanks!")
-    note = db.Column(db.String(255))
 
     # I believe this shows payment status
     status = db.Column(db.String(20), nullable=False, default="pending")
@@ -39,7 +37,6 @@ class Payment(db.Model):
             'payer_id': self.payer_id,
             'amount': float(self.amount),
             'status': self.status,
-            'note': self.note,
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat()
         }
