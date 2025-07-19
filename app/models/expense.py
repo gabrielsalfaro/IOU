@@ -14,7 +14,7 @@ class Expense(db.Model):
   created_at = db.Column(db.DateTime, default=datetime.now)
   updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
-  expense_members = db.relationship("ExpenseMember",backref="expense", cascade="all")
+  expense_members = db.relationship("ExpenseMember",back_populates="expense", cascade="all")
 
   def to_dict(self):
       return {
