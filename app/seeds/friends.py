@@ -11,34 +11,34 @@ def seed_friends():
         updated_at=datetime(2025, 7, 10, 14, 30)
     )
 
-    friend2 = Friend(
-        user_id=2,
-        friend_id=3,
-        status='pending',
-        created_at=datetime(2025, 7, 11, 9, 15),
-        updated_at=datetime(2025, 7, 11, 9, 15)
-    )
+    # friend2 = Friend(
+    #     user_id=2,
+    #     friend_id=3,
+    #     status='pending',
+    #     created_at=datetime(2025, 7, 11, 9, 15),
+    #     updated_at=datetime(2025, 7, 11, 9, 15)
+    # )
 
-    friend3 = Friend(
-        user_id=3,
-        friend_id=1,
-        status='friends',
-        created_at=datetime(2025, 7, 12, 18, 45),
-        updated_at=datetime(2025, 7, 12, 18, 45)
-    )
+    # friend3 = Friend(
+    #     user_id=3,
+    #     friend_id=1,
+    #     status='friends',
+    #     created_at=datetime(2025, 7, 12, 18, 45),
+    #     updated_at=datetime(2025, 7, 12, 18, 45)
+    # )
 
-    friend4 = Friend(
-        user_id=4,
-        friend_id=2,
-        status='pending',
-        created_at=datetime(2025, 7, 13, 20, 0),
-        updated_at=datetime(2025, 7, 13, 20, 0)
-    )
+    # friend4 = Friend(
+    #     user_id=4,
+    #     friend_id=2,
+    #     status='pending',
+    #     created_at=datetime(2025, 7, 13, 20, 0),
+    #     updated_at=datetime(2025, 7, 13, 20, 0)
+    # )
 
     db.session.add(friend1)
-    db.session.add(friend2)
-    db.session.add(friend3)
-    db.session.add(friend4)
+    # db.session.add(friend2)
+    # db.session.add(friend3)
+    # db.session.add(friend4)
     db.session.commit()
 
 def undo_friends():

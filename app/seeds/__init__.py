@@ -24,11 +24,15 @@ def seed():
         undo_users()
         undo_expenses()
         undo_expense_members()
+        undo_comments()
+        undo_friends()
+        undo_payments()
     seed_users()
     seed_expenses()
     seed_expense_members()
     seed_comments()
     seed_friends()
+    seed_payments()
     # Add other seed functions here
 
 
@@ -36,6 +40,9 @@ def seed():
 @seed_commands.command('undo')
 def undo():
     undo_users()
+    undo_expenses()
+    undo_expense_members()
     undo_comments()
-    undo_friends
+    undo_friends()
+    undo_payments()
     # Add other undo functions here
