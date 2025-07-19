@@ -4,6 +4,7 @@ from .expense_members import seed_expense_members, undo_expense_members
 from .expenses import seed_expenses, undo_expenses
 from .comments import seed_comments, undo_comments
 from .friends import seed_friends, undo_friends
+from .payments import seed_payments, undo_payments
 
 from app.models.db import db, environment, SCHEMA
 
