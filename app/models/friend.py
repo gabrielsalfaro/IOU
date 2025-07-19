@@ -1,9 +1,8 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from flask_login import UserMixin
 from sqlalchemy import CheckConstraint
-import datetime
+from datetime import datetime
 
-class Friends(db.Model, UserMixin):
+class Friend(db.Model):
     __tablename__ = 'friends'
 
     if environment == "production": 
@@ -17,10 +16,8 @@ class Friends(db.Model, UserMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     friend_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     status = db.Column(db.String, nullable=False) # CheckConstraint
-    created_at = db.Column(db.DateTime, default=datetime.now) # check date stuff
+    created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
-
-    # only allow friends or pending in status
 
     # relationships
     user = db.relationship('User', foreign_keys=[user_id], backref=db.backref('friends', lazy=True))
