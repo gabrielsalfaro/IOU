@@ -51,12 +51,39 @@ def seed_friends():
         updated_at=datetime(2025, 7, 13, 20, 0)
     )
 
+    friend7 = Friend(
+        user_id=1,
+        friend_id=4,
+        status='friends',
+        created_at=datetime(2025, 7, 10, 20, 0),
+        updated_at=datetime(2025, 7, 10, 20, 0)
+    )
+
+    friend8 = Friend(
+        user_id=1,
+        friend_id=5,
+        status='friends',
+        created_at=datetime(2025, 7, 11, 20, 0),
+        updated_at=datetime(2025, 7, 11, 20, 0)
+    )
+
+    friend9 = Friend(
+        user_id=1,
+        friend_id=6,
+        status='friends',
+        created_at=datetime(2025, 7, 12, 20, 0),
+        updated_at=datetime(2025, 7, 12, 20, 0)
+    )
+
     db.session.add(friend1)
     db.session.add(friend2)
     db.session.add(friend3)
     db.session.add(friend4)
     db.session.add(friend5)
     db.session.add(friend6)
+    db.session.add(friend7)
+    db.session.add(friend8)
+    db.session.add(friend9)
     db.session.commit()
 
 def undo_friends():

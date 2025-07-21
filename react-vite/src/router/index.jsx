@@ -4,6 +4,9 @@ import SignupFormPage from '../components/SignupFormPage';
 import AllExpensesPage from '../components/AllExpensesPage';
 import Dashboard from '../components/Dashboard';
 import ExpenseDetailPage from '../components/ExpenseDetailPage';
+import Friends from '../components/Friends';
+import Home from '../components/Home'
+import FriendsPending from '../components/FriendsPending'
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
@@ -12,7 +15,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/", // add check for user session? send to dashboard if logged in otherwise landing page
-        element: <h1>Welcome!</h1>,
+        element: <Home />,
       },
       {
         path: "/dashboard",
@@ -33,6 +36,14 @@ export const router = createBrowserRouter([
       {
         path: "expenses/:expenseId",
         element: <ExpenseDetailPage />,
+      },
+      {
+        path: "friends",
+        element: <Friends />,
+      },
+      {
+        path: "friends/pending",
+        element: <FriendsPending />,
       }
     ],
   },
