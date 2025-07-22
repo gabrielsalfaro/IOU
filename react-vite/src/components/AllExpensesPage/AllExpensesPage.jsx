@@ -39,13 +39,13 @@ function AllExpensesPage() {
             </div>
 
             <div className="expense-members">
-              {expense.expense_members.map(member => (
+              {expense?.expense_members?.map(member => (
                 <div key={member?.id} className="member-row">
                   <span>{member?.user_id}</span> {/* add user to member? */}
-                  <span className={`expense-card-status ${member.settled ? 'settled' : 'pending'}`}> {/* custom class for status coloring (green if settled, red if not) */}
-                    <p>Status: {member.settled ? 'settled' : 'pending'}</p>
+                  <span className={`expense-card-status ${member?.settled ? 'settled' : 'pending'}`}> {/* custom class for status coloring (green if settled, red if not) */}
+                    <p>Status: {member?.settled ? 'settled' : 'pending'}</p>
                   </span>
-                  <span>${member.amount_owed}</span>
+                  <span>${member?.amount_owed}</span>
                 </div>
               ))}
             </div>
