@@ -48,42 +48,45 @@ function LoginFormModal({ onLoginSuccess }) {
 
 
   return (
-    <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+    <div className="modal-container" onClick={() => closeModal()}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <h1 className="modal-title">Log In</h1>
+        <form onSubmit={handleSubmit} className="login-form">
+          {/* {errors.credential && <p className="error-message">{errors.credential}</p>} */}
+          <label>
+            Email
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </label>
+          {errors.email && <p>{errors.email}</p>}
+          <label>
+            Password
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          {errors.password && <p>{errors.password}</p>}
+          <button type="submit" className="login-button">Log In</button>
 
-        <div className="demo-user-container">
-          <a href="#" className="demo-user" onClick={(e) => {
-            e.preventDefault();
-            handleDemoLogin();
-            }}>
-            Demo User
-          </a>
-        </div>
+          <div className="demo-user-container">
+            <a href="#" className="demo-user" onClick={(e) => {
+              e.preventDefault();
+              handleDemoLogin();
+              }}>
+              <center>Demo User</center>
+            </a>
+          </div>
 
-      </form>
-    </>
+        </form>
+      </div>
+    </div>
   );
 }
 
