@@ -1,39 +1,42 @@
 const GET_PAYMENTS = 'payments/GET_PAYMENTS';
 const UPDATE_PAYMENT_STATUS = 'payments/UPDATE_PAYMENT_STATUS';
 
+// This is creating an action to load all payments
 const loadPayments = (payments) => ({
   type: GET_PAYMENTS,
   payments
 });
 
+// This is  creating an action to update one payment
 const updatePayment = (payment) => ({
   type: UPDATE_PAYMENT_STATUS,
   payment
 });
 
-// I believe this fetches all payments related to a specific expense
+// This is getting all payments related to a specific expense
 export const getPaymentsForExpense = (expenseId) => async (dispatch) => {
   try {
     const res = await fetch(`/api/expenses/${expenseId}/payments`);
     if (res.ok) {
       const data = await res.json();
-      dispatch(loadPayments(data));
+      dispatch(loadPayments(data.payments)); // assuming response: { payments: [...] }
       return data;
+    } else {
+      const err = await res.json();
+      throw new Error(err.message || 'Failed to fetch payments');
     }
-    throw new Error("Failed to fetch payments");
   } catch (err) {
+    console.error('Error fetching payments:', err);
     return err;
   }
 };
 
-// I believe this updates a payment's status (paid/unpaid)
+// This is updating a single payment’s status (like marking Paid/Unpaid)
 export const togglePaymentStatus = (paymentId, status) => async (dispatch) => {
   try {
     const res = await fetch(`/api/payments/${paymentId}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status })
     });
 
@@ -41,29 +44,35 @@ export const togglePaymentStatus = (paymentId, status) => async (dispatch) => {
       const data = await res.json();
       dispatch(updatePayment(data));
       return data;
+    } else {
+      const err = await res.json();
+      throw new Error(err.message || 'Failed to update payment status');
     }
-    throw new Error("Failed to update payment status");
   } catch (err) {
+    console.error('Error updating payment:', err);
     return err;
   }
 };
 
+//  this sets the initial Redux state with a payments object
 const initialState = {
   payments: {}
 };
 
+// This is doing: reducer logic to handle actions and update state
 export default function paymentsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_PAYMENTS: {
-      const newState = {};
+      const newPayments = {};
       action.payments.forEach(payment => {
-        newState[payment.id] = payment;
+        newPayments[payment.id] = payment;
       });
       return {
         ...state,
-        payments: newState
+        payments: newPayments
       };
     }
+
     case UPDATE_PAYMENT_STATUS: {
       return {
         ...state,
@@ -76,6 +85,7 @@ export default function paymentsReducer(state = initialState, action) {
         }
       };
     }
+
     default:
       return state;
   }
