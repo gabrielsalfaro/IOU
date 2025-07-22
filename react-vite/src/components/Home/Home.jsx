@@ -19,8 +19,8 @@ const Home = () => {
             <div className="hero-container">
                 {/* <div> */}
                 <div className="hero-left">
-                <p><h3>The #1 app to win (or lose) a ton of money.</h3>
-                    Because what’s financial stability when you can split brunch 17 ways?
+                    <h3>The #1 app to win (or lose) a ton of money.</h3>
+                    <p>Because what’s financial stability when you can split brunch 17 ways?
                     Join now and pretend budgeting is fun.</p>
 
                 <OpenModalButton 

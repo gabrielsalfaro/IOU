@@ -75,6 +75,28 @@ def seed_friends():
         updated_at=datetime(2025, 7, 12, 20, 0)
     )
 
+    friend10 = Friend(
+        user_id=7,
+        friend_id=1,
+        status='pending',
+        created_at=datetime(2025, 7, 12, 20, 0),
+        updated_at=datetime(2025, 7, 12, 20, 0)
+    )
+    friend11 = Friend(
+        user_id=8,
+        friend_id=1,
+        status='pending',
+        created_at=datetime(2025, 7, 12, 20, 0),
+        updated_at=datetime(2025, 7, 12, 20, 0)
+    )
+    friend12 = Friend(
+        user_id=9,
+        friend_id=1,
+        status='pending',
+        created_at=datetime(2025, 7, 12, 20, 0),
+        updated_at=datetime(2025, 7, 12, 20, 0)
+    )
+
     db.session.add(friend1)
     db.session.add(friend2)
     db.session.add(friend3)

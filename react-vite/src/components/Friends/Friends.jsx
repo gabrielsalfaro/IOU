@@ -1,7 +1,21 @@
-// import React from 'react'
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchFriends, fetchPendingFriends } from '../../redux/friends';
 import './Friends.css'
 
 const Friends = () => {
+  const dispatch = useDispatch();
+
+  const friendsObj = useSelector(state => state.friends?.friends || {});
+  
+  // Memoize the transformation to prevent unnecessary re-renders
+  const friends = useMemo(() => Object.values(friendsObj), [friendsObj]);
+
+  useEffect(() => {
+    dispatch(fetchFriends());
+    dispatch(fetchPendingFriends());
+  }, [dispatch]);
+
   return (
     <div className="friends-container">
       <div className="friends-content">
@@ -13,14 +27,19 @@ const Friends = () => {
           </div>
         </div>
         <div className="all-friends-list">
-          <ul>
-            <li>Friend 1</li>
-            <li>Friend 2</li>
-            <li>Friend 3</li>
-            <li>Friend 4</li>
-            <li>Friend 5</li>
-            <li>Friend 6</li>
-          </ul>
+          {friends.length === 0 ? (
+            <p>No friends yet.</p>
+          ) : (
+            <ul>
+              {friends.map(friend => (
+                <li key={friend.id}>
+                  {/* <img src={friend.friend.profile_img} alt={friend.friend.username} /> */}
+                  {friend.friend.firstname} {' '}
+                  {friend.friend.lastname}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>

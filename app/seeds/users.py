@@ -5,25 +5,25 @@ from sqlalchemy.sql import text
 # Adds a demo user, you can add other users here if you want
 def seed_users():
     demo = User(
-        username='Demo',
-        firstname='demo',
-        lastname='user',
+        username='demo',
+        firstname='Demo',
+        lastname='User',
         email='demo@aa.io', 
         password='password',
         # profile_img='url'
         )
     marnie = User(
         username='marnie',
-        firstname='marnie',
-        lastname='johnson',
+        firstname='Marnie',
+        lastname='Johnson',
         email='marnie@aa.io', 
         password='password',
         # profile_img='url'
         )
     bobbie = User(
         username='bobbie',
-        firstname='bobbie',
-        lastname='thompson',
+        firstname='Bobbie',
+        lastname='Thompson',
         email='bobbie@aa.io', 
         password='password',
         # profile_img='url'
@@ -52,6 +52,32 @@ def seed_users():
         password='password',
         # profile_img='url'
         )
+    emma = User(
+        username='emma',
+        firstname='Emma',
+        lastname='Nguyen',
+        email='emma@aa.io', 
+        password='password',
+        # profile_img='url'
+    )
+
+    jackson = User(
+        username='jackson',
+        firstname='Jackson',
+        lastname='Lee',
+        email='jackson@aa.io', 
+        password='password',
+        # profile_img='url'
+    )
+
+    olivia = User(
+        username='olivia',
+        firstname='Olivia',
+        lastname='Martinez',
+        email='olivia@aa.io', 
+        password='password',
+        # profile_img='url'
+    )
 
     db.session.add(demo)
     db.session.add(marnie)
@@ -59,6 +85,9 @@ def seed_users():
     db.session.add(liam)
     db.session.add(noah)
     db.session.add(sophia)
+    db.session.add(emma)
+    db.session.add(jackson)
+    db.session.add(olivia)
     db.session.commit()
 
 

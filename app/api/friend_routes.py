@@ -15,10 +15,13 @@ def get_friends():
     Get all friends for the current user
     """
 
-    friends = Friend.query.filter(
-        ((Friend.user_id == current_user.id) | (Friend.friend_id == current_user.id)) &
-        (Friend.status == 'friends')
-    ).all()
+    # friends = Friend.query.filter(
+    #     ((Friend.user_id == current_user.id) | (Friend.friend_id == current_user.id)) &
+    #     (Friend.status == 'friends')
+    # ).all()
+
+    friends = Friend.query.filter_by(user_id=current_user.id, status='friends').all()
+    # return { 'friends': [friend.to_dict() for friend in friends] }
 
     return jsonify({
         "friends": [friend.to_dict() for friend in friends] # need to change object format?

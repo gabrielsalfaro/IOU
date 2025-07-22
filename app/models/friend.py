@@ -7,8 +7,8 @@ class Friend(db.Model):
 
     if environment == "production": 
         __table_args__ = (
-    {'schema': SCHEMA}, 
-    CheckConstraint("status IN ('friends', 'pending')", name="check_status_valid")
+            {'schema': SCHEMA}, 
+            CheckConstraint("status IN ('friends', 'pending')", name="check_status_valid")
     )
     
 
@@ -30,5 +30,13 @@ class Friend(db.Model):
             'friend_id': self.friend_id,
             'status': self.status,
             'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'updated_at': self.updated_at,
+            'friend': {
+                'id': self.friend.id,
+                'username': self.friend.username,
+                'email': self.friend.email,
+                'profile_img': self.friend.profile_img,
+                'firstname': self.friend.firstname,
+                'lastname': self.friend.lastname
+            }
         }
