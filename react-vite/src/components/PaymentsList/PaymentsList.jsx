@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPaymentsForExpense, togglePaymentStatus } from "../../store/payments";
-import PaymentsList from "./PaymentsList";
+// import PaymentsList from "./PaymentsList";
 
 function PaymentsList({ expenseId }) {
     const dispatch = useDispatch();

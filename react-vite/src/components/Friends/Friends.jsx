@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { fetchFriends, fetchPendingFriends } from '../../redux/friends';
 import './Friends.css'
 
@@ -20,10 +21,14 @@ const Friends = () => {
     <div className="friends-container">
       <div className="friends-content">
         <div className="top-section">
-          <div><h1>Friends</h1></div>
+          <div>
+            <h1>Friends</h1>
+          </div>
           <div className="friends-buttons">
             <button className="add-friend-button">Add a Friend</button>
-            <button className="pending-friend-request-button">Pending Requests</button>
+            <NavLink to='/friends/pending'>
+              <button className="pending-friend-request-button">Pending Requests</button>
+            </NavLink>
           </div>
         </div>
         <div className="all-friends-list">

@@ -2,11 +2,15 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getExpenses } from '../../redux/expenses';
 import { useNavigate } from 'react-router-dom';
+import { useMemo } from 'react';
+
 
 function AllExpensesPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const expenses = useSelector(state => Object.values(state.expenses.expenses));
+  // const expenses = useSelector(state => Object.values(state.expenses.expenses));
+  const rawExpenses = useSelector(state => state.expenses.expenses);
+  const expenseList = useMemo(() => Object.values(rawExpenses), [rawExpenses]);
 
     useEffect(() => {
       dispatch(getExpenses());
@@ -20,7 +24,7 @@ function AllExpensesPage() {
       </div>
 
       <div className="expenses-list">
-        {expenses.map(expense => (
+        {expenseList.map(expense => (
           /* clickable expense component/card */
           <div key={expense.id} className="expense-component" onClick={() => navigate(`/expenses/${expense.id}`)}>
             <div className="expense-description">

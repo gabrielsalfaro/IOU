@@ -15,6 +15,7 @@ class Expense(db.Model):
   updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
   expense_members = db.relationship("ExpenseMember",back_populates="expense", cascade="all")
+  comments = db.relationship("Comment", back_populates="expense", cascade="all")
 
   def to_dict(self):
       return {
@@ -23,5 +24,6 @@ class Expense(db.Model):
         'expense_owner': self.expense_owner,
         'status': self.status,
         'created_at': self.created_at,
-        'updated_at': self.updated_at
+        'updated_at': self.updated_at,
+        'comments': [comment.to_dict() for comment in self.comments]
       }

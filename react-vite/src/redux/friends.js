@@ -1,5 +1,5 @@
 const GET_FRIENDS = 'friends/GET_FRIENDS';
-const GET_PENDNG_FRIENDS = 'friends/LOAD_PENDING';
+const GET_PENDNG_FRIENDS = 'friends/GET_PENDING_FRIENDS';
 
 
 const loadFriends = (friends) => ({ 

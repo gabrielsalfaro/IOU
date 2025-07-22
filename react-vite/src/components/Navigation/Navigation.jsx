@@ -26,6 +26,20 @@ function Navigation() {
           </>
         )} */}
 
+        {sessionUser && (
+          <li>
+            <div className="nav-user-container">
+              <div className="nav-user-img">
+                {/* {sessionUser.profile_img} */}
+              </div>
+              <div className="nav-user-name">
+                {sessionUser.firstname} {' '}
+                {sessionUser.lastname}
+              </div>
+            </div>
+          </li>
+        )}
+
         {/* {isLoaded && !sessionUser && ( */}
           <li className="nav-profile">
             <ProfileButton user={sessionUser} />

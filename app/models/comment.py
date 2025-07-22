@@ -16,6 +16,10 @@ class Comment(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now) # check date stuff
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
+    expense = db.relationship("Expense", back_populates="comments")
+    user = db.relationship("User", backref="comments")
+
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -23,5 +27,9 @@ class Comment(db.Model):
             'user_id': self.user_id,
             'content': self.content,
             'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'updated_at': self.updated_at,
+            'user': {
+            'id': self.user.id,
+            'username': self.user.username
+        }
         }
