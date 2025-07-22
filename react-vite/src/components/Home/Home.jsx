@@ -8,6 +8,7 @@ import './Home.css'
 const Home = () => {
     const user = useSelector(state => state.session.user);
 
+    // navigate to dashboard if authenticated
     if (user) {
         return <Navigate to="/dashboard" />;
     }

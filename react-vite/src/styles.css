@@ -17,29 +17,25 @@ html, body, #root {
   height: 100%;
 }
 
-.page-content {
-  padding-top: 60px; 
-  margin: 0 auto;
-  width: 100%;
-}
-
-
 /* h1 {
     font-size: 55;
     font-weight: bold;
 } */
-
 
 .spacer {
     display: flex;
     /* width: 500px; */
 }
 
-.page-content {
-  /* padding: 0 16px; */
-    box-sizing: border-box;
-    padding-top: 2px; 
-    margin: 0 auto;
-    width: 100%;
-    max-width: 1080px; 
+.main-body {
+  display: flex;
+  height: 100vh;
+}
+
+/* All Feature Components will render inside main-content div */
+.main-content { 
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+  width: 80%;
 }

@@ -68,9 +68,9 @@ def seed_friends():
     )
 
     friend9 = Friend(
-        user_id=1,
-        friend_id=6,
-        status='friends',
+        user_id=6,
+        friend_id=1,
+        status='pending',
         created_at=datetime(2025, 7, 12, 20, 0),
         updated_at=datetime(2025, 7, 12, 20, 0)
     )

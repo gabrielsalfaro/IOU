@@ -39,6 +39,7 @@ function ProfileButton() {
     e.preventDefault();
     dispatch(thunkLogout());
     closeMenu();
+    navigate('/');
   };
 
   return (
@@ -62,7 +63,7 @@ function ProfileButton() {
                 itemText="Log In"
                 onItemClick={closeMenu}
                 modalComponent={<LoginFormModal 
-                  onLoginSuccess={() => navigate('dashboard')} 
+                  onLoginSuccess={() => navigate('/dashboard')} 
                 /> }
               />
               <OpenModalMenuItem

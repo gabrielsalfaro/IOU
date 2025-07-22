@@ -10,6 +10,8 @@ function Navigation() {
       <ul className="nav-content">
 
         <li className="nav-home">
+          
+          {/* Home link changes if authenticated */}
           <NavLink to={sessionUser ? "/dashboard" : "/"}>
             <b>ExpenseApp</b>
           </NavLink>
@@ -26,7 +28,7 @@ function Navigation() {
 
         {/* {isLoaded && !sessionUser && ( */}
           <li className="nav-profile">
-            <ProfileButton user={null} />
+            <ProfileButton user={sessionUser} />
           </li>
         {/* )} */}
         
