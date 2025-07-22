@@ -1,9 +1,16 @@
-import './Home.css'
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import SignupFormModal from '../SignupFormModal/SignupFormModal'
+import './Home.css'
+
 
 const Home = () => {
+    const user = useSelector(state => state.session.user);
 
+    if (user) {
+        return <Navigate to="/dashboard" />;
+    }
 
     return (
     <div className="home-container">
