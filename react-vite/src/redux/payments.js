@@ -1,90 +1,87 @@
-const GET_PAYMENTS = 'payments/GET_PAYMENTS';
-const UPDATE_PAYMENT_STATUS = 'payments/UPDATE_PAYMENT_STATUS';
+// I believe this is setting up Redux to handle all payments-related actions
 
-// This is creating an action to load all payments
+const LOAD_PAYMENTS = 'payments/LOAD_PAYMENTS';
+const LOAD_HISTORY = 'payments/LOAD_HISTORY';
+const UPDATE_PAYMENT = 'payments/UPDATE_PAYMENT';
+
+// I believe this is the action to store all payments for an expense
 const loadPayments = (payments) => ({
-  type: GET_PAYMENTS,
+  type: LOAD_PAYMENTS,
   payments
 });
 
-// This is  creating an action to update one payment
+// I believe this is the action to store a user's payment history
+const loadHistory = (payments) => ({
+  type: LOAD_HISTORY,
+  payments
+});
+
+// I believe this is the action to update one payment (like marking it paid)
 const updatePayment = (payment) => ({
-  type: UPDATE_PAYMENT_STATUS,
+  type: UPDATE_PAYMENT,
   payment
 });
 
-// This is getting all payments related to a specific expense
-export const getPaymentsForExpense = (expenseId) => async (dispatch) => {
-  try {
-    const res = await fetch(`/api/expenses/${expenseId}/payments`);
-    if (res.ok) {
-      const data = await res.json();
-      dispatch(loadPayments(data.payments)); // assuming response: { payments: [...] }
-      return data;
-    } else {
-      const err = await res.json();
-      throw new Error(err.message || 'Failed to fetch payments');
-    }
-  } catch (err) {
-    console.error('Error fetching payments:', err);
-    return err;
+// I believe this is getting all payments for a specific expense
+export const getPaymentsByExpense = (expenseId) => async (dispatch) => {
+  const res = await fetch(`/api/expenses/${expenseId}/payments`);
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(loadPayments(data));
+    return data;
   }
 };
 
-// This is updating a single payment’s status (like marking Paid/Unpaid)
-export const togglePaymentStatus = (paymentId, status) => async (dispatch) => {
-  try {
-    const res = await fetch(`/api/payments/${paymentId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status })
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      dispatch(updatePayment(data));
-      return data;
-    } else {
-      const err = await res.json();
-      throw new Error(err.message || 'Failed to update payment status');
-    }
-  } catch (err) {
-    console.error('Error updating payment:', err);
-    return err;
+// I believe this is getting the logged-in user's payment history
+export const getUserPaymentHistory = () => async (dispatch) => {
+  const res = await fetch('/api/payments/history');
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(loadHistory(data));
+    return data;
   }
 };
 
-//  this sets the initial Redux state with a payments object
+// I believe this is updating a single payment status (like marking it paid)
+export const updatePaymentStatus = (paymentId, status) => async (dispatch) => {
+  const res = await fetch(`/api/payments/${paymentId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status })
+  });
+
+  if (res.ok) {
+    const updatedPayment = await res.json();
+    dispatch(updatePayment(updatedPayment));
+    return updatedPayment;
+  }
+};
+
+// I believe this is the initial state setup
 const initialState = {
-  payments: {}
+  paymentsByExpense: [],
+  userHistory: []
 };
 
-// This is doing: reducer logic to handle actions and update state
+// I believe this is the reducer for payments
 export default function paymentsReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_PAYMENTS: {
-      const newPayments = {};
-      action.payments.forEach(payment => {
-        newPayments[payment.id] = payment;
-      });
-      return {
-        ...state,
-        payments: newPayments
-      };
-    }
+    case LOAD_PAYMENTS:
+      return { ...state, paymentsByExpense: action.payments };
 
-    case UPDATE_PAYMENT_STATUS: {
+    case LOAD_HISTORY:
+      return { ...state, userHistory: action.payments };
+
+    case UPDATE_PAYMENT:
       return {
         ...state,
-        payments: {
-          ...state.payments,
-          [action.payment.id]: {
-            ...state.payments[action.payment.id],
-            status: action.payment.status
-          }
-        }
+        paymentsByExpense: state.paymentsByExpense.map(payment =>
+          payment.id === action.payment.id ? { ...payment, ...action.payment } : payment
+        ),
+        userHistory: state.userHistory.map(payment =>
+          payment.id === action.payment.id ? { ...payment, ...action.payment } : payment
+        )
       };
-    }
 
     default:
       return state;

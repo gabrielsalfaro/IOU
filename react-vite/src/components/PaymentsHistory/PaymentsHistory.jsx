@@ -1,28 +1,27 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPaymentsForExpense, togglePaymentStatus } from "../../store/payments";
-// import PaymentsList from "./PaymentsList";
 
-function PaymentsList({ expenseId }) {
-    const dispatch = useDispatch();
+function PaymentHistory({ expenseId }) {
+  const dispatch = useDispatch();
 
-    const payments = useSelector((state) => Object.values(state.payments.payments)); 
-    const sessionUser = useSelector((state) => state.session.user);
+  const payments = useSelector((state) => Object.values(state.payments.payments));
+  const sessionUser = useSelector((state) => state.session.user);
 
-    useEffect(() => {
-        if (expenseId) dispatch(getPaymentsForExpense(expenseId));
-    }, [dispatch, expenseId]);
+  useEffect(() => {
+    if (expenseId) dispatch(getPaymentsForExpense(expenseId));
+  }, [dispatch, expenseId]);
 
   const handleToggle = async (paymentId, currentStatus) => {
     const newStatus = currentStatus === "Paid" ? "Unpaid" : "Paid";
     await dispatch(togglePaymentStatus(paymentId, newStatus));
   };
 
-   return (
+  return (
     <div className="payments-list space-y-2">
       <h3 className="text-lg font-semibold">Payment Status</h3>
       {payments.length === 0 ? (
-        <p>No are payments are currently found.</p>
+        <p>No payments are currently found.</p>
       ) : (
         payments.map((payment) => (
           <div
@@ -54,4 +53,4 @@ function PaymentsList({ expenseId }) {
   );
 }
 
-export default PaymentsList;
+export default PaymentHistory;
