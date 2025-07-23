@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import Friend, User
 from app.models import db
-from datetime import datetime
+from datetime import datetime, timezone
 
 friend_routes = Blueprint('friends', __name__)
 
@@ -69,8 +69,8 @@ def add_friend():
         user_id=current_user.id,
         friend_id=friend_id,
         status='pending',
-        created_at=datetime(), #.strftime*() ?
-        updated_at=datetime() #.strftime*() ?
+        created_at=datetime.now(timezone.utc),
+        updated_at=datetime.now(timezone.utc)
     )
 
     db.session.add(new_request)

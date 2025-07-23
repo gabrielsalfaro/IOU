@@ -36,7 +36,7 @@ const Comments = () => {
   )
 
   const handleEdit = (commentId) => {
-  console.log('Editing comment:', commentId);
+    console.log('Editing comment:', commentId);
   };
 
   const handleDelete = (commentId) => {

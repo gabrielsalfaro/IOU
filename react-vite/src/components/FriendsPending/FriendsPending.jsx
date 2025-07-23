@@ -1,6 +1,8 @@
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPendingFriends } from '../../redux/friends';
+// import OpenModalButton from '../OpenModalButton';
+// import FriendsAddRemoveModal from '../FriendsAddRemoveModal/FriendsAddRemoveModal'
 import './FriendsPending.css';
 
 const FriendsPending = () => {
@@ -56,6 +58,11 @@ const FriendsPending = () => {
               </div>
               <div className="friend-actions">
                 <div className="friend-actions">
+                  {/* <OpenModalButton
+                    buttonText="Accept"
+                    className="friend-accept-btn"
+                    modalComponent={<FriendsAddRemoveModal requestId={request.id} />} 
+                  /> */}
                   <button onClick={() => handleAccept(request.friend.id)} className="friend-accept-btn">
                     Accept
                   </button>
