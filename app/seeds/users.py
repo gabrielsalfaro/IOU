@@ -5,15 +5,89 @@ from sqlalchemy.sql import text
 # Adds a demo user, you can add other users here if you want
 def seed_users():
     demo = User(
-        username='Demo', email='demo@aa.io', password='password')
+        username='demo',
+        firstname='Demo',
+        lastname='User',
+        email='demo@aa.io', 
+        password='password',
+        # profile_img='url'
+        )
     marnie = User(
-        username='marnie', email='marnie@aa.io', password='password')
+        username='marnie',
+        firstname='Marnie',
+        lastname='Johnson',
+        email='marnie@aa.io', 
+        password='password',
+        # profile_img='url'
+        )
     bobbie = User(
-        username='bobbie', email='bobbie@aa.io', password='password')
+        username='bobbie',
+        firstname='Bobbie',
+        lastname='Thompson',
+        email='bobbie@aa.io', 
+        password='password',
+        # profile_img='url'
+        )
+    liam = User(
+        username='liam',
+        firstname='Liam',
+        lastname='Garcia',
+        email='liam@aa.io', 
+        password='password',
+        # profile_img='url'
+        )
+    noah = User(
+        username='noah',
+        firstname='Noah',
+        lastname='Patel',
+        email='noah@aa.io', 
+        password='password',
+        # profile_img='url'
+        )
+    sophia = User(
+        username='sophia',
+        firstname='Sophia',
+        lastname='Kim',
+        email='sophia@aa.io', 
+        password='password',
+        # profile_img='url'
+        )
+    emma = User(
+        username='emma',
+        firstname='Emma',
+        lastname='Nguyen',
+        email='emma@aa.io', 
+        password='password',
+        # profile_img='url'
+    )
+
+    jackson = User(
+        username='jackson',
+        firstname='Jackson',
+        lastname='Lee',
+        email='jackson@aa.io', 
+        password='password',
+        # profile_img='url'
+    )
+
+    olivia = User(
+        username='olivia',
+        firstname='Olivia',
+        lastname='Martinez',
+        email='olivia@aa.io', 
+        password='password',
+        # profile_img='url'
+    )
 
     db.session.add(demo)
     db.session.add(marnie)
     db.session.add(bobbie)
+    db.session.add(liam)
+    db.session.add(noah)
+    db.session.add(sophia)
+    db.session.add(emma)
+    db.session.add(jackson)
+    db.session.add(olivia)
     db.session.commit()
 
 

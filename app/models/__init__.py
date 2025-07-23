@@ -1,3 +1,8 @@
 from .db import db
-from .user import User
 from .db import environment, SCHEMA
+from .user import User
+from .expense import Expense
+from .expense_member import ExpenseMember
+from .payments import Payment
+from .comment import Comment
+from .friend import Friend
