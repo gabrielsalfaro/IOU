@@ -1,0 +1,46 @@
+.friend-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.friend-info {
+  font-weight: 500;
+}
+
+.friend-actions button {
+  margin-left: 10px;
+}
+
+.friend-accept-btn {
+    text-align: center;
+    /* width: 50; */
+    /* max-width: 100%; */
+    padding: 0.75rem;
+    margin-top: 1rem;
+    background-color: #6CDBAB;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    align-self: center;
+}
+
+.friend-decline-btn {
+    text-align: center;
+    /* width: 50; */
+    /* max-width: 100%; */
+    padding: 0.75rem;
+    margin-top: 1rem;
+    background-color: #F24822;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    align-self: center;
+}

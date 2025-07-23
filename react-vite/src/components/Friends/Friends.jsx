@@ -9,8 +9,12 @@ const Friends = () => {
 
   const friendsObj = useSelector(state => state.friends?.friends || {});
   
-  // Memoize the transformation to prevent unnecessary re-renders
-  const friends = useMemo(() => Object.values(friendsObj), [friendsObj]);
+  // Memoize and sort
+  const friends = useMemo(() => Object.values(friendsObj).sort((a, b) => {
+    const nameA = a.friend.firstname.toLowerCase();
+    const nameB = b.friend.firstname.toLowerCase();
+    return nameA.localeCompare(nameB);
+  }), [friendsObj]);
 
   useEffect(() => {
     dispatch(fetchFriends());
@@ -20,10 +24,14 @@ const Friends = () => {
   return (
     <div className="friends-container">
       <div className="friends-content">
-        <div className="top-section">
+
+        <div className="friends-top-section">
           <div>
             <h1>Friends</h1>
           </div>
+
+          <div className="spacer"></div>
+
           <div className="friends-buttons">
             <button className="add-friend-button">Add a Friend</button>
             <NavLink to='/friends/pending'>
@@ -31,13 +39,14 @@ const Friends = () => {
             </NavLink>
           </div>
         </div>
+
         <div className="all-friends-list">
           {friends.length === 0 ? (
-            <p>No friends yet.</p>
+            <p className="friend-item">No friends yet.</p>
           ) : (
             <ul>
               {friends.map(friend => (
-                <li key={friend.id}>
+                <li key={friend.id} className="friend-item">
                   {/* <img src={friend.friend.profile_img} alt={friend.friend.username} /> */}
                   {friend.friend.firstname} {' '}
                   {friend.friend.lastname}

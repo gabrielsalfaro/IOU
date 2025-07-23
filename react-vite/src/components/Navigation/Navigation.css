@@ -38,6 +38,12 @@
   flex: 0 0 auto;
 } */
 
+.nav-user-name {
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+}
+
 .profile-dropdown {
   /* font-size: 22px; */
   position: absolute;
@@ -58,7 +64,27 @@
   align-items: flex-start;
 }
 
+.profile-dropdown {
+  font-size: 16px;
+  padding: 10px 10px 10px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .nav-profile {
   margin-left: 20px;
   flex: 0 0 auto;
+}
+
+.profile-dropdown-btn button {
+  display: flex;
+  align-items: center;   /* vertical */
+  justify-content: center; /* horizontal */
+  height: 40px; 
+  width: 40px; 
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: white;
 }

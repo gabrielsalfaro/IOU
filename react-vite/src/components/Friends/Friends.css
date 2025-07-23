@@ -13,5 +13,107 @@
     overflow-y: auto; 
 }
 
+.friends-top-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.friends-buttons button {
+    margin-left: 10px;
+}
+
+.add-friend-button {
+    text-align: center;
+    /* width: 50; */
+    /* max-width: 100%; */
+    padding: 0.75rem;
+    margin-top: 1rem;
+    background-color: #6CDBAB;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    align-self: center;
+}
+
+.pending-friend-request-button {
+    text-align: center;
+    /* width: 50; */
+    /* max-width: 100%; */
+    padding: 0.75rem;
+    margin-top: 1rem;
+    background-color: #F24822;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    align-self: center;
+}
+
+.friend-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  
+}
+
+.friend-info {
+  font-weight: 500;
+}
+
+.nav-spacer {
+  flex-grow: 1;
+}
 
 
+/* consolidate later */
+
+.all-friends-list {
+  margin-top: 1.5rem;
+  padding: 0;
+  /* background-color: #f9f9f9; */
+  /* border-radius: 8px; */
+  max-height: 400px;
+  overflow-y: auto;
+  /* box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.all-friends-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.75rem 1rem;
+  /* border-bottom: 1px solid #e0e0e0; */
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+/* /* .friend-item:last-child {
+  border-bottom: none;
+} */
+
+.friend-item:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+} */
+
+/* need to test profile_img */
+.friend-item img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: 0.75rem;
+  object-fit: cover;
+}
