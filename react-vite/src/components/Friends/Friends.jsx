@@ -36,9 +36,9 @@ const Friends = () => {
   //   }
   // };
 
-    const handleDelete = (commentId) => {
-    console.log('Removing friend:', commentId);
-  };
+  //   const handleDelete = (commentId) => {
+  //   console.log('Removing friend:', commentId);
+  // };
 
   return (
     <div className="friends-container">
@@ -78,7 +78,13 @@ const Friends = () => {
                     </div>
 
                     <div className="friend-actions">
-                      <button onClick={() => handleDelete(friend.friend.id)} className='friend-remove-button'>Remove</button>
+                      {/* <button onClick={() => handleDelete(friend.friend.id)} className='friend-remove-button'>Remove</button> */}
+                      <OpenModalButton
+                        buttonText="Remove"
+                        className="friend-remove-button"
+                        modalComponent={<FriendsAddRemoveModal actionType="remove" friend={friend.friend} />}
+                      />
+
                     </div>
                   </div>
 

@@ -50,33 +50,39 @@ const FriendsPending = () => {
           <h1>Pending Friend Requests</h1>
         </div>
 
-        <div className="all-friends-list">
-          {pending.map(request => (
-            <li key={request.id} className="friend-item">
-              <div className="friend-info">
-                {request.friend?.firstname} {request.friend?.lastname} (@{request.friend?.username})
-              </div>
-              <div className="friend-actions">
+        {pending.length === 0 ? (
+          <p className="friend-item">No pending requests.</p>
+        ) : (
+
+          <div className="all-friends-list">
+            {pending.map(request => (
+              <li key={request.id} className="friend-item">
+                <div className="friend-info">
+                  {request.friend?.firstname} {request.friend?.lastname} (@{request.friend?.username})
+                </div>
                 <div className="friend-actions">
-                  {/* <OpenModalButton
-                    buttonText="Accept"
-                    className="friend-accept-btn"
-                    modalComponent={<FriendsAddRemoveModal requestId={request.id} />} 
-                  /> */}
-                  <button onClick={() => handleAccept(request.friend.id)} className="friend-accept-btn">
-                    Accept
-                  </button>
-                  <button onClick={() => handleDecline(request.friend.id)} className="friend-decline-btn">
-                    Decline
-                  </button>
+                  <div className="friend-actions">
+                    {/* <OpenModalButton
+                      buttonText="Accept"
+                      className="friend-accept-btn"
+                      modalComponent={<FriendsAddRemoveModal requestId={request.id} />} 
+                    /> */}
+                    <button onClick={() => handleAccept(request.friend.id)} className="friend-accept-btn">
+                      Accept
+                    </button>
+                    <button onClick={() => handleDecline(request.friend.id)} className="friend-decline-btn">
+                      Decline
+                    </button>
+
+                  </div>
 
                 </div>
+              </li>
+            ))}
+          </div>
 
-              </div>
-            </li>
-          ))}
-
-        </div>
+        )}
+        
       </div>
     </div>
   );

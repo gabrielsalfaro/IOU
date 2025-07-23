@@ -150,14 +150,21 @@ def delete_friend_request(friend_id):
 
     # Find the request
     friend = Friend.query.filter(
-        (
-            (Friend.user_id == current_user.id) & (Friend.friend_id == friend_id)
-        ) |
-        (
-            (Friend.user_id == friend_id) & (Friend.friend_id == current_user.id)
-        ) 
-        # (Friend.status == 'friends')
-    ).filter(Friend.status == 'friend') # .status.in_() ?
+        ((Friend.user_id == current_user.id) & (Friend.friend_id == friend_id)) |
+        ((Friend.user_id == friend_id) & (Friend.friend_id == current_user.id))
+    ).first()
+
+    if not friend:
+        return jsonify({ "message": "Friendship not found, even without status." }), 404
+    else:
+        print("Found friendship:", friend.to_dict())
+
+    # print("Current user:", current_user.id)
+    # print("Friend to remove:", friend_id)
+    # print("Found friendship:", friend.to_dict())
+
+    if not friend:
+        return jsonify({ "message": "Friend relationship not found." }), 404
 
     db.session.delete(friend)
 

@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { useModal } from "../../context/Modal";
+import { fetchFriends } from "../../redux/friends";
+import { useDispatch } from "react-redux";
 import './FriendsAddRemoveModal.css';
 
-function FriendsAddRemoveModal() {
+function FriendsAddRemoveModal({ actionType = "add", friend = null }) {
   const { closeModal } = useModal();
 
   const [username, setUsername] = useState("");
   const [searchResult, setSearchResult] = useState(null);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -39,48 +42,86 @@ function FriendsAddRemoveModal() {
     const data = await res.json();
 
     if (res.ok) {
-      closeModal(); // Or show a success message?
+      closeModal();
     } else {
       setErrors({ request: data.message || "Could not send request" });
+    }
+  };
+
+  const handleRemoveFriend = async () => {
+    const res = await fetch(`/api/friends/delete/${friend.id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    });
+
+    if (res.ok) {
+      await dispatch(fetchFriends())
+      closeModal();
+    } else {
+      const data = await res.json();
+      setErrors({ request: data.message || "Could not remove friend" });
     }
   };
 
   return (
     <div className="modal-container" onClick={closeModal}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h1 className="modal-title">Add a Friend</h1>
-        <form onSubmit={handleSearch} className="friend-search-form">
-          <label>
-            Search by username:
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              placeholder="Enter a username"
-            />
-            <button type="submit" className="friend-add-search-button">
-            {loading ? "Searching..." : "Search"}
-            </button>
-          </label>
-          
-        </form>
-        {errors.search && <p className="error-message">{errors.search}</p>}
+        {actionType === "add" && (
+          <>
+            <h1 className="modal-title">Add a Friend</h1>
+            <form onSubmit={handleSearch} className="friend-search-form">
+              <label>
+                Search by username:
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  placeholder="Enter a username"
+                />
+                <button type="submit" className="friend-add-search-button">
+                  {loading ? "Searching..." : "Search"}
+                </button>
+              </label>
+            </form>
+            {errors.search && <p className="error-message">{errors.search}</p>}
+            {searchResult && (
+              <div className="search-result">
+                <center>
+                  <p className="search-result-username">
+                    <strong>{searchResult.firstname} {searchResult.lastname} (@{searchResult.username})</strong>
+                  </p>
+                </center>
+                <center>
+                  <button onClick={handleSendRequest} className="friend-send-request-button">
+                    Send Friend Request
+                  </button>
+                </center>
+                {errors.request && <p className="error-message">{errors.request}</p>}
+              </div>
+            )}
+          </>
+        )}
 
-        {searchResult && (
-          <div className="search-result">
-            <center><p className="search-result-username">
-              <strong>{searchResult.firstname}{' '}{searchResult.lastname} (@{searchResult.username})</strong>
-            </p></center>
-            <center><button onClick={handleSendRequest} className="friend-send-request-button">
-              Send Friend Request
-            </button></center>
+        {actionType === "remove" && friend && (
+          <>
+            <h1 className="modal-title">Remove Friend</h1>
+            <p>
+              Are you sure you want to remove <b>{friend.firstname} {friend.lastname}</b> from your friends list?
+            </p>
+            <div className="friend-remove-confirm-buttons">
+              <center>
+                <button onClick={handleRemoveFriend} className="confirm-friend-remove-button">Yes, Remove</button>
+                <button onClick={closeModal} className="cancel-friend-remove-button">Cancel</button>
+              </center>
+            </div>
             {errors.request && <p className="error-message">{errors.request}</p>}
-          </div>
+          </>
         )}
       </div>
     </div>
   );
 }
+
 
 export default FriendsAddRemoveModal;
