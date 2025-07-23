@@ -1,9 +1,78 @@
-// import React from 'react'
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPendingFriends } from '../../redux/friends';
+import './FriendsPending.css';
 
 const FriendsPending = () => {
-  return (
-    <div>FriendsPending Component</div>
-  )
-}
+  const dispatch = useDispatch();
 
-export default FriendsPending
+  const pendingObj = useSelector(state => state.friends?.pending || {});
+  const pending = useMemo(() => Object.values(pendingObj), [pendingObj]);
+
+
+  useEffect(() => {
+    dispatch(fetchPendingFriends());
+  }, [dispatch]);
+
+  
+  const handleAccept = async (friendId) => {
+    const res = await fetch(`/api/friends/accept/${friendId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (res.ok) {
+      dispatch(fetchPendingFriends());
+    } else {
+      console.error('Failed to accept friend request');
+    }
+  };
+
+  const handleDecline = async (friendId) => {
+    const res = await fetch(`/api/friends/decline/${friendId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (res.ok) {
+      dispatch(fetchPendingFriends());
+    } else {
+      console.error('Failed to decline friend request');
+    }
+  };
+
+  return (
+    <div className="friends-container">
+      <div className="friends-content">
+        <div className="top-section">
+          <h1>Pending Friend Requests</h1>
+        </div>
+
+        <div className="all-friends-list">
+          {pending.map(request => (
+            <li key={request.id} className="friend-item">
+              <div className="friend-info">
+                {request.friend?.firstname} {request.friend?.lastname} (@{request.friend?.username})
+              </div>
+              <div className="friend-actions">
+                <div className="friend-actions">
+                  <button onClick={() => handleAccept(request.friend.id)} className="friend-accept-btn">
+                    Accept
+                  </button>
+                  <button onClick={() => handleDecline(request.friend.id)} className="friend-decline-btn">
+                    Decline
+                  </button>
+
+                </div>
+
+              </div>
+            </li>
+          ))}
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default FriendsPending;
