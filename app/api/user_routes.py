@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from flask_login import login_required
 from app.models import User
 
@@ -31,6 +31,6 @@ def search_user_by_username():
     user = User.query.filter_by(username=username).first()
 
     if not user:
-        return jsonify({ "message": "User not found." }), 404
+        return {"message": "User not found."}, 404
 
-    return jsonify({ "user": user.to_dict() }), 200
+    return {"user": user.to_dict()}, 200

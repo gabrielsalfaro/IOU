@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 from flask_login import login_required, current_user
 from app.models import db, Comment, Expense
 from datetime import datetime
@@ -13,22 +13,23 @@ def update_comment(comment_id):
     comment_text = data.get('message')
 
     if not comment_text or comment_text.strip() == "":
-        return jsonify({
+        return {
             "message": "Validation error",
             "errors": { "comment": "Comment text is required" }
-        }), 400
+        }, 400
 
     comment = Comment.query.get(comment_id)
 
     if not comment or comment.user_id != current_user.id:
-        return jsonify({ "message": "Expense couldn't be found or does not belong to the current user" }), 404
+        return { "message": "Expense couldn't be found or does not belong to the current user" }, 404
 
-    comment.comment = comment_text
+    comment.content = comment_text
     comment.updated_at = datetime.utcnow()
 
     db.session.commit()
 
-    return jsonify({ "comments": comment.to_dict() }), 200
+    return comment.to_dict(), 200
+
 
 
 # Delete a comment
@@ -38,12 +39,12 @@ def delete_comment(comment_id):
     comment = Comment.query.get(comment_id)
 
     if not comment or comment.user_id != current_user.id:
-        return jsonify({ "message": "Comment couldn't be found or does not belong to the current user" }), 404
+        return { "message": "Comment couldn't be found or does not belong to the current user" }, 404
 
     db.session.delete(comment)
     db.session.commit()
 
-    return jsonify({ "message": "Successfully deleted" }), 200
+    return { "message": "Successfully deleted" }, 200
 
 
 
