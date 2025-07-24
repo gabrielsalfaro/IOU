@@ -1,5 +1,5 @@
 const GET_FRIENDS = 'friends/GET_FRIENDS';
-const GET_PENDNG_FRIENDS = 'friends/GET_PENDING_FRIENDS';
+const GET_PENDING_FRIENDS = 'friends/GET_PENDING_FRIENDS';
 
 
 const loadFriends = (friends) => ({ 
@@ -7,7 +7,7 @@ const loadFriends = (friends) => ({
     friends 
 });
 const loadPending = (pending) => ({ 
-    type: GET_PENDNG_FRIENDS, 
+    type: GET_PENDING_FRIENDS, 
     pending 
 });
 
@@ -28,6 +28,34 @@ export const fetchPendingFriends = () => async (dispatch) => {
   }
 };
 
+export const acceptFriend = (friendId) => async (dispatch) => {
+  const res = await fetch(`/api/friends/accept/${friendId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  if (res.ok) {
+    dispatch(fetchPendingFriends());
+    dispatch(fetchFriends());
+    return true;
+  }
+  return false;
+};
+
+export const declineFriend = (friendId) => async (dispatch) => {
+  const res = await fetch(`/api/friends/decline/${friendId}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  if (res.ok) {
+    dispatch(fetchPendingFriends());
+    return true;
+  }
+  return false;
+};
+
+
 
 const initialState = {
   friends: {},
@@ -45,7 +73,7 @@ export default function friendsReducer(state = initialState, action) {
       return { ...state, friends: newFriends };
     }
 
-    case GET_PENDNG_FRIENDS: {
+    case GET_PENDING_FRIENDS: {
       const newPending = {};
       action.pending.forEach((friend) => {
         newPending[friend.id] = friend;

@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getExpenseById } from '../../redux/expenses';
+import { deleteComment } from '../../redux/comments';
 import './Comments.css';
 
 const Comments = () => {
@@ -39,9 +40,14 @@ const Comments = () => {
     console.log('Editing comment:', commentId);
   };
 
-  const handleDelete = (commentId) => {
-    console.log('Deleting comment:', commentId);
+  const handleDelete = async (commentId) => {
+    const success = await dispatch(deleteComment(commentId));
+    if (success) {
+      console.log('Deleted comment');
+      dispatch(getExpenseById(expenseId));
+    }
   };
+
 
       
 

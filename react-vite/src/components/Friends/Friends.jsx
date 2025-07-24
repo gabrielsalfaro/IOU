@@ -54,7 +54,7 @@ const Friends = () => {
           <div className="friends-buttons">
             <OpenModalButton
               buttonText="Add a Friend"
-              className="friend-accept-btn"
+              className="add-friend-button"
               modalComponent={<FriendsAddRemoveModal />} 
             />
             {/* <button className="add-friend-button">Add a Friend</button> */}
