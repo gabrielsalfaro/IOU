@@ -1,25 +1,22 @@
-// payments.js
-
-// I believe these are the action types for payments
+// Action Types
 const LOAD_PAYMENTS = 'payments/LOAD_PAYMENTS';
 const LOAD_HISTORY = 'payments/LOAD_HISTORY';
 const UPDATE_PAYMENT = 'payments/UPDATE_PAYMENT';
-const LOAD_SUMMARY = 'payments/LOAD_SUMMARY'; // New action type for summary
+const LOAD_SUMMARY = 'payments/LOAD_SUMMARY';
 
-// I believe this is the initial state setup
+// Initial State
 const initialState = {
-  paymentsByExpense: {},  // Stores payments grouped by expense
-  userHistory: {},        // Stores user's payment history
-  summary: {              // Stores payment summary stats
-    totalPaid: 0, 
-    totalUnpaid: 0 
+  paymentsByExpense: {},
+  userHistory: {},
+  summary: {
+    totalPaid: 0,
+    totalUnpaid: 0
   }
 };
 
-// I believe this is the main reducer function
+// Reducer
 export default function paymentsReducer(state = initialState, action) {
   switch (action.type) {
-    // I believe this handles loading payments for a specific expense
     case LOAD_PAYMENTS: {
       const normalizedPayments = {};
       action.payments.forEach(payment => {
@@ -31,7 +28,6 @@ export default function paymentsReducer(state = initialState, action) {
       };
     }
     
-    // I believe this handles loading user payment history
     case LOAD_HISTORY: {
       const normalizedHistory = {};
       action.payments.forEach(payment => {
@@ -43,7 +39,6 @@ export default function paymentsReducer(state = initialState, action) {
       };
     }
 
-    // I believe this handles updating a payment status
     case UPDATE_PAYMENT:
       return {
         ...state,
@@ -57,7 +52,6 @@ export default function paymentsReducer(state = initialState, action) {
         }
       };
 
-    // I believe this handles loading payment summary stats
     case LOAD_SUMMARY:
       return { 
         ...state, 
@@ -69,7 +63,7 @@ export default function paymentsReducer(state = initialState, action) {
   }
 }
 
-// I believe this fetches payment summary from the backend
+// Action Creators
 export const getPaymentSummary = () => async (dispatch) => {
   const response = await fetch('/api/payments/summary');
   if (response.ok) {
@@ -77,6 +71,28 @@ export const getPaymentSummary = () => async (dispatch) => {
     dispatch({ 
       type: LOAD_SUMMARY, 
       payload: data 
+    });
+  }
+};
+
+export const getUserPaymentHistory = () => async (dispatch) => {
+  const response = await fetch('/api/payments/history');
+  if (response.ok) {
+    const data = await response.json();
+    dispatch({
+      type: LOAD_HISTORY,
+      payments: data
+    });
+  }
+};
+
+export const getExpenseById = (expenseId) => async (dispatch) => {
+  const response = await fetch(`/api/expenses/${expenseId}`);
+  if (response.ok) {
+    const data = await response.json();
+    dispatch({
+      type: 'expenses/LOAD_EXPENSE', // Update this to match your expenses action type
+      expense: data
     });
   }
 };

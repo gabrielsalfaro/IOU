@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from flask_login import login_required, current_user
 from app.models import Friend, User
 from app.models import db
@@ -16,9 +16,9 @@ def get_friends():
 
     all_friends = friends_as_user + friends_as_friend
 
-    return jsonify({
+    return {
         "friends": [friend.to_dict() for friend in all_friends]
-    })
+    }
 
 
 
@@ -35,9 +35,9 @@ def get_pending_friends():
         (Friend.status == 'pending')
     ).all()
 
-    return jsonify({
+    return {
         "pending": [pending_request.to_dict() for pending_request in pending]
-    })
+    }
 
 
 # Add a Friend
@@ -60,9 +60,9 @@ def add_friend():
     ).first()
 
     if existing:
-        return jsonify({
+        return {
             "message": "Friend request already exists or users are already friends"
-        }), 500
+        }, 500
 
     # Create new friend request
     new_request = Friend(
@@ -76,9 +76,9 @@ def add_friend():
     db.session.add(new_request)
     db.session.commit()
 
-    return jsonify({
+    return {
         "friend": new_request.to_dict()
-    }), 201
+    }, 201
 
 
 # Accept a Pending Friend Request
@@ -94,7 +94,7 @@ def accept_friend_request(friend_id):
     ).first()
 
     if not friend_request:
-        return jsonify({ "message": "No pending friend request found." }), 404
+        return { "message": "No pending friend request found." }, 404
 
     # update status and timestamp
     friend_request.status = 'friends'
@@ -104,10 +104,10 @@ def accept_friend_request(friend_id):
 
     db.session.commit()
 
-    return jsonify({
+    return {
         "message": "Friend request accepted.",
         "friend": friend_data
-    }), 200
+    }, 200
 
 
 
@@ -122,9 +122,9 @@ def decline_friend_request(friend_id):
     ).first()
 
     if not friend_request:
-        return jsonify({
+        return {
             "message": "No pending friend request found from that user."
-        }), 404
+        }, 404
 
     # convert to dict for bound error
     friend_data = friend_request.to_dict()
@@ -132,10 +132,10 @@ def decline_friend_request(friend_id):
     db.session.delete(friend_request)
     db.session.commit()
 
-    return jsonify({
+    return {
         "message": "Friend request deleted.",
         "friend": friend_data
-    }), 200
+    }, 200
 
 
 
@@ -155,7 +155,7 @@ def delete_friend_request(friend_id):
     ).first()
 
     if not friend:
-        return jsonify({ "message": "Friendship not found, even without status." }), 404
+        return { "message": "Friendship not found, even without status." }, 404
     else:
         print("Found friendship:", friend.to_dict())
 
@@ -164,16 +164,16 @@ def delete_friend_request(friend_id):
     # print("Found friendship:", friend.to_dict())
 
     if not friend:
-        return jsonify({ "message": "Friend relationship not found." }), 404
+        return { "message": "Friend relationship not found." }, 404
 
     db.session.delete(friend)
 
     db.session.commit()
 
-    return jsonify({
+    return {
         "message": "Removed friend from your list.",
         "friend": friend.to_dict()
-    }), 200
+    }, 200
 
 @friend_routes.route('/test', methods=['GET'])
 def test():

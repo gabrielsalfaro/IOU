@@ -5,16 +5,18 @@ import AllExpensesPage from '../components/AllExpensesPage';
 import Dashboard from '../components/Dashboard';
 import ExpenseDetailPage from '../components/ExpenseDetailPage';
 import Friends from '../components/Friends';
-import Home from '../components/Home'
-import FriendsPending from '../components/FriendsPending'
+import Home from '../components/Home';
+import FriendsPending from '../components/FriendsPending';
 import Layout from './Layout';
+import UserPaymentHistory from '../components/UserPaymentHistory/UserPaymentHistory';
+import UserProfilePage from '../components/UserProfilePage/UserProfilePage';
 
 export const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
       {
-        path: "/", // add check for user session? send to dashboard if logged in otherwise landing page
+        path: "/",
         element: <Home />,
       },
       {
@@ -48,7 +50,20 @@ export const router = createBrowserRouter([
       {
         path: "friends/pending",
         element: <FriendsPending />,
-      }
+      },
+      {
+        path: "payments",
+        children: [
+          {
+            path: "history",
+            element: <UserPaymentHistory />,
+          },
+        ],
+      },
+      {
+        path: "profile",
+        element: <UserProfilePage />, 
+      },
     ],
   },
 ]);

@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getExpenseById } from '../../redux/expenses';
 import { deleteComment } from '../../redux/comments';
+import OpenModalButton from '../OpenModalButton';
+import CommentsEditModal from '../CommentsEditModal/CommentsEditModal';
 import './Comments.css';
 
 const Comments = () => {
@@ -10,6 +12,7 @@ const Comments = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.session.user);
 
+  // const hasReviewed = reviews.some(review => review?.userId === sessionUser?.id);
 
   useEffect(() => {
     dispatch(getExpenseById(expenseId));
@@ -18,7 +21,7 @@ const Comments = () => {
   // Grab state
   const currentExpense = useSelector(state => state.expenses.currentExpense);
 
-  // Memoize 
+  // Memoize
   const comments = useMemo(() => {
     return currentExpense?.expense?.comments ?? [];
   }, [currentExpense?.expense?.comments]);
@@ -30,15 +33,24 @@ const Comments = () => {
     <div className="comments-container">
       <div className="comments-top-section">
         <h3>Comments</h3>
-        <button className="add-comment"></button>
-        <div>No comments yet.</div>
+        <button className="add-comment">Add Comment</button>
+        {/* {sessionUser && sessionUser.id !== hostId && !hasReviewed && (
+          <OpenModalButton
+            buttonText="Post Your Review"
+            className="review-create-review"
+            modalComponent={<CreateNewReview spotId={spotId} />}
+          />
+        )} */}
+
       </div>
+      <div>No comments yet.</div>
     </div>
   )
 
-  const handleEdit = (commentId) => {
-    console.log('Editing comment:', commentId);
-  };
+  // const handleEdit = (commentId) => {
+  //   console.log('Editing comment:', commentId);
+  //   console.log(typeof updateComment)
+  // };
 
   const handleDelete = async (commentId) => {
     const success = await dispatch(deleteComment(commentId));
@@ -49,15 +61,16 @@ const Comments = () => {
   };
 
 
-      
+
+
 
   return (
     <div className="comments-container">
       <div className="comments-top-section">
         <h3>Comments</h3>
-        <button className="add-comment"></button>
+        {/* <button className="add-comment"></button> */}
       </div>
-      
+
       {comments.map(comment => {
         const isOwner = currentUser?.id === comment.user.id;
 
@@ -67,7 +80,14 @@ const Comments = () => {
             <small>{new Date(comment.created_at).toLocaleString()}</small>
             {isOwner && (
               <div className="comment-actions">
-                <button onClick={() => handleEdit(comment.id)}>Edit</button>
+                <OpenModalButton
+                  buttonText="Edit"
+                  className="edit-comment-button"
+                  modalComponent={(closeModal) => (
+                    <CommentsEditModal commentId={comment.id} closeModal={closeModal} />
+                  )}
+                />
+                {/* <button onClick={() => handleEdit(comment.id)}>Edit</button> */}
                 <button onClick={() => handleDelete(comment.id)}>Delete</button>
               </div>
             )}

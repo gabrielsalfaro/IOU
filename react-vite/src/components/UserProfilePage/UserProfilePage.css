@@ -1,0 +1,77 @@
+.user-profile-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+.profile-header h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.profile-email {
+  color: #555;
+  margin: 0.5rem 0;
+}
+
+.profile-join-date {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 1.5rem 0;
+}
+
+.examining-section h3,
+.friends-section h3,
+.useful-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.examining-list,
+.friends-list,
+.useful-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.examining-list li,
+.friends-list li,
+.useful-list li {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+}
+
+.examining-list li:first-child {
+  font-weight: bold;
+}
+
+.friends-list li,
+.useful-list li {
+  display: flex;
+  align-items: center;
+}
+
+.friends-list input[type="checkbox"],
+.useful-list input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.view-all-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.view-all-link:hover {
+  text-decoration: underline;
+}
