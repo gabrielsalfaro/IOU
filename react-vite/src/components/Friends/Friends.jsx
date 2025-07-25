@@ -74,7 +74,9 @@ const Friends = () => {
 
                   <div className="friend-content">
                     <div className="friend-info">
+                      <NavLink to={`/users/${friend.friend.id}`} >
                       {friend.friend.firstname} {friend.friend.lastname}
+                      </NavLink>
                     </div>
 
                     <div className="friend-actions">

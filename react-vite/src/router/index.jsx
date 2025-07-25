@@ -54,13 +54,11 @@ export const router = createBrowserRouter([
       {
         path: "payments",
         element: <UserPaymentHistory />,
-      }
-      
-        ],
       },
       {
        path: "users/:userId",
        element: <UserProfilePage />,
       },
-    
-      ],);
+    ]
+  }
+]);

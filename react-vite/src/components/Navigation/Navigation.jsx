@@ -29,13 +29,15 @@ function Navigation() {
         {sessionUser && (
           <li>
             <div className="nav-user-container">
-              <div className="nav-user-img">
-                {/* {sessionUser.profile_img} */}
-              </div>
-              <div className="nav-user-name">
-                {sessionUser.firstname} {' '}
-                {sessionUser.lastname}
-              </div>
+              {/* <NavLink to={`/users/${sessionUser.id}`} > */}
+                <div className="nav-user-img">
+                  {/* {sessionUser.profile_img} */}
+                </div>
+                <div className="nav-user-name">
+                  {sessionUser.firstname} {' '}
+                  {sessionUser.lastname}
+                </div>
+              {/* </NavLink> */}
             </div>
           </li>
         )}

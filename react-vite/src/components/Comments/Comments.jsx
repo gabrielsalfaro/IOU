@@ -2,17 +2,17 @@ import { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getExpenseById } from '../../redux/expenses';
-import { deleteComment } from '../../redux/comments';
+// import { deleteComment } from '../../redux/comments';
 import OpenModalButton from '../OpenModalButton';
 import CommentsEditModal from '../CommentsEditModal/CommentsEditModal';
 import './Comments.css';
+import CommentsDeleteModal from '../CommentsDeleteModal/CommentsDeleteModal';
 
 const Comments = () => {
   const { expenseId } = useParams();
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.session.user);
 
-  // const hasReviewed = reviews.some(review => review?.userId === sessionUser?.id);
 
   useEffect(() => {
     dispatch(getExpenseById(expenseId));
@@ -52,15 +52,13 @@ const Comments = () => {
   //   console.log(typeof updateComment)
   // };
 
-  const handleDelete = async (commentId) => {
-    const success = await dispatch(deleteComment(commentId));
-    if (success) {
-      console.log('Deleted comment');
-      dispatch(getExpenseById(expenseId));
-    }
-  };
-
-
+  // const handleDelete = async (commentId) => {
+  //   const success = await dispatch(deleteComment(commentId));
+  //   if (success) {
+  //     console.log('Deleted comment');
+  //     dispatch(getExpenseById(expenseId));
+  //   }
+  // };
 
 
 
@@ -88,7 +86,15 @@ const Comments = () => {
                   )}
                 />
                 {/* <button onClick={() => handleEdit(comment.id)}>Edit</button> */}
-                <button onClick={() => handleDelete(comment.id)}>Delete</button>
+                <OpenModalButton
+                  buttonText="Delete"
+                  className="delete-comment-button"
+                  modalComponent={
+                    <CommentsDeleteModal commentId={comment.id} expenseId={expenseId} />
+                  }
+                />
+
+                {/* <button onClick={() => handleDelete(comment.id)}>Delete</button> */}
               </div>
             )}
           </div>

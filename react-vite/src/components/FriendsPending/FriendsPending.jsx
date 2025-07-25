@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { fetchPendingFriends } from '../../redux/friends';
 import { acceptFriend, declineFriend } from '../../redux/friends';
 // import OpenModalButton from '../OpenModalButton';
@@ -65,7 +66,9 @@ const FriendsPending = () => {
             {pending.map(request => (
               <li key={request.id} className="friend-item">
                 <div className="friend-info">
-                  {request.friend?.firstname} {request.friend?.lastname} (@{request.friend?.username})
+                  <NavLink to={`/users/${request.friend.id}`} >
+                    {request.friend?.firstname} {request.friend?.lastname} (@{request.friend?.username})
+                  </NavLink>
                 </div>
                 <div className="pending-friend-actions-container">
                   <div className="pending-friend-actions">
