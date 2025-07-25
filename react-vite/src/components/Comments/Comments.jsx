@@ -27,17 +27,45 @@ const Comments = () => {
     return currentExpense?.expense?.comments ?? [];
   }, [currentExpense?.expense?.comments]);
 
+  // Check if current user has commented
+  const userHasCommented = useMemo(() => {
+    return comments.some(comment => comment.user.id === currentUser?.id);
+  }, [comments, currentUser?.id]);
+
   const loading = useSelector(state => state.expenses.loading);
 
   if (loading) return <div>Loading comments...</div>;
 
 
   // move to bottom section? 
-  if (!comments.length) return (
+  // if (!comments.length) return (
+  //   <div className="comments-container">
+  //     <div className="comments-top-section">
+  //       <h3>Comments</h3>
+  //       {/* <button className="add-comment">Add Comment</button> */}
+  //       <OpenModalButton
+  //         buttonText="Add Comment"
+  //         className="add-comment-button"
+  //         modalComponent={(closeModal) => (
+  //           <CommentsAddModal expenseId={expenseId} closeModal={closeModal} />
+  //         )}
+  //       />
+
+
+  //     </div>
+  //     <div>No comments yet.</div>
+  //   </div>
+  // )
+
+
+
+  return (
     <div className="comments-container">
       <div className="comments-top-section">
         <h3>Comments</h3>
-        {/* <button className="add-comment">Add Comment</button> */}
+
+        {/* Show "Add Comment" only if user hasn't commented */}
+        {!userHasCommented && (
         <OpenModalButton
           buttonText="Add Comment"
           className="add-comment-button"
@@ -45,64 +73,51 @@ const Comments = () => {
             <CommentsAddModal expenseId={expenseId} closeModal={closeModal} />
           )}
         />
-
-
-      </div>
-      <div>No comments yet.</div>
-    </div>
-  )
-
-
-
-  return (
-    // {comments.length === 0 ? (
-    //   // render this
-    // ) : (
-    //   // else render this
-    // )}
-    <div className="comments-container">
-      <div className="comments-top-section">
-        <h3>Comments</h3>
-        {/* <button className="add-comment"></button> */}
+        )}
       </div>
 
-      {comments.map(comment => {
-        const isOwner = currentUser?.id === comment.user.id;
+      {comments.length === 0 ? (
+        <div>No comments yet.</div>
+      ) : (
+        comments.map(comment => {
+          const isOwner = currentUser?.id === comment.user.id;
 
-        return (
-          <div key={comment.id} className="comment">
-            <p>
-               <NavLink to={`/users/${comment.user.id}`} >
-              <strong>{comment.user.username}</strong>
-              </NavLink>
-              : {comment.content}</p>
-            <small>{new Date(comment.created_at).toLocaleString()}</small>
-            {isOwner && (
-              <div className="comment-actions">
-                <OpenModalButton
-                  buttonText="Edit"
-                  className="edit-comment-button"
-                  modalComponent={(closeModal) => (
-                    <CommentsEditModal commentId={comment.id} closeModal={closeModal} />
-                  )}
-                />
-                {/* <button onClick={() => handleEdit(comment.id)}>Edit</button> */}
-                <OpenModalButton
-                  buttonText="Delete"
-                  className="delete-comment-button"
-                  modalComponent={
-                    <CommentsDeleteModal commentId={comment.id} expenseId={expenseId} />
-                  }
-                />
-
-                {/* <button onClick={() => handleDelete(comment.id)}>Delete</button> */}
-              </div>
-            )}
-          </div>
-        );
-      })}
+          return (
+            <div key={comment.id} className="comment">
+              <p>
+                <NavLink to={`/users/${comment.user.id}`}>
+                  <strong>{comment.user.username}</strong>
+                </NavLink>
+                : {comment.content}
+              </p>
+              <small>{new Date(comment.created_at).toLocaleString()}</small>
+              {isOwner && (
+                <div className="comment-actions">
+                  <OpenModalButton
+                    buttonText="Edit"
+                    className="edit-comment-button"
+                    modalComponent={(closeModal) => (
+                      <CommentsEditModal commentId={comment.id} closeModal={closeModal} />
+                    )}
+                  />
+                  <OpenModalButton
+                    buttonText="Delete"
+                    className="delete-comment-button"
+                    modalComponent={
+                      <CommentsDeleteModal commentId={comment.id} expenseId={expenseId} />
+                    }
+                  />
+                </div>
+              )}
+            </div>
+          );
+        })
+      )}
     </div>
-  );
+
+);
+
+
 };
 
 export default Comments;
