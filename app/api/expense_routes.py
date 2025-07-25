@@ -74,7 +74,7 @@ def create_expense():
   db.session.add(new_expense)
   db.session.flush() # Accessing Generated Primary Keys after adding, need so we can add expense member amounts
 
-  each_amount_owed = float(data['amount']/ (len(data['expense_members'])))
+  each_amount_owed = float(data['amount']/ (len(data['expense_members']) + 1)) #add one to the length, because we are only passing in the friends and not ourselves
 
   for member in data['expense_members']:
     expense_member = ExpenseMember(
