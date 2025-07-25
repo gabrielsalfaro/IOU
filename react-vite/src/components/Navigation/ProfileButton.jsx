@@ -42,6 +42,12 @@ function ProfileButton() {
     navigate('/');
   };
 
+   const goToProfile = (e) => {
+  e.preventDefault();
+  navigate(`/users/${user.id}`); // Uses current user's ID 
+  };
+
+
   return (
     <>
       <div className="profile-dropdown-btn">
@@ -57,6 +63,9 @@ function ProfileButton() {
             <>
               <li>Hello, <span style={{ fontWeight: 'bold' }}>{user.username}</span></li>
               <li>{user.email}</li>
+              <li>
+                <button onClick={goToProfile}>User Profile</button>
+              </li>
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>

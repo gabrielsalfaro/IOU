@@ -59,7 +59,8 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: "profile",
-        element: <UserProfilePage />, 
+       path: "users/:userId",
+       element: <UserProfilePage />,
       },
-    ],);
+    
+      ],);

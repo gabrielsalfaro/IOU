@@ -1,0 +1,92 @@
+/* UserProfilePage.css */
+.user-profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.profile-header {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.profile-header h1 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.profile-header p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.profile-section {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.profile-section h3 {
+  color: #444;
+  margin-bottom: 15px;
+}
+
+.profile-nav-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.profile-nav-list li {
+  padding: 8px 0;
+  color: #333;
+}
+
+.profile-nav-list li:first-child {
+  font-weight: bold;
+}
+
+.friends-list {
+  margin: 15px 0;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.friend-item input {
+  margin-right: 10px;
+}
+
+.view-all-btn {
+  background: none;
+  border: none;
+  color: #4a90e2;
+  cursor: pointer;
+  padding: 5px 0;
+  font-weight: 500;
+}
+
+.view-all-btn:hover {
+  text-decoration: underline;
+}
+
+.actions-list {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  background-color: #e0e0e0;
+}

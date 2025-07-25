@@ -1,112 +1,74 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import './UserProfilePage.css'; // We'll create this CSS file
 
-function UserProfilePage() {
-  const { id } = useParams();
-  const currentUser = useSelector((state) => state.session.user);
+export default function UserProfilePage() {
+  const { userId } = useParams();
   const [user, setUser] = useState(null);
-  const [isFriend, setIsFriend] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [friends, setFriends] = useState([
+    { id: 1, name: 'friend_1', selected: false },
+    { id: 2, name: 'friend_2', selected: true },
+    { id: 3, name: 'friend_3', selected: false }
+  ]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        
-        // Fetch user data
-        const userRes = await fetch(`/api/users/${id}`);
-        if (!userRes.ok) throw new Error('Failed to fetch user');
-        const userData = await userRes.json();
-        setUser(userData);
-
-        // Check friend status if current user exists
-        if (currentUser) {
-          const friendRes = await fetch(`/api/friends/${id}/status`);
-          if (!friendRes.ok) throw new Error('Failed to check friend status');
-          const { isFriend } = await friendRes.json();
-          setIsFriend(isFriend);
-        }
-      } catch (err) {
-        setError(err.message);
-        console.error('Error:', err);
-      } finally {
-        setLoading(false);
+    const fetchUser = async () => {
+      const response = await fetch(`/api/users/${userId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
       }
     };
+    fetchUser();
+  }, [userId]);
 
-    fetchData();
-  }, [id, currentUser]);
-
-  const handleAddFriend = async () => {
-    try {
-      const res = await fetch(`/api/friends/${id}`, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${currentUser.token}` // If using auth
-        }
-      });
-
-      if (!res.ok) throw new Error('Failed to add friend');
-      setIsFriend(true);
-    } catch (err) {
-      setError(err.message);
-      console.error('Add friend error:', err);
-    }
+  const toggleFriend = (id) => {
+    setFriends(friends.map(friend => 
+      friend.id === id ? {...friend, selected: !friend.selected} : friend
+    ));
   };
 
-  if (loading) return <div className="p-4">Loading...</div>;
-  if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
+  if (!user) return <div>Loading...</div>;
 
   return (
-    <div className="flex h-full">
-      {/* Sidebar */}
-      <aside className="w-64 bg-gray-100 border-r p-4">
-        <h2 className="font-bold text-gray-600 mb-2">FRIENDS</h2>
-        <ul className="space-y-2">
-          {user.friends?.slice(0, 3).map((friend) => (
-            <li key={friend.id} className="flex items-center space-x-2">
-              <span className="w-2 h-2 rounded-full bg-green-500"></span>
-              <span>{friend.username}</span>
-            </li>
-          ))}
+    <div className="user-profile-container">
+      {/* Header Section */}
+      <section className="profile-header">
+        <h1>{user.firstname || 'John'} {user.lastname || 'Doe'}</h1>
+        <p><strong>Username</strong></p>
+        <p>{user.email || 'email@address'}</p>
+        <p>Member since {user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'July 4, 2025'}</p>
+      </section>
+
+      {/* Navigation Section */}
+      <section className="profile-section">
+        <h3>Examining</h3>
+        <ul className="profile-nav-list">
+          <li><strong>ExpenseApp</strong></li>
+          <li>Dashboard</li>
+          <li>All expenses</li>
+          <li>Payment History</li>
         </ul>
-        <a href={`/users/${id}/friends`} className="text-sm font-bold mt-4 block">
-          View All Friends...
-        </a>
-      </aside>
+      </section>
 
-      {/* Main Content */}
-      <main className="flex-1 p-8">
-        <div className="flex justify-between items-start mb-4">
-          <h1 className="text-2xl font-bold">User Profile</h1>
-          {!isFriend && currentUser?.id !== user.id && (
-            <button
-              onClick={handleAddFriend}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
-            >
-              Add Friend
-            </button>
-          )}
+      {/* Friends Section */}
+      <section className="profile-section">
+        <h3>FRIENDS</h3>
+        <div className="friends-list">
+          {friends.map(friend => (
+            <div key={friend.id} className="friend-item">
+              <input
+                type="checkbox"
+                id={`friend-${friend.id}`}
+                checked={friend.selected}
+                onChange={() => toggleFriend(friend.id)}
+              />
+              <label htmlFor={`friend-${friend.id}`}>{friend.name}</label>
+            </div>
+          ))}
         </div>
-
-        <div className="flex flex-col items-center">
-          <div className="w-24 h-24 bg-gray-300 rounded-full mb-4 flex items-center justify-center text-2xl font-bold">
-            {user.username.charAt(0).toUpperCase()}
-          </div>
-          <h2 className="text-xl font-semibold">{user.username}</h2>
-          <p className="text-gray-600">{user.email}</p>
-          <p className="text-sm text-gray-400 mt-2">
-            Member since {new Date(user.created_at).toLocaleDateString("en-US", {
-              year: "numeric", month: "long", day: "numeric"
-            })}
-          </p>
-        </div>
-      </main>
+        <button className="view-all-btn">View All Friends...</button>
+      </section>
     </div>
   );
 }
-
-export default UserProfilePage;
