@@ -60,16 +60,6 @@ const Comments = () => {
     }
   };
 
-<<<<<<< HEAD
-  const handleDelete = async (commentId) => {
-    const success = await dispatch(deleteComment(commentId));
-    if (success) {
-      console.log('Deleted comment');
-      dispatch(getExpenseById(expenseId));
-    }
-  };
-=======
->>>>>>> 7cfa75b5db4216ec29e9e88b874d88586905b942
 
 
 
