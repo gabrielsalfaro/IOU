@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPaymentsForUser } from "../../store/payments"; // You'll build this
 import { useNavigate } from "react-router-dom";
+import { getUserPaymentHistory } from "../../redux/payments";  // Changed import
 
 function UserPaymentHistory() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const payments = useSelector((state) => Object.values(state.payments.userPayments || {}));
+  const payments = useSelector((state) => Object.values(state.payments.userHistory || {}));
   const sessionUser = useSelector((state) => state.session.user);
 
   useEffect(() => {
-    if (sessionUser) dispatch(getAllPaymentsForUser());
+    if (sessionUser) dispatch(getUserPaymentHistory());  // Changed function call
   }, [dispatch, sessionUser]);
 
   // Group payments by month/year
@@ -22,18 +22,18 @@ function UserPaymentHistory() {
     return acc;
   }, {});
 
+  console.log(payments);
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">Payment History</h2>
-
-      {Object.entries(grouped).map(([monthYear, items]) => (
+      <h2> Payment History</h2>
+      {Object.entries(grouped).map(([monthYear, items]) => 
+      (
         <div key={monthYear} className="mb-6">
           <h3 className="text-lg font-bold mb-2">{monthYear}</h3>
           <div className="bg-white shadow-md rounded overflow-hidden">
             <table className="w-full table-auto">
               <thead className="bg-gray-100 text-left">
                 <tr>
-                  <th className="p-2">Expense Name</th>
                   <th className="p-2">Description</th>
                   <th className="p-2">Amount</th>
                   <th className="p-2">Status</th>
@@ -43,7 +43,6 @@ function UserPaymentHistory() {
               <tbody>
                 {items.map((payment) => (
                   <tr key={payment.id} className="border-t">
-                    <td className="p-2">{payment.expense?.name || "Expense name"}</td>
                     <td className="p-2">{payment.expense?.description || "No description"}</td>
                     <td className="p-2">${payment.amount?.toFixed(2) || "0.00"}</td>
                     <td className="p-2">

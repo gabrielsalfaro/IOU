@@ -1,28 +1,25 @@
-// I believe this is setting up Redux to handle all payments-related actions
-
+// Action Types
 const LOAD_PAYMENTS = 'payments/LOAD_PAYMENTS';
 const LOAD_HISTORY = 'payments/LOAD_HISTORY';
 const UPDATE_PAYMENT = 'payments/UPDATE_PAYMENT';
 
-// I believe this is the action to store all payments for an expense
+// Action Creators
 const loadPayments = (payments) => ({
   type: LOAD_PAYMENTS,
   payments
 });
 
-// I believe this is the action to store a user's payment history
 const loadHistory = (payments) => ({
   type: LOAD_HISTORY,
   payments
 });
 
-// I believe this is the action to update one payment (like marking it paid)
 const updatePayment = (payment) => ({
   type: UPDATE_PAYMENT,
   payment
 });
 
-// I believe this is getting all payments for a specific expense
+// Thunk Actions
 export const getPaymentsByExpense = (expenseId) => async (dispatch) => {
   const res = await fetch(`/api/expenses/${expenseId}/payments`);
   if (res.ok) {
@@ -32,7 +29,6 @@ export const getPaymentsByExpense = (expenseId) => async (dispatch) => {
   }
 };
 
-// I believe this is getting the logged-in user's payment history
 export const getUserPaymentHistory = () => async (dispatch) => {
   const res = await fetch('/api/payments/history');
   if (res.ok) {
@@ -42,7 +38,7 @@ export const getUserPaymentHistory = () => async (dispatch) => {
   }
 };
 
-// I believe this is updating a single payment status (like marking it paid)
+
 export const updatePaymentStatus = (paymentId, status) => async (dispatch) => {
   const res = await fetch(`/api/payments/${paymentId}`, {
     method: 'PUT',
@@ -57,29 +53,35 @@ export const updatePaymentStatus = (paymentId, status) => async (dispatch) => {
   }
 };
 
-// I believe this is the initial state setup
+// Initial State
 const initialState = {
-  paymentsByExpense: [],
-  userHistory: []
+  paymentsByExpense: [],  // Payments grouped by expense
+  userHistory: []         // All payments for current user
 };
 
-// I believe this is the reducer for payments
+// Reducer
 export default function paymentsReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_PAYMENTS:
-      return { ...state, paymentsByExpense: action.payments };
+      return { 
+        ...state, 
+        paymentsByExpense: action.payments 
+      };
 
     case LOAD_HISTORY:
-      return { ...state, userHistory: action.payments };
+      return { 
+        ...state, 
+        userHistory: action.payments 
+      };
 
     case UPDATE_PAYMENT:
       return {
         ...state,
         paymentsByExpense: state.paymentsByExpense.map(payment =>
-          payment.id === action.payment.id ? { ...payment, ...action.payment } : payment
+          payment.id === action.payment.id ? action.payment : payment
         ),
         userHistory: state.userHistory.map(payment =>
-          payment.id === action.payment.id ? { ...payment, ...action.payment } : payment
+          payment.id === action.payment.id ? action.payment : payment
         )
       };
 

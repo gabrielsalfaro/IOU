@@ -2,35 +2,63 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-function UserProfile() {
-  const { id } = useParams(); // I believe this gets the user id from the URL
+function UserProfilePage() {
+  const { id } = useParams();
   const currentUser = useSelector((state) => state.session.user);
   const [user, setUser] = useState(null);
   const [isFriend, setIsFriend] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // I believe this fetches the user being viewed
-    fetch(`/api/users/${id}`)
-      .then(res => res.json())
-      .then(data => setUser(data));
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch user data
+        const userRes = await fetch(`/api/users/${id}`);
+        if (!userRes.ok) throw new Error('Failed to fetch user');
+        const userData = await userRes.json();
+        setUser(userData);
 
-    // I believe this checks if they're already friends
-    fetch(`/api/friends/${id}/is-friend`)
-      .then(res => res.json())
-      .then(data => setIsFriend(data.isFriend));
-  }, [id]);
+        // Check friend status if current user exists
+        if (currentUser) {
+          const friendRes = await fetch(`/api/friends/${id}/status`);
+          if (!friendRes.ok) throw new Error('Failed to check friend status');
+          const { isFriend } = await friendRes.json();
+          setIsFriend(isFriend);
+        }
+      } catch (err) {
+        setError(err.message);
+        console.error('Error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id, currentUser]);
 
   const handleAddFriend = async () => {
-    const res = await fetch(`/api/friends/${id}`, {
-      method: "POST"
-    });
+    try {
+      const res = await fetch(`/api/friends/${id}`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${currentUser.token}` // If using auth
+        }
+      });
 
-    if (res.ok) {
-      setIsFriend(true); // I believe this updates the friend status
+      if (!res.ok) throw new Error('Failed to add friend');
+      setIsFriend(true);
+    } catch (err) {
+      setError(err.message);
+      console.error('Add friend error:', err);
     }
   };
 
-  if (!user) return <div className="p-4">Loading...</div>;
+  if (loading) return <div className="p-4">Loading...</div>;
+  if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
 
   return (
     <div className="flex h-full">
@@ -57,7 +85,7 @@ function UserProfile() {
           {!isFriend && currentUser?.id !== user.id && (
             <button
               onClick={handleAddFriend}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
             >
               Add Friend
             </button>
@@ -65,7 +93,9 @@ function UserProfile() {
         </div>
 
         <div className="flex flex-col items-center">
-          <div className="w-24 h-24 bg-gray-300 rounded-full mb-4" />
+          <div className="w-24 h-24 bg-gray-300 rounded-full mb-4 flex items-center justify-center text-2xl font-bold">
+            {user.username.charAt(0).toUpperCase()}
+          </div>
           <h2 className="text-xl font-semibold">{user.username}</h2>
           <p className="text-gray-600">{user.email}</p>
           <p className="text-sm text-gray-400 mt-2">
@@ -79,4 +109,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile;
+export default UserProfilePage;

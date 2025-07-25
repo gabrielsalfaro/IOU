@@ -8,6 +8,8 @@ import Friends from '../components/Friends';
 import Home from '../components/Home'
 import FriendsPending from '../components/FriendsPending'
 import Layout from './Layout';
+import UserPaymentHistory from '../components/UserPaymentHistory'; 
+import UserProfilePage from '../components/UserProfilePage'; 
 
 export const router = createBrowserRouter([
   {
@@ -48,7 +50,16 @@ export const router = createBrowserRouter([
       {
         path: "friends/pending",
         element: <FriendsPending />,
+      },
+      {
+        path: "payments",
+        element: <UserPaymentHistory />,
       }
-    ],
-  },
-]);
+      
+        ],
+      },
+      {
+        path: "profile",
+        element: <UserProfilePage />, 
+      },
+    ],);
