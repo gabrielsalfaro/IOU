@@ -1,89 +1,82 @@
-// I believe this is setting up Redux to handle all payments-related actions
+// payments.js
 
+// I believe these are the action types for payments
 const LOAD_PAYMENTS = 'payments/LOAD_PAYMENTS';
 const LOAD_HISTORY = 'payments/LOAD_HISTORY';
 const UPDATE_PAYMENT = 'payments/UPDATE_PAYMENT';
-
-// I believe this is the action to store all payments for an expense
-const loadPayments = (payments) => ({
-  type: LOAD_PAYMENTS,
-  payments
-});
-
-// I believe this is the action to store a user's payment history
-const loadHistory = (payments) => ({
-  type: LOAD_HISTORY,
-  payments
-});
-
-// I believe this is the action to update one payment (like marking it paid)
-const updatePayment = (payment) => ({
-  type: UPDATE_PAYMENT,
-  payment
-});
-
-// I believe this is getting all payments for a specific expense
-export const getPaymentsByExpense = (expenseId) => async (dispatch) => {
-  const res = await fetch(`/api/expenses/${expenseId}/payments`);
-  if (res.ok) {
-    const data = await res.json();
-    dispatch(loadPayments(data));
-    return data;
-  }
-};
-
-// I believe this is getting the logged-in user's payment history
-export const getUserPaymentHistory = () => async (dispatch) => {
-  const res = await fetch('/api/payments/history');
-  if (res.ok) {
-    const data = await res.json();
-    dispatch(loadHistory(data));
-    return data;
-  }
-};
-
-// I believe this is updating a single payment status (like marking it paid)
-export const updatePaymentStatus = (paymentId, status) => async (dispatch) => {
-  const res = await fetch(`/api/payments/${paymentId}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ status })
-  });
-
-  if (res.ok) {
-    const updatedPayment = await res.json();
-    dispatch(updatePayment(updatedPayment));
-    return updatedPayment;
-  }
-};
+const LOAD_SUMMARY = 'payments/LOAD_SUMMARY'; // New action type for summary
 
 // I believe this is the initial state setup
 const initialState = {
-  paymentsByExpense: [],
-  userHistory: []
+  paymentsByExpense: {},  // Stores payments grouped by expense
+  userHistory: {},        // Stores user's payment history
+  summary: {              // Stores payment summary stats
+    totalPaid: 0, 
+    totalUnpaid: 0 
+  }
 };
 
-// I believe this is the reducer for payments
+// I believe this is the main reducer function
 export default function paymentsReducer(state = initialState, action) {
   switch (action.type) {
-    case LOAD_PAYMENTS:
-      return { ...state, paymentsByExpense: action.payments };
+    // I believe this handles loading payments for a specific expense
+    case LOAD_PAYMENTS: {
+      const normalizedPayments = {};
+      action.payments.forEach(payment => {
+        normalizedPayments[payment.id] = payment;
+      });
+      return { 
+        ...state, 
+        paymentsByExpense: normalizedPayments 
+      };
+    }
+    
+    // I believe this handles loading user payment history
+    case LOAD_HISTORY: {
+      const normalizedHistory = {};
+      action.payments.forEach(payment => {
+        normalizedHistory[payment.id] = payment;
+      });
+      return { 
+        ...state, 
+        userHistory: normalizedHistory 
+      };
+    }
 
-    case LOAD_HISTORY:
-      return { ...state, userHistory: action.payments };
-
+    // I believe this handles updating a payment status
     case UPDATE_PAYMENT:
       return {
         ...state,
-        paymentsByExpense: state.paymentsByExpense.map(payment =>
-          payment.id === action.payment.id ? { ...payment, ...action.payment } : payment
-        ),
-        userHistory: state.userHistory.map(payment =>
-          payment.id === action.payment.id ? { ...payment, ...action.payment } : payment
-        )
+        paymentsByExpense: {
+          ...state.paymentsByExpense,
+          [action.payment.id]: action.payment
+        },
+        userHistory: {
+          ...state.userHistory,
+          [action.payment.id]: action.payment
+        }
+      };
+
+    // I believe this handles loading payment summary stats
+    case LOAD_SUMMARY:
+      return { 
+        ...state, 
+        summary: action.payload 
       };
 
     default:
       return state;
   }
 }
+
+// I believe this fetches payment summary from the backend
+export const getPaymentSummary = () => async (dispatch) => {
+  const response = await fetch('/api/payments/summary');
+  if (response.ok) {
+    const data = await response.json();
+    dispatch({ 
+      type: LOAD_SUMMARY, 
+      payload: data 
+    });
+  }
+};
