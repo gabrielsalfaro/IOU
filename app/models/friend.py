@@ -8,7 +8,7 @@ class Friend(db.Model):
     if environment == "production":
         __table_args__ = (
             {'schema': SCHEMA},
-            #CheckConstraint("status IN ('friends', 'pending')", name="check_status_valid")
+            CheckConstraint("status IN ('friends', 'pending')", name="check_status_valid")
     )
 
 
