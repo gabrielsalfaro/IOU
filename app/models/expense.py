@@ -25,5 +25,6 @@ class Expense(db.Model):
         'status': self.status,
         'created_at': self.created_at,
         'updated_at': self.updated_at,
+        'expense_members': [member.to_dict() for member in self.expense_members],
         'comments': [comment.to_dict() for comment in self.comments]
       }

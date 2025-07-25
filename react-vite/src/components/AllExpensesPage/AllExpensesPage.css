@@ -1,0 +1,90 @@
+.all-expenses-list {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.expense-component {
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.expenses-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.add-expense-button {
+  text-align: center;
+  padding: 0.75rem;
+  background-color: #6CDBAB;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-self: center;
+}
+
+.expense-description {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.expense-description p {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.expense-amount {
+  font-weight: bold;
+  color: black;
+}
+
+.expense-card-details {
+  margin: 12px 0;
+  padding: 8px 0;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+}
+
+.expense-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: gray;
+  font-size: 0.9rem;
+}
+
+.expense-status {
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.status-settled {
+  background-color: #e8f5e9;
+  color: green;
+}
+
+.status-pending {
+  background-color: #fff3e0;
+  color: orange;
+}
+
+.member-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  color: gray;
+}

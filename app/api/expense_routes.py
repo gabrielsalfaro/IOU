@@ -95,3 +95,61 @@ def create_expense():
 
 #update an expense (only if the expense has not yet been fully paid)
 #delete an expense (only if no one has paid)
+
+@expense_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+def update_expense(id):
+    expense = Expense.query.get(id)
+    if not expense:
+        return {"errors": {"message": "Expense not found"}}, 404
+
+    if (expense.expense_owner != current_user.id):
+        return {"errors": {"message": "Unauthorized"}}, 403
+
+    expense_members = ExpenseMember.query.filter_by(expense_id=id).all()
+    if (member.settled for member in expense_members):
+        return {"errors": {"message": "Cannot edit expense: some payments have already been made"}}, 403
+
+    data = request.json
+    errors = {}
+
+    if not isinstance(data.get('description'), str):
+        errors['description'] = "Description must be a string"
+    elif not data.get('description'):
+        errors['description'] = 'Description cannot be empty'
+    elif len(data.get('description')) > 30:
+        errors['description'] = 'Description must be less than 30 characters'
+
+    if errors:
+        return {"errors": errors}, 400
+
+    #make update
+    expense.description = data['description']
+    db.session.commit()
+
+    return {
+        "expense": expense.to_dict(),
+        "members": [member.to_dict() for member in expense.expense_members]
+    }, 200
+
+@expense_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_expense(id):
+    expense = Expense.query.get(id)
+    if not expense:
+        return {"errors": {"message": "Expense not found"}}, 404
+
+    if expense.expense_owner != current_user.id:
+        return {"errors": {"message": "Unauthorized: only the expense owner can delete this"}}, 403
+
+    expense_members = ExpenseMember.query.filter_by(expense_id=id).all()
+    if (member.settled for member in expense_members):
+        return {"errors": {"message": "Cannot delete expense: some payments have already been made"}}, 403
+
+    db.session.delete(expense)
+    db.session.commit()
+
+    return {
+        "message": "Successfully deleted",
+        "id": id
+    }, 200

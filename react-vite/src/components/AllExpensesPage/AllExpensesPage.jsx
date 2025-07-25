@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 import { useModal } from "../../context/Modal";
 import ExpenseMembersModal from '../ExpenseMembersModal/ExpenseMembersModal';
+import './AllExpensesPage.css';
 
 function AllExpensesPage() {
   const dispatch = useDispatch();
@@ -34,29 +35,34 @@ function AllExpensesPage() {
         /* clickable expense component/card */
         <div
           key={expense.id} className="expense-component" onClick={() => navigate(`/expenses/${expense.id}`)}>
+
           <div className="expense-description">
-            <p>{expense?.description}</p>
-            <span className="expense-amount">${expense?.amount}</span>
+            <p>{expense.description}</p>
+
+            <span className="expense-amount">
+              ${(expense?.expense_members) ? expense.expense_members.reduce((total, member) =>
+                    total + (parseFloat(member.amount_owed) || 0), 0) : '0.00'}
+            </span>
+
           </div>
 
           <div className="expense-card-details">
             <div className="expense-info">
-              <p>Created by: {expense?.expense_owner}</p>
-              <p>Status: {expense?.status}</p>
-            </div>
-            <div className="expense-date">
-              {expense?.created_at}
+              <span className={`expense-status ${expense.status === 'settled' ? 'status-settled' : 'status-pending'}`}> {/*filter class for css styling*/}
+                {expense.status}
+              </span>
+              <span className="expense-date">{new Date(expense.created_at).toLocaleDateString()}</span>
             </div>
           </div>
 
           <div className="expense-members">
             {expense?.expense_members?.map(member => (
-              <div key={member?.id} className="member-row">
-                <span>{member?.user_id}</span> {/* add user to member? */}
-                <span className={`expense-card-status ${member?.settled ? 'settled' : 'pending'}`}> {/* custom class for status coloring (green if settled, red if not) */}
-                  <p>Status: {member?.settled ? 'settled' : 'pending'}</p>
+              <div key={member.id} className="member-row">
+                <span>User {member.user_id}</span>
+                <span>${parseFloat(member.amount_owed)}</span>
+                <span className={`expense-card-status ${member.settled ? 'settled' : 'pending'}`}>
+                  {member.settled ? 'Settled' : 'Pending'}
                 </span>
-                <span>${member?.amount_owed}</span>
               </div>
             ))}
           </div>

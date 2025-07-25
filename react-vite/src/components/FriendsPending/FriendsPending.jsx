@@ -1,12 +1,14 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPendingFriends } from '../../redux/friends';
+import { acceptFriend, declineFriend } from '../../redux/friends';
 // import OpenModalButton from '../OpenModalButton';
 // import FriendsAddRemoveModal from '../FriendsAddRemoveModal/FriendsAddRemoveModal'
 import './FriendsPending.css';
 
 const FriendsPending = () => {
   const dispatch = useDispatch();
+  const [successMessage, setSuccessMessage] = useState('');
 
   const pendingObj = useSelector(state => state.friends?.pending || {});
   const pending = useMemo(() => Object.values(pendingObj), [pendingObj]);
@@ -18,30 +20,29 @@ const FriendsPending = () => {
 
   
   const handleAccept = async (friendId) => {
-    const res = await fetch(`/api/friends/accept/${friendId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-    if (res.ok) {
-      dispatch(fetchPendingFriends());
+    const success = await dispatch(acceptFriend(friendId));
+    if (success) {
+      setSuccessMessage('Friend request ACCEPTED!');
     } else {
       console.error('Failed to accept friend request');
     }
   };
 
   const handleDecline = async (friendId) => {
-    const res = await fetch(`/api/friends/decline/${friendId}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-    if (res.ok) {
-      dispatch(fetchPendingFriends());
+    const success = await dispatch(declineFriend(friendId));
+    if (success) {
+      setSuccessMessage('Friend request DECLINED.');
     } else {
       console.error('Failed to decline friend request');
     }
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      const timeout = setTimeout(() => setSuccessMessage(''), 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [successMessage]);
 
   return (
     <div className="friends-container">
@@ -49,6 +50,12 @@ const FriendsPending = () => {
         <div className="top-section">
           <h1>Pending Friend Requests</h1>
         </div>
+
+        {/* {successMessage && ( */}
+          <div className="friend-status-message" key={successMessage}>
+            <center>{successMessage}</center>
+          </div>
+        {/* )} */}
 
         {pending.length === 0 ? (
           <p className="friend-item">No pending requests.</p>
@@ -60,19 +67,30 @@ const FriendsPending = () => {
                 <div className="friend-info">
                   {request.friend?.firstname} {request.friend?.lastname} (@{request.friend?.username})
                 </div>
-                <div className="friend-actions">
-                  <div className="friend-actions">
+                <div className="pending-friend-actions-container">
+                  <div className="pending-friend-actions">
                     {/* <OpenModalButton
                       buttonText="Accept"
-                      className="friend-accept-btn"
+                      className="pending-friend-accept-btn"
                       modalComponent={<FriendsAddRemoveModal requestId={request.id} />} 
                     /> */}
-                    <button onClick={() => handleAccept(request.friend.id)} className="friend-accept-btn">
-                      Accept
-                    </button>
-                    <button onClick={() => handleDecline(request.friend.id)} className="friend-decline-btn">
-                      Decline
-                    </button>
+                    <div>
+                      <button onClick={() => handleAccept(request.friend.id)} className="pending-friend-accept-btn">
+                        Accept
+                      </button>
+                    </div>
+                    
+                    {/* <OpenModalButton
+                      buttonText="Decline"
+                      className="pending-friend-decline-btn"
+                      modalComponent={<FriendsAddRemoveModal requestId={request.id} />} 
+                    /> */}
+                    <div>
+                      <button onClick={() => handleDecline(request.friend.id)} className="pending-friend-decline-btn">
+                        Decline
+                      </button>
+                    </div>
+                    
 
                   </div>
 
@@ -82,7 +100,7 @@ const FriendsPending = () => {
           </div>
 
         )}
-        
+
       </div>
     </div>
   );
