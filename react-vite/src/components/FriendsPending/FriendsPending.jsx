@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { fetchPendingFriends } from '../../redux/friends';
 import { acceptFriend, declineFriend } from '../../redux/friends';
+import OpenModalButton from '../OpenModalButton';
 // import OpenModalButton from '../OpenModalButton';
-// import FriendsAddRemoveModal from '../FriendsAddRemoveModal/FriendsAddRemoveModal'
+import FriendsAddRemoveModal from '../FriendsAddRemoveModal/FriendsAddRemoveModal'
 import './FriendsPending.css';
 
 const FriendsPending = () => {
   const dispatch = useDispatch();
   const [successMessage, setSuccessMessage] = useState('');
+  const [messageType, setMessageType] = useState(""); // 'accepted' or 'declined' for colors
 
   const pendingObj = useSelector(state => state.friends?.pending || {});
   const pending = useMemo(() => Object.values(pendingObj), [pendingObj]);
@@ -24,6 +26,7 @@ const FriendsPending = () => {
     const success = await dispatch(acceptFriend(friendId));
     if (success) {
       setSuccessMessage('Friend request ACCEPTED!');
+      setMessageType('accepted');
     } else {
       console.error('Failed to accept friend request');
     }
@@ -33,6 +36,7 @@ const FriendsPending = () => {
     const success = await dispatch(declineFriend(friendId));
     if (success) {
       setSuccessMessage('Friend request DECLINED.');
+      setMessageType('declined');
     } else {
       console.error('Failed to decline friend request');
     }
@@ -48,12 +52,28 @@ const FriendsPending = () => {
   return (
     <div className="friends-container">
       <div className="friends-content">
-        <div className="top-section">
+        <div className="friends-top-section">
           <h1>Pending Friend Requests</h1>
+           <div className="spacer"></div>
+
+          <div className="friends-buttons">
+            <OpenModalButton
+              buttonText="Add a Friend"
+              className="add-friend-button"
+              modalComponent={<FriendsAddRemoveModal />} 
+            />
+            {/* <button className="add-friend-button">Add a Friend</button> */}
+            {/* <NavLink to='/friends/pending'>
+              <button className="pending-friend-request-button">Pending Requests</button>
+            </NavLink> */}
+          </div>
+
         </div>
 
+       
+
         {/* {successMessage && ( */}
-          <div className="friend-status-message" key={successMessage}>
+          <div className={`friend-status-message ${messageType}`} key={successMessage}>
             <center>{successMessage}</center>
           </div>
         {/* )} */}
@@ -67,7 +87,7 @@ const FriendsPending = () => {
               <li key={request.id} className="friend-item">
                 <div className="friend-info">
                   <NavLink to={`/users/${request.friend.id}`} >
-                    {request.friend?.firstname} {request.friend?.lastname} (@{request.friend?.username})
+                    <b>{request.friend?.firstname} {request.friend?.lastname} (@{request.friend?.username})</b>
                   </NavLink>
                 </div>
                 <div className="pending-friend-actions-container">

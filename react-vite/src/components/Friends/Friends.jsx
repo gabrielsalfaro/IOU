@@ -8,6 +8,7 @@ import './Friends.css'
 
 const Friends = () => {
   const dispatch = useDispatch();
+  // const [successMessage, setSuccessMessage] = useState('');
 
   const friendsObj = useSelector(state => state.friends?.friends || {});
   
@@ -23,22 +24,14 @@ const Friends = () => {
     dispatch(fetchPendingFriends());
   }, [dispatch]);
 
-  // const handleDelete = async (friendId) => {
-  //   const res = await fetch(`/api/friends/decline/${friendId}`, {
-  //     method: 'DELETE',
-  //     headers: { 'Content-Type': 'application/json' }
-  //   });
-
-  //   if (res.ok) {
-  //     dispatch(fetchPendingFriends());
-  //   } else {
-  //     console.error('Failed to decline friend request');
+  // useEffect(() => {
+  //   if (successMessage) {
+  //     const timeout = setTimeout(() => setSuccessMessage(''), 3000);
+  //     return () => clearTimeout(timeout);
   //   }
-  // };
+  // }, [successMessage]);
 
-  //   const handleDelete = (commentId) => {
-  //   console.log('Removing friend:', commentId);
-  // };
+
 
   return (
     <div className="friends-container">
@@ -64,6 +57,12 @@ const Friends = () => {
           </div>
         </div>
 
+        <div className="friend-status-message" 
+        // key={successMessage}
+        >
+            {/* <center>{successMessage}</center> */}
+        </div>
+
         <div className="all-friends-list">
           {friends.length === 0 ? (
             <p className="friend-item">No friends yet.</p>
@@ -75,7 +74,7 @@ const Friends = () => {
                   <div className="friend-content">
                     <div className="friend-info">
                       <NavLink to={`/users/${friend.friend.id}`} >
-                      {friend.friend.firstname} {friend.friend.lastname}
+                      <b>{friend.friend.firstname} {friend.friend.lastname}</b>
                       </NavLink>
                     </div>
 

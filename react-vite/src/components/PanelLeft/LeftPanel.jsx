@@ -23,7 +23,7 @@ const LeftPanel = () => {
     // dispatch(fetchPendingFriends());
   }, [dispatch]);
 
-  const isFriendsPage = location.pathname === "/friends";
+  const isFriendsPage = location.pathname === "/friends" || location.pathname === "/friends/pending";
 
   return (
     <>
