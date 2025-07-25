@@ -48,52 +48,23 @@ def delete_comment(comment_id):
 
 
 
-# Get all comments for an expense
-# @comment_routes.route('/expense/<int:expense_id>/comments', methods=['GET'])
-# @login_required
-# def get_comments(expense_id):
-#     expense = Expense.query.get(expense_id)
-#     if not expense:
-#         return jsonify({ "message": "Expense couldn't be found" }), 404
+# Add a comment
+@comment_routes.route('/<int:expense_id>', methods=['POST'])
+@login_required
+def create_comment(expense_id):
+    data = request.get_json()
+    content = data.get('content')
 
-#     comments = Comment.query.filter_by(expense_id=expense_id).all()
+    if not content:
+        return {'errors': {'content': 'Comment content is required'}}, 400
 
-#     return jsonify({
-#         "comments": [comment.to_dict() for comment in comments]
-#     })
+    comment = Comment(
+        expense_id=expense_id,
+        user_id=current_user.id,
+        content=content
+    )
 
+    db.session.add(comment)
+    db.session.commit()
+    return comment.to_dict()
 
-# Create a comment on an expense
-# @comment_routes.route('/expense/<int:expense_id>/comments', methods=['POST'])
-# @login_required
-# def create_comment(expense_id):
-#     data = request.get_json()
-#     comment_text = data.get('message')
-
-#     if not comment_text or comment_text.strip() == "":
-#         return jsonify({
-#             "message": "Validation error",
-#             "errors": { "comment": "Comment text is required" }
-#         }), 400
-
-#     expense = Expense.query.get(expense_id)
-#     if not expense:
-#         return jsonify({ "message": "Expense couldn't be found" }), 404
-
-#     # Check if the user already has a comment on this expense
-#     existing = Comment.query.filter_by(expense_id=expense_id, user_id=current_user.id).first()
-#     if existing:
-#         return jsonify({ "message": "User already has a comment for this expense" }), 500
-
-#     comment = Comment(
-#         user_id=current_user.id,
-#         expense_id=expense_id,
-#         comment=comment_text,
-#         created_at=datetime.utcnow(),
-#         updated_at=datetime.utcnow()
-#     )
-
-#     db.session.add(comment)
-#     db.session.commit()
-
-#     return jsonify({ "comments": comment.to_dict() }), 201

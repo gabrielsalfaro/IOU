@@ -26,3 +26,20 @@ export const updateComment = async (commentId, message) => {
   return false;
 };
 
+
+export const addComment = (expenseId, content) => async () => {
+  const res = await fetch(`/api/comments/${expenseId}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content })
+  });
+
+  if (res.ok) {
+    return await res.json();
+  }
+
+  const errorData = await res.json();
+  return errorData;
+};
+
+
