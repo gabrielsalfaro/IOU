@@ -44,7 +44,7 @@ function ProfileButton() {
 
    const goToProfile = (e) => {
   e.preventDefault();
-  navigate(`/users/${user.id}`); // Uses current user's ID 
+  navigate(`/users/${user.id}`); // Uses current user's ID
   };
 
 
@@ -56,7 +56,7 @@ function ProfileButton() {
           <FaAngleDown />
         </button>
       </div>
-      
+
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
@@ -71,12 +71,12 @@ function ProfileButton() {
               </li>
             </>
           ) : (
-            <>
+            <div>
               <OpenModalMenuItem
                 itemText="Log In"
                 onItemClick={closeMenu}
-                modalComponent={<LoginFormModal 
-                  onLoginSuccess={() => navigate('/dashboard')} 
+                modalComponent={<LoginFormModal
+                  onLoginSuccess={() => navigate('/dashboard')}
                 /> }
               />
               <OpenModalMenuItem
@@ -84,7 +84,7 @@ function ProfileButton() {
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal />}
               />
-            </>
+            </div>
           )}
         </ul>
       )}
