@@ -34,7 +34,7 @@ function Dashboard() {
           if (!member?.settled) {
             owe += parseFloat(member?.amount_owed);
           }
-        } else if (expense?.expense_owner === sessionUser?.id && !member?.settled) { 
+        } else if (expense?.expense_owner === sessionUser?.id && !member?.settled) {
           owed += parseFloat(member?.amount_owed);
         }
       });
@@ -63,21 +63,21 @@ function Dashboard() {
         <div className="summary-card">
           <div className="summary-title">Total Balance</div>
           <div className={`summary-amount ${totalBalance > 0 ? 'amount-positive' : totalBalance < 0 ? 'amount-negative' : 'amount-zero'}`}>
-            ${totalBalance}
+            ${totalBalance.toFixed(2)}
           </div>
         </div>
 
         <div className="summary-card">
           <div className="summary-title">You Owe</div>
           <div className="summary-amount amount-negative">
-            ${youOwe}
+            ${youOwe.toFixed(2)}
           </div>
         </div>
 
         <div className="summary-card">
           <div className="summary-title">You Are Owed</div>
           <div className="summary-amount amount-positive">
-            ${youAreOwed}
+            ${youAreOwed.toFixed(2)}
           </div>
         </div>
       </div>
