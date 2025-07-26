@@ -1,8 +1,8 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from flask_login import login_required, current_user
 from app.models import Friend, User
 from app.models import db
-from datetime import datetime
+from datetime import datetime, timezone
 
 friend_routes = Blueprint('friends', __name__)
 
@@ -11,21 +11,15 @@ friend_routes = Blueprint('friends', __name__)
 @friend_routes.route('/', methods=['GET'])
 @login_required
 def get_friends():
-    """
-    Get all friends for the current user
-    """
+    friends_as_user = Friend.query.filter_by(user_id=current_user.id, status='friends').all()
+    friends_as_friend = Friend.query.filter_by(friend_id=current_user.id, status='friends').all()
 
-    # friends = Friend.query.filter(
-    #     ((Friend.user_id == current_user.id) | (Friend.friend_id == current_user.id)) &
-    #     (Friend.status == 'friends')
-    # ).all()
+    all_friends = friends_as_user + friends_as_friend
 
-    friends = Friend.query.filter_by(user_id=current_user.id, status='friends').all()
-    # return { 'friends': [friend.to_dict() for friend in friends] }
+    return {
+        "friends": [friend.to_dict() for friend in all_friends]
+    }
 
-    return jsonify({
-        "friends": [friend.to_dict() for friend in friends] # need to change object format?
-    })
 
 
 # Get Pending Friend Requests
@@ -41,9 +35,9 @@ def get_pending_friends():
         (Friend.status == 'pending')
     ).all()
 
-    return jsonify({
+    return {
         "pending": [pending_request.to_dict() for pending_request in pending]
-    })
+    }
 
 
 # Add a Friend
@@ -66,36 +60,33 @@ def add_friend():
     ).first()
 
     if existing:
-        return jsonify({
+        return {
             "message": "Friend request already exists or users are already friends"
-        }), 500
+        }, 500
 
     # Create new friend request
     new_request = Friend(
         user_id=current_user.id,
         friend_id=friend_id,
         status='pending',
-        created_at=datetime(), #.strftime*() ?
-        updated_at=datetime() #.strftime*() ?
+        created_at=datetime.now(timezone.utc),
+        updated_at=datetime.now(timezone.utc)
     )
 
     db.session.add(new_request)
     db.session.commit()
 
-    return jsonify({
+    return {
         "friend": new_request.to_dict()
-    }), 201
+    }, 201
 
 
 # Accept a Pending Friend Request
-@friend_routes.route('/accept/:friend_id', methods=['PUT'])
+@friend_routes.route('/accept/<int:friend_id>', methods=['PUT'])
 @login_required
 def accept_friend_request(friend_id):
-    """
-    Accept a pending friend request from the specified user
-    """
+    from datetime import datetime
 
-    # Find the pending request where the current user is the recipient
     friend_request = Friend.query.filter_by(
         user_id=friend_id,
         friend_id=current_user.id,
@@ -103,45 +94,50 @@ def accept_friend_request(friend_id):
     ).first()
 
     if not friend_request:
-        return jsonify({
-            "message": "No pending friend request found from that user."
-        }), 404
+        return { "message": "No pending friend request found." }, 404
 
-    # Update status to 'accepted'
+    # update status and timestamp
     friend_request.status = 'friends'
-    friend_request.updated_at = datetime() #.strftime*() ?
+    friend_request.updated_at = datetime.now()
+
+    friend_data = friend_request.to_dict()
 
     db.session.commit()
 
-    return jsonify({
+    return {
         "message": "Friend request accepted.",
-        "friend": friend_request.to_dict()
-    }), 200
+        "friend": friend_data
+    }, 200
+
 
 
 # Decline a Pending Friend Request
 @friend_routes.route('/decline/<int:friend_id>', methods=['DELETE'])
 @login_required
 def decline_friend_request(friend_id):
-    """
-    Decline a pending friend request from the specified user
-    """
-
-    # Find the request
     friend_request = Friend.query.filter_by(
         user_id=friend_id,
         friend_id=current_user.id,
         status='pending'
     ).first()
 
-    db.session.delete(friend_request)
+    if not friend_request:
+        return {
+            "message": "No pending friend request found from that user."
+        }, 404
 
+    # convert to dict for bound error
+    friend_data = friend_request.to_dict()
+
+    db.session.delete(friend_request)
     db.session.commit()
 
-    return jsonify({
+    return {
         "message": "Friend request deleted.",
-        "friend": friend_request.to_dict()
-    }), 200
+        "friend": friend_data
+    }, 200
+
+
 
 
 # Delete a Friend
@@ -154,23 +150,30 @@ def delete_friend_request(friend_id):
 
     # Find the request
     friend = Friend.query.filter(
-        (
-            (Friend.user_id == current_user.id) & (Friend.friend_id == friend_id)
-        ) |
-        (
-            (Friend.user_id == friend_id) & (Friend.friend_id == current_user.id)
-        ) 
-        # (Friend.status == 'friends')
-    ).filter(Friend.status == 'friend') # .status.in_() ?
+        ((Friend.user_id == current_user.id) & (Friend.friend_id == friend_id)) |
+        ((Friend.user_id == friend_id) & (Friend.friend_id == current_user.id))
+    ).first()
+
+    if not friend:
+        return { "message": "Friendship not found, even without status." }, 404
+    else:
+        print("Found friendship:", friend.to_dict())
+
+    # print("Current user:", current_user.id)
+    # print("Friend to remove:", friend_id)
+    # print("Found friendship:", friend.to_dict())
+
+    if not friend:
+        return { "message": "Friend relationship not found." }, 404
 
     db.session.delete(friend)
 
     db.session.commit()
 
-    return jsonify({
+    return {
         "message": "Removed friend from your list.",
         "friend": friend.to_dict()
-    }), 200
+    }, 200
 
 @friend_routes.route('/test', methods=['GET'])
 def test():

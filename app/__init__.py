@@ -9,6 +9,7 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.expense_routes import expense_routes
 from .api.friend_routes import friend_routes
+from .api.comments_routes import comment_routes
 from .seeds import seed_commands
 from .config import Config
 from .api.payments_routes import payments_routes 
@@ -34,6 +35,7 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(expense_routes, url_prefix='/api/expenses')
 app.register_blueprint(friend_routes, url_prefix='/api/friends')
 app.register_blueprint(payments_routes, url_prefix='/api/payments')
+app.register_blueprint(comment_routes, url_prefix='/api/comments')
 app.config.from_mapping({
   'SQLALCHEMY_DATABASE_URI': os.environ.get('DATABASE_URL'),
   'SQLALCHEMY_TRACK_MODIFICATIONS': False,

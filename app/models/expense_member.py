@@ -16,6 +16,7 @@ class ExpenseMember(db.Model):
   updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
   expense = db.relationship("Expense",back_populates="expense_members")
+  user = db.relationship("User", backref="expense_members")
 
   def to_dict(self):
     return {
@@ -24,6 +25,12 @@ class ExpenseMember(db.Model):
       'user_id': self.user_id,
       'amount_owed': self.amount_owed,
       'settled': self.settled,
+      'user': {
+        'id': self.user.id,
+        'username': self.user.username,
+        'firstname': self.user.firstname,
+        'lastname': self.user.lastname
+      },
       'created_at': self.created_at,
       'updated_at': self.updated_at
     }

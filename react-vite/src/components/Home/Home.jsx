@@ -17,11 +17,12 @@ const Home = () => {
     <div className="home-container">
         <div className="home-content">
             <div className="hero-container">
-                {/* <div> */}
+                <div>
                 <div className="hero-left">
-                    <h3>The #1 app to win (or lose) a ton of money.</h3>
-                    <p>Because what’s financial stability when you can split brunch 17 ways?
-                    Join now and pretend budgeting is fun.</p>
+                    <h3>The #1 app for turning friendships into financial chaos.</h3>
+                    <p>Why save money when you can split a $12 smoothie 17 ways?  
+                    Join now and make debt... social.</p>
+
 
                 <OpenModalButton 
                     className="sign-up-button"
@@ -29,10 +30,11 @@ const Home = () => {
                     modalComponent={<SignupFormModal />}
                 />
                 </div>
+                </div>
                 <div className="hero-right">
                     <img src="https://i.imgur.com/FrVa2vs.jpeg" alt="" className='home-image' />
                 </div>
-                {/* </div> */}
+                
                 {/* <OpenModalButton 
                     className="sign-up-button"
                     buttonText="Sign Up!"

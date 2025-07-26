@@ -1,0 +1,75 @@
+.comments-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 16px;
+  /* background-color: #f9f9f9; */
+  /* border-radius: 8px; */
+  /* box-shadow: 0 2px 6px rgba(0,0,0,0.1); */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.comments-container h3 {
+  margin-bottom: 12px;
+  color: #333;
+  /* border-bottom: 2px solid #eee; */
+  padding-bottom: 8px;
+}
+
+.comments-top-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment {
+  background-color: #fff;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: background-color 0.2s ease;
+}
+
+.comment:hover {
+  background-color: #f0f7ff;
+}
+
+.comment p {
+  margin: 0 0 6px 0;
+  font-size: 1rem;
+  color: #222;
+}
+
+.comment small {
+  color: #777;
+  font-size: 0.8rem;
+}
+
+/* I think Jaz wanted blue usernames? */
+.comment strong {
+  color: #007bff;
+}
+
+.comment {
+  position: relative;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.comment-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.comment:hover .comment-actions {
+  opacity: 1;
+}
+
+.comment-actions button {
+  margin-left: 5px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}

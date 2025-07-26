@@ -1,5 +1,7 @@
 const GET_ALL_EXPENSES = 'expenses/GET_EXPENSES';
 const GET_SPECIFIC_EXPENSE = 'expenses/GET_SPECIFIC_EXPENSE';
+const CREATE_EXPENSE = 'expense/CREATE_EXPENSE';
+const DELETE_EXPENSE = 'expenses/DELETE_EXPENSE';
 
 const loadExpenses = (expenses) => ({
   type: GET_ALL_EXPENSES,
@@ -9,6 +11,16 @@ const loadExpenses = (expenses) => ({
 const getSpecificExpense = (expenseData) => ({
   type: GET_SPECIFIC_EXPENSE,
   expenseData
+});
+
+const createNewExpense = (expense) => ({
+  type: CREATE_EXPENSE,
+  expense
+});
+
+const deleteExpense = (expenseId) => ({
+  type: DELETE_EXPENSE,
+  expenseId
 });
 
 export const getExpenses = () => async (dispatch) => {
@@ -36,9 +48,50 @@ export const getExpenseById = (expenseId) => async (dispatch) => {
         return data;
       }
       throw new Error('Error loading expense details');
-    }catch(error) {
+    }catch(error){
       return error;
     }
+};
+
+export const createExpense = (expenseData) => async (dispatch) => {
+  try {
+    const response = await fetch('/api/expenses/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(expenseData)
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(createNewExpense(data.expense));
+      return {data};
+    } else {
+      const errors = await response.json();
+      return errors;
+    }
+  } catch (error){
+    return { errors: error.message };
+  }
+};
+
+export const deleteUserExpense = (expenseId) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/expenses/${expenseId}`, {
+      method: 'DELETE'
+    });
+
+    if (response.ok) {
+      dispatch(deleteExpense(expenseId));
+      return true;
+    } else {
+      const data = await response.json();
+      return data;
+    }
+  } catch (error) {
+    return { errors: error.message };
+  }
 };
 
 const initialState = {
@@ -60,10 +113,28 @@ export default function expensesReducer(state = initialState, action) {
     }
     case GET_SPECIFIC_EXPENSE: {
       return {
-          ...state,
-          currentExpense: action.expenseData
+        ...state,
+        currentExpense: action.expenseData
       };
+    }
+    case CREATE_EXPENSE: {
+      return {
+        ...state,
+        expenses: {
+          ...state.expenses,
+          [action.expense.id]: action.expense
+        }
       }
+    }
+    case DELETE_EXPENSE: {
+      return {
+        ...state,
+        expenses: {
+          ...state.expenses,
+          [action.expenseId]: undefined
+        }
+      }
+    }
     default:
       return state;
   }

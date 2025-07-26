@@ -35,10 +35,46 @@ def seed_comments():
         updated_at=datetime(2025, 7, 14, 9, 12)
     )
 
+    comment5 = Comment(
+        expense_id=1,
+        user_id=1,
+        content="I'm Demo, this is my comment",
+        created_at=datetime(2025, 7, 14, 9, 12),
+        updated_at=datetime(2025, 7, 14, 9, 12)
+    )
+
+    comment6 = Comment(
+        expense_id=2,
+        user_id=1,
+        content="I'm Demo, this is my comment",
+        created_at=datetime(2025, 7, 14, 9, 12),
+        updated_at=datetime(2025, 7, 14, 9, 12)
+    )
+
+    comment7 = Comment(
+        expense_id=5,
+        user_id=1,
+        content="I'm Demo, this is my comment",
+        created_at=datetime(2025, 7, 14, 9, 12),
+        updated_at=datetime(2025, 7, 14, 9, 12)
+    )
+
+    comment8 = Comment(
+        expense_id=4,
+        user_id=1,
+        content="I'm Demo, this is my comment",
+        created_at=datetime(2025, 7, 14, 9, 12),
+        updated_at=datetime(2025, 7, 14, 9, 12)
+    )
+
     db.session.add(comment1)
     db.session.add(comment2)
     db.session.add(comment3)
     db.session.add(comment4)
+    db.session.add(comment5)
+    db.session.add(comment6)
+    db.session.add(comment7)
+    db.session.add(comment8)
     db.session.commit()
 
 def undo_comments():

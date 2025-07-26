@@ -1,17 +1,114 @@
 .friends-container {
-    display: flex;
-    flex-direction: row;
-    padding: 20px;
-    height: 100%;
-    /* width: 1000px; */
-    /* width: 80%; */
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  height: 100%;
 }
 
 .friends-content {
-    flex-grow: 1;
-    /* padding: 20px;  */
-    overflow-y: auto; 
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
+.friends-top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.friends-buttons button,
+.add-friend-button,
+.pending-friend-request-button {
+  margin-left: 10px;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
 
+.add-friend-button {
+  background-color: #6CDBAB;
+}
+
+.pending-friend-request-button {
+  background-color: #F24822;
+}
+
+.all-friends-list {
+  margin-top: 1.5rem;
+  /* max-height: 600px; */
+  overflow-y: auto;
+}
+
+.all-friends-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Friend Item */
+.friend-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+  transition: background-color 0.2s;
+}
+
+.friend-item:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.friend-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.friend-info {
+  font-weight: 500;
+}
+
+/* Profile Image */
+.friend-item img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: 0.75rem;
+  object-fit: cover;
+}
+
+/* Hover Actions */
+.friend-actions {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.friend-item:hover .friend-actions {
+  opacity: 1;
+}
+
+/* Remove button */
+.friend-remove-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+.friend-remove-button:hover {
+  background-color: #c0392b;
+}
