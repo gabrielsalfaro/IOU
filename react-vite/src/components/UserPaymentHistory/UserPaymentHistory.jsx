@@ -42,6 +42,12 @@ function UserPaymentHistory() {
               <div key={monthYear} className="payment-month-group">
                 <h3 className="payment-month-title">{monthYear}</h3>
                 <div className="payments-box">
+                  <div className="payment-headers">
+                    <div className="header-expense">Expense</div>
+                    <div className="header-amount">Amount</div>
+                    <div className="header-status">Status</div>
+                    <div className="header-action">Action</div>
+                  </div>
                   {items.map((payment) => (
                     <div key={payment.id} className="payment-item">
                       <div className="payment-description-container">
@@ -53,8 +59,8 @@ function UserPaymentHistory() {
                         <span className="payment-amount">
                           ${payment.amount?.toFixed(2) || "0.00"}
                         </span>
-                        <span className={`payment-status ${payment.status}`}>
-                          {payment.status === "paid" ? "Paid" : "Ongoing"}
+                        <span className={`payment-status ${payment.status === "paid" ? "settled" : "open"}`}>
+                          {payment.status === "paid" ? "Settled" : "Open"}
                         </span>
                         <button 
                           className="payment-review-btn"
