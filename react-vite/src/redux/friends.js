@@ -11,7 +11,7 @@ const loadPending = (pending) => ({
     pending 
 });
 
-
+// Get All Friends
 export const fetchFriends = () => async (dispatch) => {
   const res = await fetch('/api/friends/');
   if (res.ok) {
@@ -20,6 +20,7 @@ export const fetchFriends = () => async (dispatch) => {
   }
 };
 
+// Get All Pending Friends
 export const fetchPendingFriends = () => async (dispatch) => {
   const res = await fetch('/api/friends/pending');
   if (res.ok) {
@@ -28,6 +29,7 @@ export const fetchPendingFriends = () => async (dispatch) => {
   }
 };
 
+// Accept a Pending Friend Request
 export const acceptFriend = (friendId) => async (dispatch) => {
   const res = await fetch(`/api/friends/accept/${friendId}`, {
     method: 'PUT',
@@ -42,6 +44,7 @@ export const acceptFriend = (friendId) => async (dispatch) => {
   return false;
 };
 
+// Decline a Pending Friend Request
 export const declineFriend = (friendId) => async (dispatch) => {
   const res = await fetch(`/api/friends/decline/${friendId}`, {
     method: 'DELETE',
@@ -55,6 +58,38 @@ export const declineFriend = (friendId) => async (dispatch) => {
   return false;
 };
 
+// Add a Friend
+export const sendFriendRequest = (friendId) => async (dispatch) => {
+  const res = await fetch(`/api/friends/add`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ friendId }),
+  });
+
+  if (res.ok) {
+    dispatch(fetchPendingFriends());
+    return true;
+  } else {
+    const data = await res.json();
+    return data.message || "Could not send request";
+  }
+};
+
+// Remove a Friend
+export const removeFriend = (friendId) => async (dispatch) => {
+  const res = await fetch(`/api/friends/delete/${friendId}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (res.ok) {
+    dispatch(fetchFriends());
+    return true;
+  } else {
+    const data = await res.json();
+    return data.message || "Could not remove friend";
+  }
+};
 
 
 const initialState = {

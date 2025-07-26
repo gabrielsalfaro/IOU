@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useModal } from "../../context/Modal";
-import { fetchFriends } from "../../redux/friends";
+// import { fetchFriends } from "../../redux/friends";
 import { useDispatch } from "react-redux";
 import './FriendsAddRemoveModal.css';
+import { sendFriendRequest, removeFriend } from "../../redux/friends";
 
 function FriendsAddRemoveModal({ actionType = "add", friend = null }) {
   const { closeModal } = useModal();
@@ -32,34 +33,20 @@ function FriendsAddRemoveModal({ actionType = "add", friend = null }) {
   };
 
   const handleSendRequest = async () => {
-    setErrors({});
-    const res = await fetch(`/api/friends/add`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ friendId: searchResult.id })
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
+    const result = await dispatch(sendFriendRequest(searchResult.id));
+    if (result === true) {
       closeModal();
     } else {
-      setErrors({ request: data.message || "Could not send request" });
+      setErrors({ request: result });
     }
   };
 
   const handleRemoveFriend = async () => {
-    const res = await fetch(`/api/friends/delete/${friend.id}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" }
-    });
-
-    if (res.ok) {
-      await dispatch(fetchFriends())
+    const result = await dispatch(removeFriend(friend.id));
+    if (result === true) {
       closeModal();
     } else {
-      const data = await res.json();
-      setErrors({ request: data.message || "Could not remove friend" });
+      setErrors({ request: result });
     }
   };
 

@@ -1,18 +1,19 @@
 import { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import { getExpenseById } from '../../redux/expenses';
-import { deleteComment } from '../../redux/comments';
+// import { deleteComment } from '../../redux/comments';
 import OpenModalButton from '../OpenModalButton';
 import CommentsEditModal from '../CommentsEditModal/CommentsEditModal';
 import './Comments.css';
+import CommentsDeleteModal from '../CommentsDeleteModal/CommentsDeleteModal';
+import CommentsAddModal from '../CommentsAddModal/CommentsAddModal';
 
 const Comments = () => {
   const { expenseId } = useParams();
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.session.user);
 
-  // const hasReviewed = reviews.some(review => review?.userId === sessionUser?.id);
 
   useEffect(() => {
     dispatch(getExpenseById(expenseId));
@@ -26,41 +27,35 @@ const Comments = () => {
     return currentExpense?.expense?.comments ?? [];
   }, [currentExpense?.expense?.comments]);
 
+  // Check if current user has commented
+  const userHasCommented = useMemo(() => {
+    return comments.some(comment => comment.user.id === currentUser?.id);
+  }, [comments, currentUser?.id]);
+
   const loading = useSelector(state => state.expenses.loading);
 
   if (loading) return <div>Loading comments...</div>;
-  if (!comments.length) return (
-    <div className="comments-container">
-      <div className="comments-top-section">
-        <h3>Comments</h3>
-        <button className="add-comment">Add Comment</button>
-        {/* {sessionUser && sessionUser.id !== hostId && !hasReviewed && (
-          <OpenModalButton
-            buttonText="Post Your Review"
-            className="review-create-review"
-            modalComponent={<CreateNewReview spotId={spotId} />}
-          />
-        )} */}
-
-      </div>
-      <div>No comments yet.</div>
-    </div>
-  )
-
-  // const handleEdit = (commentId) => {
-  //   console.log('Editing comment:', commentId);
-  //   console.log(typeof updateComment)
-  // };
-
-  const handleDelete = async (commentId) => {
-    const success = await dispatch(deleteComment(commentId));
-    if (success) {
-      console.log('Deleted comment');
-      dispatch(getExpenseById(expenseId));
-    }
-  };
 
 
+  // move to bottom section? 
+  // if (!comments.length) return (
+  //   <div className="comments-container">
+  //     <div className="comments-top-section">
+  //       <h3>Comments</h3>
+  //       {/* <button className="add-comment">Add Comment</button> */}
+  //       <OpenModalButton
+  //         buttonText="Add Comment"
+  //         className="add-comment-button"
+  //         modalComponent={(closeModal) => (
+  //           <CommentsAddModal expenseId={expenseId} closeModal={closeModal} />
+  //         )}
+  //       />
+
+
+  //     </div>
+  //     <div>No comments yet.</div>
+  //   </div>
+  // )
 
 
 
@@ -68,34 +63,61 @@ const Comments = () => {
     <div className="comments-container">
       <div className="comments-top-section">
         <h3>Comments</h3>
-        {/* <button className="add-comment"></button> */}
+
+        {/* Show "Add Comment" only if user hasn't commented */}
+        {!userHasCommented && (
+        <OpenModalButton
+          buttonText="Add Comment"
+          className="add-comment-button"
+          modalComponent={(closeModal) => (
+            <CommentsAddModal expenseId={expenseId} closeModal={closeModal} />
+          )}
+        />
+        )}
       </div>
 
-      {comments.map(comment => {
-        const isOwner = currentUser?.id === comment.user.id;
+      {comments.length === 0 ? (
+        <div>No comments yet.</div>
+      ) : (
+        comments.map(comment => {
+          const isOwner = currentUser?.id === comment.user.id;
 
-        return (
-          <div key={comment.id} className="comment">
-            <p><strong>{comment.user.username}</strong>: {comment.content}</p>
-            <small>{new Date(comment.created_at).toLocaleString()}</small>
-            {isOwner && (
-              <div className="comment-actions">
-                <OpenModalButton
-                  buttonText="Edit"
-                  className="edit-comment-button"
-                  modalComponent={(closeModal) => (
-                    <CommentsEditModal commentId={comment.id} closeModal={closeModal} />
-                  )}
-                />
-                {/* <button onClick={() => handleEdit(comment.id)}>Edit</button> */}
-                <button onClick={() => handleDelete(comment.id)}>Delete</button>
-              </div>
-            )}
-          </div>
-        );
-      })}
+          return (
+            <div key={comment.id} className="comment">
+              <p>
+                <NavLink to={`/users/${comment.user.id}`}>
+                  <strong>{comment.user.username}</strong>
+                </NavLink>
+                : {comment.content}
+              </p>
+              <small>{new Date(comment.created_at).toLocaleString()}</small>
+              {isOwner && (
+                <div className="comment-actions">
+                  <OpenModalButton
+                    buttonText="Edit"
+                    className="edit-comment-button"
+                    modalComponent={(closeModal) => (
+                      <CommentsEditModal commentId={comment.id} closeModal={closeModal} />
+                    )}
+                  />
+                  <OpenModalButton
+                    buttonText="Delete"
+                    className="delete-comment-button"
+                    modalComponent={
+                      <CommentsDeleteModal commentId={comment.id} expenseId={expenseId} />
+                    }
+                  />
+                </div>
+              )}
+            </div>
+          );
+        })
+      )}
     </div>
-  );
+
+);
+
+
 };
 
 export default Comments;
