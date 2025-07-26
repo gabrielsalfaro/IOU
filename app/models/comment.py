@@ -10,7 +10,13 @@ class Comment(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    expense_id = db.Column(db.Integer, db.ForeignKey('expenses.id'), nullable=False)
+    # expense_id = db.Column(db.Integer, db.ForeignKey('expenses.id'), nullable=False)
+    expense_id = db.Column(
+        db.Integer,
+        db.ForeignKey(add_prefix_for_prod('expenses.id')),
+        nullable=False
+    )
+
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     content = db.Column(db.String(), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now) 
