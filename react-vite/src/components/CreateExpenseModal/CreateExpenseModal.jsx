@@ -70,7 +70,6 @@ function ExpenseDetailModal({ selectedFriends }) {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="Enter amount"
-              min="0.01"
               className="expense-amount-input"
             />
           </label>

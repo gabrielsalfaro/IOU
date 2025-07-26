@@ -41,7 +41,7 @@ function AllExpensesPage() {
 
             <span className="expense-amount">
               ${(expense?.expense_members) ? expense.expense_members.reduce((total, member) =>
-                    total + (parseFloat(member.amount_owed) || 0), 0) : '0.00'}
+                    total + (parseFloat(member.amount_owed) || 0), 0).toFixed(2) : '0.00'}
             </span>
 
           </div>
@@ -57,8 +57,8 @@ function AllExpensesPage() {
 
           <div className="expense-members">
             {expense?.expense_members?.map(member => (
-              <div key={member.id} className="member-row">
-                <span>User {member.user_id}</span>
+              <div key={member?.id} className="member-row">
+                <span>{member?.user?.firstname} {member?.user?.lastname}</span>
                 <span>${parseFloat(member.amount_owed)}</span>
                 <span className={`expense-card-status ${member.settled ? 'settled' : 'pending'}`}>
                   {member.settled ? 'Settled' : 'Pending'}

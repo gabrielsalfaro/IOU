@@ -1,5 +1,4 @@
 .all-expenses-list {
-  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -14,6 +13,11 @@
   transition: box-shadow 0.2s;
 }
 
+.expenses-list {
+  max-width: 800px;
+  margin: 75px auto;
+}
+
 .expenses-header {
   display: flex;
   justify-content: space-between;
@@ -23,15 +27,13 @@
 
 .add-expense-button {
   text-align: center;
-  padding: 0.75rem;
+  padding: 0.75rem 1.25rem;
   background-color: #6CDBAB;
-  color: #fff;
+  color: white;
   border: none;
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s;
-  align-self: center;
 }
 
 .expense-description {

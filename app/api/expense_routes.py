@@ -37,7 +37,6 @@ def get_expense(id):
     "members": [member.to_dict() for member in expense_members]
   }, 200
 
-#create an expense (check if friends, happens in first step of expense modal?)
 @expense_routes.route('/', methods=['POST'])
 @login_required
 def create_expense():
@@ -75,6 +74,16 @@ def create_expense():
   db.session.flush() # Accessing Generated Primary Keys after adding, need so we can add expense member amounts
 
   each_amount_owed = float(data['amount']/ (len(data['expense_members']) + 1)) #add one to the length, because we are only passing in the friends and not ourselves
+
+  owner_member = ExpenseMember(
+        expense_id=new_expense.id,
+        user_id=current_user.id,
+        amount_owed=each_amount_owed,
+        settled=False
+    )
+
+  db.session.add(owner_member)
+
 
   for member in data['expense_members']:
     expense_member = ExpenseMember(
@@ -143,7 +152,7 @@ def delete_expense(id):
         return {"errors": {"message": "Unauthorized: only the expense owner can delete this"}}, 403
 
     expense_members = ExpenseMember.query.filter_by(expense_id=id).all()
-    if (member.settled for member in expense_members):
+    if any(member.settled for member in expense_members):
         return {"errors": {"message": "Cannot delete expense: some payments have already been made"}}, 403
 
     db.session.delete(expense)

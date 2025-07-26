@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { fetchFriends} from "../../redux/friends";
 import CreateExpenseModal from "../CreateExpenseModal/CreateExpenseModal";
+import './ExpenseMembersModal.css';
 
 
 function ExpenseMembersModal() {
@@ -32,17 +33,17 @@ function ExpenseMembersModal() {
     const friendData = friendObject.friend;
     const searchTerm = friendSearch.toLowerCase();
     return (
-      friendData.firstname.toLowerCase().includes(searchTerm) ||
-      friendData.lastname.toLowerCase().includes(searchTerm) ||
-      friendData.username.toLowerCase().includes(searchTerm)
+      friendData?.firstname.toLowerCase().includes(searchTerm) ||
+      friendData?.lastname.toLowerCase().includes(searchTerm) ||
+      friendData?.username.toLowerCase().includes(searchTerm)
     );
   });
 
-  const handleFriendSelect = (id) => {
-    if (selectedFriends.includes(id)) {
-      setSelectedFriends(selectedFriends.filter(friendId => friendId !== id));
+  const handleFriendSelect = (friendId) => {
+    if (selectedFriends?.includes(friendId)) {
+      setSelectedFriends(selectedFriends.filter(id => id !== friendId));
     } else {
-      setSelectedFriends([...selectedFriends, id]);
+      setSelectedFriends([...selectedFriends, friendId]);
     }
   }
 
@@ -67,19 +68,13 @@ function ExpenseMembersModal() {
             <div
               key={id}
               //class name specifies a selected/non selected so we can edit css
-              className={`friend-line-item ${selectedFriends.includes(id) ? "selected" : ""}`}
-              onClick={() => handleFriendSelect(id)}
+              className={`friend-line-item ${selectedFriends.includes(friend.id) ? "selected" : ""}`}
+              onClick={() => handleFriendSelect(friend.id)}
             >
               <div className="friend-line-info">
-                {friend.profile_img && ( //see if there is a profile img
-                  <img
-                    src={friend.profile_img}
-                    className="friend-photo"
-                  />
-                )}
-                <span>{friend.firstname} {friend.lastname}</span>
-                <span className="friend-username">{friend.username}</span>
-                {selectedFriends.includes(id) && (
+                <span className="friend-fullname">{friend.firstname} {friend.lastname}</span>
+                <span className="friend-username"><em>(@{friend.username})</em></span>
+                {selectedFriends.includes(friend.id) && (
                   <span>✓</span>
                 )}
               </div>
