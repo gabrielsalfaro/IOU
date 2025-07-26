@@ -1,0 +1,31 @@
+.scroll-container {
+  position: relative;
+  overflow: hidden;
+  max-height: 70vh;
+}
+
+.scroll-content {
+  width: calc(100% - 8px);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.scroll-track {
+  position: absolute;
+  right: 0;
+  width: 8px;
+  height: 100%;
+  background: #f1f1f1;
+}
+
+.scroll-thumb {
+  position: absolute;
+  width: 100%;
+  background: #c1c1c1;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.scroll-thumb:hover {
+  background: #a8a8a8;
+}
