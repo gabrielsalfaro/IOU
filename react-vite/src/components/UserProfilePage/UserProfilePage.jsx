@@ -5,6 +5,7 @@ import './UserProfilePage.css';
 export default function UserProfilePage() {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -17,27 +18,46 @@ export default function UserProfilePage() {
     fetchUser();
   }, [userId]);
 
+  const formatMemberSince = (dateString) => {
+    if (!dateString) return 'N/A';
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  };
+
+  const handleAddFriend = () => {
+    setShowConfirmation(true);
+    setTimeout(() => setShowConfirmation(false), 3000);
+  };
+
   if (!user) return <div className="loading">Loading...</div>;
 
   return (
-    <div className="main-content">
-      <div className="profile-header">
-        <h2>User Profile</h2>
-        <div className="header-actions">
-          <button className="add-friend-btn">Add Friend</button>
+    <div className="profile-container">
+      <div className="profile-card">
+        <div className="profile-avatar">
+          {user.firstname?.[0]}{user.lastname?.[0]}
         </div>
+        
+        <div className="profile-info">
+          <h2>{user.firstname} {user.lastname}</h2>
+          <div className="info-box">
+            <p><span>Username:</span> {user.username}</p>
+            <p><span>Email:</span> {user.email}</p>
+            <p><span>Member since:</span> {formatMemberSince(user.created_at)}</p>
+          </div>
+        </div>
+
+        <button className="add-friend-btn" onClick={handleAddFriend}>
+          Add Friend
+        </button>
       </div>
 
-      <div className="user-info">
-        <h3>{user.firstname || 'John'} {user.lastname || 'Doe'}</h3>
-        <p><strong>Username:</strong> {user.username || 'demo'}</p>
-        <p><strong>Email:</strong> {user.email || 'demo@aa.io'}</p>
-        <p>Member since: {user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { 
-          month: 'long', 
-          day: 'numeric', 
-          year: 'numeric' 
-        }) : 'July 4, 2025'}</p>
-      </div>
+      {showConfirmation && (
+        <div className="confirmation-dropdown">
+          <p>Friend request sent to {user.firstname}!</p>
+          <button className="close-btn" onClick={() => setShowConfirmation(false)}>×</button>
+        </div>
+      )}
     </div>
   );
 }

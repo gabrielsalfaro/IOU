@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getExpenseById, deleteUserExpense } from '../../redux/expenses';
 import Comments from '../Comments/Comments';
+import PaymentModal from '../PaymentModal/PaymentModal';
 import './ExpenseDetailPage.css';
 
 function ExpenseDetailPage() {
@@ -11,6 +12,8 @@ function ExpenseDetailPage() {
   const navigate = useNavigate();
   const expense = useSelector(state => state.expenses.currentExpense?.expense);
   const members = useSelector(state => state.expenses.currentExpense?.members);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showComingSoon, setShowComingSoon] = useState(false);
 
   useEffect(() => {
     dispatch(getExpenseById(expenseId));
@@ -33,26 +36,45 @@ function ExpenseDetailPage() {
     }
   }
 
+  const handlePaymentSubmit = () => {
+    setShowComingSoon(true);
+  };
+
   return (
     <div className="specific-expense-div">
       <div className="expense-detail-top-header">
         <h1>Expense</h1>
         <div className="expense-detail-expense-buttons">
-          <button
-            className="expense-detail-edit-button"
-          >
+          <button className="expense-detail-edit-button">
             Edit Expense
           </button>
           <button
             className="expense-detail-delete-button"
             onClick={handleDelete}
             disabled={hasSettledMembers}
-            >
-              Delete Expense
+          >
+            Delete Expense
           </button>
-          <button className="expense-detail-pay-up-button">Pay Up</button>
+          <button 
+            className="expense-detail-pay-up-button"
+            onClick={() => setShowPaymentModal(true)}
+          >
+            Pay Up
+          </button>
         </div>
       </div>
+
+      {showPaymentModal && (
+        <PaymentModal 
+          expenseId={expenseId}
+          onClose={() => {
+            setShowPaymentModal(false);
+            setShowComingSoon(false);
+          }}
+          onSubmit={handlePaymentSubmit}
+          showComingSoon={showComingSoon}
+        />
+      )}
 
       <div className="expense-details">
         <div className="expense-detail-info">

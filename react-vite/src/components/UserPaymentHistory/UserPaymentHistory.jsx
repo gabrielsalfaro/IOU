@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getUserPaymentHistory } from "../../redux/payments";
+import "./UserPaymentHistory.css";
 
 function UserPaymentHistory() {
   const dispatch = useDispatch();
@@ -29,88 +30,30 @@ function UserPaymentHistory() {
   }, {});
 
   return (
-    <div style={{
-      maxWidth: '800px',
-      margin: '0 auto',
-      padding: '20px',
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      <h2 style={{
-        fontSize: '1.8rem',
-        color: '#333',
-        marginBottom: '20px',
-        textAlign: 'center'
-      }}>Payment History</h2>
+    <div className="payment-history-container">
+      <h2 className="payment-history-title">Payment History</h2>
       
-      <div style={{
-        maxHeight: '70vh',
-        overflowY: 'auto',
-        paddingRight: '10px'
-      }}>
+      <div className="payment-history-scroll-container">
         {Object.entries(grouped).map(([monthYear, items]) => (
-          <div key={monthYear} style={{ marginBottom: '25px' }}>
-            <h3 style={{
-              fontSize: '1.2rem',
-              color: '#555',
-              marginBottom: '10px',
-              paddingLeft: '10px'
-            }}>{monthYear}</h3>
-            <div style={{
-              background: 'white',
-              borderRadius: '8px',
-              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-              overflow: 'hidden'
-            }}>
+          <div key={monthYear} className="payment-month-group">
+            <h3 className="payment-month-title">{monthYear}</h3>
+            <div className="payments-box">
               {items.map((payment) => (
-                <div key={payment.id} style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '15px 20px',
-                  borderBottom: '1px solid #f0f0f0'
-                }}>
-                  <div style={{ flex: '1' }}>
-                    <div style={{
-                      fontWeight: '500',
-                      color: '#333'
-                    }}>
+                <div key={payment.id} className="payment-item">
+                  <div className="payment-description-container">
+                    <div className="payment-description">
                       {payment.expense_description || "expense"}
                     </div>
                   </div>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '15px'
-                  }}>
-                    <span style={{
-                      fontWeight: '600',
-                      minWidth: '80px',
-                      textAlign: 'right'
-                    }}>
+                  <div className="payment-details">
+                    <span className="payment-amount">
                       ${payment.amount?.toFixed(2) || "0.00"}
                     </span>
-                    <span style={{
-                      padding: '4px 10px',
-                      borderRadius: '4px',
-                      fontSize: '0.85rem',
-                      fontWeight: '500',
-                      minWidth: '80px',
-                      textAlign: 'center',
-                      backgroundColor: payment.status === "paid" ? 'rgba(108, 219, 171, 0.2)' : 'rgba(242, 72, 34, 0.2)',
-                      color: payment.status === "paid" ? '#6CDBAB' : '#F24822'
-                    }}>
+                    <span className={`payment-status ${payment.status}`}>
                       {payment.status === "paid" ? "Paid" : "Ongoing"}
                     </span>
                     <button 
-                      style={{
-                        color: '#3b82f6',
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        fontWeight: '500',
-                        padding: '5px 10px',
-                        borderRadius: '4px'
-                      }}
+                      className="payment-review-btn"
                       onClick={() => navigate(`/expenses/${payment.expense_id}`)}
                     >
                       Review

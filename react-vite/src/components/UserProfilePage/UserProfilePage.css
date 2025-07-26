@@ -1,117 +1,110 @@
-/* UserProfilePage.css */
-.profile-page-container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.profile-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
 }
 
-.app-header {
-  background-color: #f8f8f8;
-  padding: 20px;
+.profile-card {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 2rem;
   text-align: center;
-  border-bottom: 1px solid #e0e0e0;
+  position: relative;
 }
 
-.app-header h1 {
-  font-size: 2rem;
-  margin-bottom: 8px;
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  background: #6CDBAB;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0 auto 1.5rem;
+}
+
+.profile-info h2 {
+  margin: 0 0 1rem;
   color: #333;
 }
 
-.app-header p {
-  color: #666;
-  font-style: italic;
+.info-box {
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  text-align: left;
 }
 
-.profile-content-container {
-  display: flex;
-  min-height: calc(100vh - 120px);
-}
-
-.left-navigation {
-  width: 220px;
-  padding: 20px;
-  background-color: #f8f8f8;
-}
-
-.nav-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.nav-menu li {
-  padding: 12px 0;
-  cursor: pointer;
+.info-box p {
+  margin: 0.75rem 0;
   color: #555;
 }
 
-.nav-menu li:hover {
+.info-box span {
+  font-weight: 600;
   color: #333;
-}
-
-.divider-vertical {
-  width: 1px;
-  background-color: #e0e0e0;
-}
-
-.main-content {
-  flex: 1;
-  padding: 20px;
-}
-
-.profile-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.profile-header h2 {
-  font-size: 1.5rem;
-  color: #333;
-}
-
-.header-actions {
-  display: flex;
-  justify-content: flex-end; /* Changed to push button to right */
-  flex-grow: 1; /* Added to take up available space */
+  display: inline-block;
+  width: 100px;
 }
 
 .add-friend-btn {
-  background-color: #6CDBAB;
+  background: #6CDBAB;
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
   font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 90%;  
+}
+
+.add-friend-btn:hover {
+  background: #5bc79a;
+
+}
+
+.confirmation-dropdown {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #6CDBAB;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: slideDown 0.3s ease-out;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 
-.user-info {
-  margin-bottom: 20px;
+.close-btn:hover {
+  color: #F24822;
 }
 
-.user-info h3 {
-  margin-bottom: 10px;
-  font-size: 1.3rem;
-}
-
-.user-info p {
-  margin: 8px 0;
-  color: #555;
-}
-
-.user-info strong {
-  color: #333;
-}
-
-.divider-horizontal {
-  height: 1px;
-  background-color: #e0e0e0;
-  margin: 20px 0;
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
 }
 
 .loading {
-  padding: 20px;
   text-align: center;
+  padding: 2rem;
   color: #666;
 }

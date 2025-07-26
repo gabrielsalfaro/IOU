@@ -1,5 +1,6 @@
 from app.models import db, User, environment, SCHEMA
 from sqlalchemy.sql import text
+from datetime import datetime
 
 
 # Adds a demo user, you can add other users here if you want
@@ -10,6 +11,7 @@ def seed_users():
         lastname='User',
         email='demo@aa.io', 
         password='password',
+        created_at=datetime(2025, 2, 15) 
         # profile_img='url'
         )
     marnie = User(
@@ -18,6 +20,7 @@ def seed_users():
         lastname='Johnson',
         email='marnie@aa.io', 
         password='password',
+        created_at=datetime(2024, 12, 23) 
         # profile_img='url'
         )
     bobbie = User(
@@ -26,6 +29,7 @@ def seed_users():
         lastname='Thompson',
         email='bobbie@aa.io', 
         password='password',
+        created_at=datetime(2024, 11, 23) 
         # profile_img='url'
         )
     liam = User(
@@ -34,6 +38,7 @@ def seed_users():
         lastname='Garcia',
         email='liam@aa.io', 
         password='password',
+        created_at=datetime(2024, 10, 25) 
         # profile_img='url'
         )
     noah = User(
@@ -42,6 +47,7 @@ def seed_users():
         lastname='Patel',
         email='noah@aa.io', 
         password='password',
+        created_at=datetime(2024, 2, 10) 
         # profile_img='url'
         )
     sophia = User(
@@ -50,6 +56,7 @@ def seed_users():
         lastname='Kim',
         email='sophia@aa.io', 
         password='password',
+        created_at=datetime(2024, 9, 9) 
         # profile_img='url'
         )
     emma = User(
@@ -58,6 +65,7 @@ def seed_users():
         lastname='Nguyen',
         email='emma@aa.io', 
         password='password',
+        created_at=datetime(2024, 8, 7) 
         # profile_img='url'
     )
 
@@ -67,6 +75,7 @@ def seed_users():
         lastname='Lee',
         email='jackson@aa.io', 
         password='password',
+        created_at=datetime(2024, 6, 15) 
         # profile_img='url'
     )
 
@@ -76,6 +85,7 @@ def seed_users():
         lastname='Martinez',
         email='olivia@aa.io', 
         password='password',
+        created_at=datetime(2024, 2, 15) 
         # profile_img='url'
     )
 
