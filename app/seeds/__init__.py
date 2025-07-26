@@ -29,8 +29,8 @@ def seed():
         undo_users()
     seed_users()
     seed_expenses()
-    seed_friends()
     seed_expense_members()
+    seed_friends()
     seed_payments()
     seed_comments()
     # Add other seed functions here
