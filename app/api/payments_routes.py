@@ -65,7 +65,6 @@ def user_payment_history():
         history.append({
             "id": payment.id,
             "expense_id": expense.id,
-            "expense_name": expense.name,
             "expense_description": expense.description,
             "amount": float(payment.amount),
             "status": payment.status,

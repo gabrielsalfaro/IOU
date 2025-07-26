@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getUserPaymentHistory } from "../../redux/payments";  // Changed import
+import { getUserPaymentHistory } from "../../redux/payments"; 
+import './UserPaymentHistory.css'; 
 
 function UserPaymentHistory() {
   const dispatch = useDispatch();
@@ -22,7 +23,6 @@ function UserPaymentHistory() {
     return acc;
   }, {});
 
-  console.log(payments);
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <h2> Payment History</h2>
