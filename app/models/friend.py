@@ -8,13 +8,14 @@ class Friend(db.Model):
 
     if environment == "production": 
         __table_args__ = (
-            {'schema': SCHEMA}, 
-            CheckConstraint("status IN ('friends', 'pending')", name="check_status_valid")
+            CheckConstraint("status IN ('friends', 'pending')", name="check_status_valid"),
+            {'schema': SCHEMA}
+            
         )
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
-    friend_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    friend_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     status = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
