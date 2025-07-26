@@ -25,10 +25,6 @@ export default function UserProfilePage() {
         <h2>User Profile</h2>
         <div className="header-actions">
           <button className="add-friend-btn">Add Friend</button>
-          <div className="divider-vertical-small"></div>
-          <div className="search-container">
-            <input type="text" placeholder="Search expenses" />
-          </div>
         </div>
       </div>
 

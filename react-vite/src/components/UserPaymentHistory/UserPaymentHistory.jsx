@@ -74,7 +74,7 @@ function UserPaymentHistory() {
                       fontWeight: '500',
                       color: '#333'
                     }}>
-                      {payment.expense?.description || "Expense"}
+                      {payment.expense_description || "expense"}
                     </div>
                   </div>
                   <div style={{

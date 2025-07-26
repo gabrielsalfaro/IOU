@@ -72,8 +72,8 @@
 
 .header-actions {
   display: flex;
-  gap: 15px;
-  align-items: center;
+  justify-content: flex-end; /* Changed to push button to right */
+  flex-grow: 1; /* Added to take up available space */
 }
 
 .add-friend-btn {
@@ -84,20 +84,6 @@
   border-radius: 4px;
   font-weight: 600;
   cursor: pointer;
-}
-
-.search-container {
-  display: flex;
-  align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 6px 12px;
-}
-
-.search-container input {
-  border: none;
-  outline: none;
-  min-width: 200px;
 }
 
 .user-info {
