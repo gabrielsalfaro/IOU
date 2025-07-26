@@ -30,40 +30,46 @@ function UserPaymentHistory() {
   }, {});
 
   return (
-    <div className="payment-history-container">
-      <h2 className="payment-history-title">Payment History</h2>
-      
-      <div className="payment-history-scroll-container">
-        {Object.entries(grouped).map(([monthYear, items]) => (
-          <div key={monthYear} className="payment-month-group">
-            <h3 className="payment-month-title">{monthYear}</h3>
-            <div className="payments-box">
-              {items.map((payment) => (
-                <div key={payment.id} className="payment-item">
-                  <div className="payment-description-container">
-                    <div className="payment-description">
-                      {payment.expense_description || "expense"}
-                    </div>
-                  </div>
-                  <div className="payment-details">
-                    <span className="payment-amount">
-                      ${payment.amount?.toFixed(2) || "0.00"}
-                    </span>
-                    <span className={`payment-status ${payment.status}`}>
-                      {payment.status === "paid" ? "Paid" : "Ongoing"}
-                    </span>
-                    <button 
-                      className="payment-review-btn"
-                      onClick={() => navigate(`/expenses/${payment.expense_id}`)}
-                    >
-                      Review
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+    <div className="payment-page-container">
+      <div className="payment-history-wrapper">
+        <div className="payment-history-container">
+          <div className="payment-history-header">
+            <h2 className="payment-history-title">Payment History</h2>
           </div>
-        ))}
+          
+          <div className="payment-history-scroll-container">
+            {Object.entries(grouped).map(([monthYear, items]) => (
+              <div key={monthYear} className="payment-month-group">
+                <h3 className="payment-month-title">{monthYear}</h3>
+                <div className="payments-box">
+                  {items.map((payment) => (
+                    <div key={payment.id} className="payment-item">
+                      <div className="payment-description-container">
+                        <div className="payment-description">
+                          {payment.expense_description || "expense"}
+                        </div>
+                      </div>
+                      <div className="payment-details">
+                        <span className="payment-amount">
+                          ${payment.amount?.toFixed(2) || "0.00"}
+                        </span>
+                        <span className={`payment-status ${payment.status}`}>
+                          {payment.status === "paid" ? "Paid" : "Ongoing"}
+                        </span>
+                        <button 
+                          className="payment-review-btn"
+                          onClick={() => navigate(`/expenses/${payment.expense_id}`)}
+                        >
+                          Review
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
