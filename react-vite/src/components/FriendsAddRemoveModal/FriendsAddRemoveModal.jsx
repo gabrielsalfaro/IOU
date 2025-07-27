@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import './FriendsAddRemoveModal.css';
 import { sendFriendRequest, removeFriend } from "../../redux/friends";
 
-function FriendsAddRemoveModal({ actionType = "add", friend = null }) {
+function FriendsAddRemoveModal({ actionType = "add", friend = null, onInviteSent, onFriendRemove }) {
   const { closeModal } = useModal();
 
   const [username, setUsername] = useState("");
@@ -35,6 +35,7 @@ function FriendsAddRemoveModal({ actionType = "add", friend = null }) {
   const handleSendRequest = async () => {
     const result = await dispatch(sendFriendRequest(searchResult.id));
     if (result === true) {
+      if (onInviteSent) onInviteSent(searchResult);
       closeModal();
     } else {
       setErrors({ request: result });
@@ -44,6 +45,7 @@ function FriendsAddRemoveModal({ actionType = "add", friend = null }) {
   const handleRemoveFriend = async () => {
     const result = await dispatch(removeFriend(friend.id));
     if (result === true) {
+      if (onFriendRemove) onFriendRemove(friend);
       closeModal();
     } else {
       setErrors({ request: result });

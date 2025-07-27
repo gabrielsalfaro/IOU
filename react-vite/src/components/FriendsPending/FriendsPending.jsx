@@ -15,6 +15,7 @@ const FriendsPending = () => {
   // const [acceptedFriendId, setAcceptedFriendId] = useState(null);
   const [acceptedFriend, setAcceptedFriend] = useState(null);
   const [declinedFriend, setDeclinedFriend] = useState(null);
+  const [inviteSentFriend, setInviteSentFriend] = useState(null);
 
 
   const pendingObj = useSelector(state => state.friends?.pending || {});
@@ -25,34 +26,39 @@ const FriendsPending = () => {
     dispatch(fetchPendingFriends());
   }, [dispatch]);
 
+  const handleInviteSent = (friend) => {
+    setInviteSentFriend(friend);
+    setTimeout(() => setInviteSentFriend(null), 3000);
+  };
+
   
   const handleAccept = async (friend) => {
-  setAcceptedFriend(friend); 
-  setMessageType('accepted');
+    setAcceptedFriend(friend); 
+    setMessageType('accepted');
 
-  const success = await dispatch(acceptFriend(friend.id));
-  if (success) {
-    setTimeout(() => {
-      setAcceptedFriend(null);
-    }, 3000);
-  } else {
-    console.error('Failed to accept friend request');
-  }
-};
+    const success = await dispatch(acceptFriend(friend.id));
+    if (success) {
+      setTimeout(() => {
+        setAcceptedFriend(null);
+      }, 3000);
+    } else {
+      console.error('Failed to accept friend request');
+    }
+  };
 
-const handleDecline = async (friend) => {
-  setDeclinedFriend(friend); 
-  setMessageType('declined');
+  const handleDecline = async (friend) => {
+    setDeclinedFriend(friend); 
+    setMessageType('declined');
 
-  const success = await dispatch(declineFriend(friend.id));
-  if (success) {
-    setTimeout(() => {
-      setDeclinedFriend(null);
-    }, 3000);
-  } else {
-    console.error('Failed to decline friend request');
-  }
-};
+    const success = await dispatch(declineFriend(friend.id));
+    if (success) {
+      setTimeout(() => {
+        setDeclinedFriend(null);
+      }, 3000);
+    } else {
+      console.error('Failed to decline friend request');
+    }
+  };
 
 
   useEffect(() => {
@@ -69,11 +75,20 @@ const handleDecline = async (friend) => {
           <h1>Pending Friend Requests</h1>
            <div className="spacer"></div>
 
+          {inviteSentFriend && (
+            <div className="pending-friends-confirmation-dropdown fixed-toast">
+              <center>
+                <p>
+                  <b>Friend request sent to {inviteSentFriend.firstname}!</b>
+                </p>
+              </center>
+            </div>
+          )}
           <div className="friends-buttons">
             <OpenModalButton
               buttonText="Add a Friend"
               className="add-friend-button"
-              modalComponent={<FriendsAddRemoveModal />} 
+              modalComponent={<FriendsAddRemoveModal onInviteSent={handleInviteSent} />} 
             />
             {/* <button className="add-friend-button">Add a Friend</button> */}
             {/* <NavLink to='/friends/pending'>

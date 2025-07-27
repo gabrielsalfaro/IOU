@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { fetchFriends, fetchPendingFriends } from '../../redux/friends';
@@ -9,6 +9,9 @@ import './Friends.css'
 const Friends = () => {
   const dispatch = useDispatch();
   // const [successMessage, setSuccessMessage] = useState('');
+  const [inviteSentFriend, setInviteSentFriend] = useState(null);
+  const [friendRemoved, setFriendRemoved] = useState(null);
+
 
   const friendsObj = useSelector(state => state.friends?.friends || {});
   
@@ -31,6 +34,17 @@ const Friends = () => {
   //   }
   // }, [successMessage]);
 
+  const handleInviteSent = (friend) => {
+    setInviteSentFriend(friend);
+    setTimeout(() => setInviteSentFriend(null), 3000);
+  };
+  
+  const handleRemoveFriend = (friend) => {
+    setFriendRemoved(friend);
+    setTimeout(() => setFriendRemoved(null), 3000);
+  };
+
+
 
 
   return (
@@ -44,13 +58,36 @@ const Friends = () => {
 
           <div className="spacer"></div>
 
+          {inviteSentFriend && (
+            <div className="pending-friends-confirmation-dropdown fixed-toast">
+              <center>
+                <p>
+                  <b>Friend request sent to {inviteSentFriend.firstname}!</b>
+                </p>
+              </center>
+            </div>
+          )}
+          
+          {friendRemoved && (
+            <div className="pending-friends-confirmation-dropdown fixed-toast">
+              <center>
+                <p style={{color: '#F24822'}}>
+                  {/* {console.log(friendRemoved.firstname)} */}
+                  <b>{friendRemoved.firstname} is no longer your friend. How sad!</b>
+                </p>
+              </center>
+            </div>
+          )}
+
+
           <div className="friends-buttons">
             <OpenModalButton
               buttonText="Add a Friend"
               className="add-friend-button"
-              modalComponent={<FriendsAddRemoveModal />} 
+              modalComponent={<FriendsAddRemoveModal onInviteSent={handleInviteSent} />} 
             />
             {/* <button className="add-friend-button">Add a Friend</button> */}
+
             <NavLink to='/friends/pending'>
               <button className="pending-friend-request-button">Pending Requests</button>
             </NavLink>
@@ -83,7 +120,7 @@ const Friends = () => {
                       <OpenModalButton
                         buttonText="Remove"
                         className="friend-remove-button"
-                        modalComponent={<FriendsAddRemoveModal actionType="remove" friend={friend.friend} />}
+                        modalComponent={<FriendsAddRemoveModal actionType="remove" friend={friend.friend} onFriendRemove={handleRemoveFriend} />}
                       />
 
                     </div>
