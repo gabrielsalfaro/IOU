@@ -78,6 +78,11 @@
   color: #F24822; 
 }
 
+.pending-friends-confirmation-dropdown {
+  background-color: #6CDBAB;
+  color: white;
+  align-items: center;
+}
 
 @keyframes fadeIn {
   from {
@@ -87,6 +92,43 @@
     opacity: 1;
   }
 }
+
+.pending-friends-confirmation-dropdown {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #6CDBAB;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: slideDown 0.3s ease-out;
+  height: 50px;
+}
+
+.pending-friends-confirmation-dropdown.declined {
+  background: #6CDBAB;
+  color: #F24822;
+}
+
+/* Make close button sit on far right */
+.pending-friend-dropdown-close-btn-container {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+
+.pending-friend-dropdown-close-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
 
 /* .success-message {
   color: #F24822;

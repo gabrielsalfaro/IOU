@@ -97,10 +97,11 @@ function FriendsAddRemoveModal({ actionType = "add", friend = null }) {
               Are you sure you want to remove <b>{friend.firstname} {friend.lastname}</b> from your friends list?
             </p>
             <div className="friend-remove-confirm-buttons">
-              <center>
+              {/* <center> */}
                 <button onClick={handleRemoveFriend} className="confirm-friend-remove-button">Yes, Remove</button>
+                {/* <div></div> */}
                 <button onClick={closeModal} className="cancel-friend-remove-button">Cancel</button>
-              </center>
+              {/* </center> */}
             </div>
             {errors.request && <p className="error-message">{errors.request}</p>}
           </>

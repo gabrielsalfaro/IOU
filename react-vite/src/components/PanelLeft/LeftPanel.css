@@ -31,8 +31,11 @@
 }
 
 .mini-friends-list {
-  margin-top: 30px;
+  margin-top: 50px;
   padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 20px;
 }
 
 .friends-group-name {
@@ -68,4 +71,8 @@
   font-weight: bold;
   color: #F24822;
   /* border: 1px solid #ddd; */
+}
+
+.left-panel-friends {
+  margin-top: 50px;
 }

@@ -92,23 +92,38 @@ const handleDecline = async (friend) => {
         {/* )} */}
 
         {acceptedFriend && (
-          <div className="confirmation-dropdown fixed-toast">
+          <div className="pending-friends-confirmation-dropdown fixed-toast">
             <center>
               <p>
-                {acceptedFriend.firstname} is now your friend!
+                <center>
+                  <b>{acceptedFriend.firstname} is now your friend!</b>
+                </center>
               </p>
             </center>
-            <button className="close-btn" onClick={() => setAcceptedFriend(null)}>×</button>
+            <div className="pending-friend-dropdown-close-btn-container">
+              {/* <button 
+                className="pending-friend-dropdown-close-btn" 
+                onClick={() => setAcceptedFriend(null)}
+              >x
+              </button> */}
+            </div>
           </div>
         )}
         {declinedFriend && (
-          <div className="confirmation-dropdown fixed-toast">
+          <div className="pending-friends-confirmation-dropdown fixed-toast declined">
             <center>
-              <p style={{color: '#F24822'}}>
-                {declinedFriend.firstname} {'won\'t be your friend. How sad!'}!
+              <p>
+                <b>{declinedFriend.firstname} {'won\'t be your friend. How sad!'}</b>
               </p>
             </center>
-            <button className="close-btn" onClick={() => setDeclinedFriend(null)}>×</button>
+            <div className="pending-friend-dropdown-close-btn-container">
+              {/* <button 
+                className="pending-friend-dropdown-close-btn" 
+                onClick={() => setDeclinedFriend(null)}
+              >
+                x
+              </button> */}
+            </div>
           </div>
         )}
 
@@ -134,7 +149,10 @@ const handleDecline = async (friend) => {
                     /> */}
                     <div>
                       
-                      <button onClick={() => handleAccept(request.friend)} className="pending-friend-accept-btn">
+                      <button 
+                        onClick={() => handleAccept(request.friend)} 
+                        className="pending-friend-accept-btn"
+                      >
                         Accept
                       </button>
 
@@ -148,7 +166,10 @@ const handleDecline = async (friend) => {
                     /> */}
                     <div>
                       
-                      <button onClick={() => handleDecline(request.friend)} className="pending-friend-decline-btn">
+                      <button 
+                        onClick={() => handleDecline(request.friend)} 
+                        className="pending-friend-decline-btn"
+                      >
                         Decline
                       </button>
                     </div>

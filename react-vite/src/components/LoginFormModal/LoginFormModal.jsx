@@ -73,7 +73,7 @@ function LoginFormModal({ onLoginSuccess }) {
             />
           </label>
           {errors.password && <p>{errors.password}</p>}
-          <button type="submit" className="login-button">Log In</button>
+          <center><button type="submit" className="login-button">Log In</button></center>
 
           <div className="demo-user-container">
             <a href="#" className="demo-user" onClick={(e) => {
