@@ -136,3 +136,12 @@
   margin: 10px 0;
   text-align: center;
 } */
+
+
+.pending-friend-accept-btn:hover {
+  background-color: #5bc79a;
+}
+
+.pending-friend-decline-btn:hover {
+  background-color: #c0392b;
+}

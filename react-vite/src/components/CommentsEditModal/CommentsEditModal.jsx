@@ -52,7 +52,7 @@ function CommentsEditModal({ commentId }) {
 
         <form onSubmit={handleSubmit} className="edit-comment-form">
           <textarea
-            className="comment-textarea"
+            className="edit-comment-textarea"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
@@ -63,7 +63,7 @@ function CommentsEditModal({ commentId }) {
           <div className="comment-button-group">
             <button
               type="submit"
-              className="new-comment-add-button"
+              className="edit-comment-save-button"
               disabled={loading}
             >
               {/* {loading ? "Saving..." : "Save Changes"} */}
@@ -71,7 +71,7 @@ function CommentsEditModal({ commentId }) {
             </button>
             <button
               type="button"
-              className="new-comment-cancel-button"
+              className="edit-comment-cancel-button"
               onClick={closeModal}
             >
               <center>Cancel</center>

@@ -21,13 +21,14 @@
 }
 
 /* Form */
-.comment-form {
+.add-comment-form {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
-.comment-textarea {
-  width: 100%;
+.add-comment-textarea {
+  width: 90%;
   min-height: 120px;
   padding: 12px;
   border: 1px solid #ccc;
@@ -35,6 +36,8 @@
   resize: vertical;
   margin-bottom: 12px;
   font-size: 1rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* error */
@@ -70,4 +73,12 @@
 
 .new-comment-cancel-button {
   background-color: #F24822;
+}
+
+.new-comment-add-button:hover {
+  background-color: #5bc79a;
+}
+
+.new-comment-cancel-button:hover {
+  background-color: #c0392b;
 }

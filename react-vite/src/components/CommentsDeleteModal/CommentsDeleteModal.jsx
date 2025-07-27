@@ -24,13 +24,13 @@ const CommentsDeleteModal = ({ commentId, expenseId }) => {
 
         <div className="comment-button-group">
           <button 
-            className="new-comment-cancel-button" 
+            className="remove-comment-delete-button" 
             onClick={handleDelete}
           >
             <center>Yes, Delete</center>
           </button>
           <button 
-            className="new-comment-add-button" 
+            className="remove-comment-cancel-button" 
             onClick={closeModal}
           >
             <center>Cancel</center>

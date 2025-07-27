@@ -25,6 +25,7 @@
   margin-bottom: 16px;
   font-size: 1rem;
   color: #333;
+  padding: 20px;
 }
 
 .comment-button-group {
@@ -34,8 +35,8 @@
   margin-top: 12px;
 }
 
-.new-comment-add-button,
-.new-comment-cancel-button {
+.remove-comment-delete-button,
+.remove-comment-cancel-button {
   flex: 1;
   padding: 0.75rem;
   font-size: 1rem;
@@ -44,12 +45,23 @@
   color: #fff;
   cursor: pointer;
   transition: background-color 0.2s;
+  width: 20px;
 }
 
-.new-comment-add-button {
-  background-color: #6CDBAB;
+.remove-comment-delete-button {
+  /* background-color: #6CDBAB; */
+  background-color: #F24822;
 }
 
-.new-comment-cancel-button {
-  background-color: #F24822; 
+.remove-comment-cancel-button {
+  /* background-color: #F24822;  */
+  background-color: #6CDBAB; 
+}
+
+.remove-comment-delete-button:hover {
+  background-color: #c0392b;
+}
+
+.remove-comment-cancel-button:hover {
+  background-color: #5bc79a;
 }

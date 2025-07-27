@@ -77,7 +77,7 @@ const Comments = () => {
       </div>
 
       {comments.length === 0 ? (
-        <div>No comments yet.</div>
+        <div className='no-comments-yet'>No comments yet.</div>
       ) : (
         comments.map(comment => {
           const isOwner = currentUser?.id === comment.user.id;

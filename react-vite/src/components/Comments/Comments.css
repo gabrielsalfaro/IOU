@@ -7,6 +7,7 @@
   border: 1px solid #ddd;
   /* box-shadow: 0 2px 6px rgba(0,0,0,0.1); */
   /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  margin-bottom: 20px;
 }
 
 .comments-container h3 {
@@ -98,3 +99,22 @@
 
   align-self: flex-start; /* prevent stretching */
 }
+
+.add-comment-button:hover {
+  background: #5bc79a;
+}
+
+.no-comments-yet {
+  /* margin-bottom: 20px; */
+  /* padding-bottom: 20px; */
+  padding: 10px 20px;
+}
+
+.edit-comment-button:hover {
+  text-decoration: underline;
+}
+
+.delete-comment-button:hover {
+  text-decoration: underline;
+}
+

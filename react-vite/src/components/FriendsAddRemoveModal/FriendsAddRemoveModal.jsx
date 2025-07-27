@@ -95,7 +95,7 @@ function FriendsAddRemoveModal({ actionType = "add", friend = null, onInviteSent
         {actionType === "remove" && friend && (
           <>
             <h1 className="modal-title">Remove Friend</h1>
-            <p>
+            <p className="modal-description">
               Are you sure you want to remove <b>{friend.firstname} {friend.lastname}</b> from your friends list?
             </p>
             <div className="friend-remove-confirm-buttons">

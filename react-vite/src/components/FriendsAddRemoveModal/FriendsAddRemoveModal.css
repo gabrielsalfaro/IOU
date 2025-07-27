@@ -135,3 +135,21 @@
   margin-top: 8px;
   cursor: pointer;
 }
+
+.confirm-friend-remove-button:hover,
+.friend-add-search-button:hover {
+  background-color: #c0392b;
+}
+
+.cancel-friend-remove-button:hover,
+.friend-send-request-button:hover {
+  background-color: #5bc79a;
+}
+/* 
+.edit-comment-save-button:hover {
+  background-color: #5bc79a;
+}
+
+.edit-comment-cancel-button:hover {
+  background-color: #c0392b;
+} */

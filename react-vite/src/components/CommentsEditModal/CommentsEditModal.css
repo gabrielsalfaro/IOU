@@ -21,13 +21,14 @@
 }
 
 /* Form */
-.comment-form {
+.edit-comment-form {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
-.comment-textarea {
-  width: 100%;
+.edit-comment-textarea {
+  width: 90%;
   min-height: 120px;
   padding: 12px;
   border: 1px solid #ccc;
@@ -35,6 +36,8 @@
   resize: vertical;
   margin-bottom: 12px;
   font-size: 1rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* error */
@@ -52,8 +55,8 @@
   margin-top: 12px;
 }
 
-.new-comment-add-button,
-.new-comment-cancel-button {
+.edit-comment-save-button,
+.edit-comment-cancel-button {
   flex: 1;
   padding: 0.75rem;
   font-size: 1rem;
@@ -64,10 +67,18 @@
   transition: background-color 0.2s;
 }
 
-.new-comment-add-button {
+.edit-comment-save-button {
   background-color: #6CDBAB;
 }
 
-.new-comment-cancel-button {
+.edit-comment-cancel-button {
   background-color: #F24822;
+}
+
+.edit-comment-save-button:hover {
+  background-color: #5bc79a;
+}
+
+.edit-comment-cancel-button:hover {
+  background-color: #c0392b;
 }
