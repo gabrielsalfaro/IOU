@@ -23,23 +23,24 @@ export default function Layout() {
   return (
     <>
       <ModalProvider>
-        <Navigation />
-        {/* {isLoaded && <Outlet />} */}
+        <div className={isHome ? "home-background" : ""}> {/* to fill bg color */}
+          <Navigation />
+          {/* {isLoaded && <Outlet />} */}
 
-        {isLoaded && (
-        <div className="main-body">
-          {showLeftPanel && <LeftPanel />}
+          {isLoaded && (
+            <div className="main-body">
+              {showLeftPanel && <LeftPanel />}
 
-          {/* All Feature Components will render inside main-content div  */}
-          <div className="main-content">
-            <Outlet />
-          </div>
+              {/* All Feature Components will render inside main-content div  */}
+              <div className="main-content">
+                <Outlet />
+              </div>
 
-          {showLeftPanel && <RightPanel />}
+              {showLeftPanel && <RightPanel />}
+            </div>
+          )}
+          <Modal />
         </div>
-
-      )}
-        <Modal />
       </ModalProvider>
     </>
   );

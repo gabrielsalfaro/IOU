@@ -73,3 +73,10 @@ h3 {
   padding: 20px;
   width: 80%;
 }
+
+/* for bg color */
+.home-background {
+  background-color: #f5fffa; 
+  min-height: 100vh;
+  min-width: 100vw;
+}

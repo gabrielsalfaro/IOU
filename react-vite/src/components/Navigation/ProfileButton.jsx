@@ -53,7 +53,7 @@ function ProfileButton() {
       <div className="profile-dropdown-btn">
         <button onClick={toggleMenu}>
           {/* <FaUserCircle /> */}
-          <FaAngleDown />
+          <FaAngleDown size={25}/>
         </button>
       </div>
 
@@ -62,10 +62,13 @@ function ProfileButton() {
           {user ? (
             <>
               <li>Hello, <span style={{ fontWeight: 'bold' }}>{user.username}</span></li>
+              <li>{user.firstname} {user.lastname}</li>
               <li>{user.email}</li>
+              <hr />
               <li>
                 <button onClick={goToProfile}>User Profile</button>
               </li>
+              <hr />
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>
