@@ -84,7 +84,7 @@ function ExpenseEditModal({ expense, members }) {
         )}
 
         <div className="modal-buttons">
-          <button type="edit-expense-save">Save Changes</button>
+          <button className="edit-expense-save">Save Changes</button>
           <button className="edit-expense-cancel" onClick={closeModal}>Cancel</button>
         </div>
       </form>
