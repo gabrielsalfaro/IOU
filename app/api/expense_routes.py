@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from flask_login import login_required, current_user
+from decimal import Decimal, ROUND_HALF_EVEN, ROUND_HALF_UP
 from app.models import db, Expense, ExpenseMember
 
 expense_routes = Blueprint('expenses', __name__)
@@ -48,16 +49,19 @@ def create_expense():
   if not isinstance(data.get('description'), str):
     errors['description'] = "Description must be a string"
   elif not data.get('description'):
-    errors['description'] = 'Description can not be empty'
+    errors['description'] = "Description can not be empty"
 
-  if not isinstance(data.get('amount'), (float)):
-    errors['amount'] = "Amount must be a number"
-  elif not data.get('amount'):
-    errors['amount'] = 'Amount can not be empty'
+  if not data.get('amount'):
+    errors['amount'] = "Amount can not be empty"
+  else:
+      try:
+        amount = Decimal(data['amount']).quantize(Decimal('0.00'), rounding=ROUND_HALF_EVEN) #use decimal library (decimal TYPE) to handle amounts
+        if amount <= Decimal('0'):
+          errors['amount'] = "Amount must be positive"
+      except (ValueError, TypeError): #make sure amount is not mixed with other strings, as well as a valid number
+        errors['amount'] = "Amount must be a number"
 
-  if not isinstance(data.get('expense_members'), list):
-    errors['espense_members'] = "Expense Members must be a list" #do we need this?
-  elif not data.get('expense_members'):
+  if not data.get('expense_members'):
     errors['espense_members'] = 'Expense Members can not be empty'
 
   if errors:
@@ -73,13 +77,15 @@ def create_expense():
   db.session.add(new_expense)
   db.session.flush() # Accessing Generated Primary Keys after adding, need so we can add expense member amounts
 
-  each_amount_owed = float(data['amount']/ (len(data['expense_members']) + 1)) #add one to the length, because we are only passing in the friends and not ourselves
+  total_amount = Decimal(data['amount']).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+  num_members = len(data['expense_members']) + 1 #add one to the length, because we are only passing in the friends and not ourselves yet
+  each_amount = (total_amount / num_members).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
 
   owner_member = ExpenseMember(
         expense_id=new_expense.id,
         user_id=current_user.id,
-        amount_owed=each_amount_owed,
-        settled=False
+        amount_owed=each_amount,
+        settled=True #logic is user has already paid for the full expensec
     )
 
   db.session.add(owner_member)
@@ -89,7 +95,7 @@ def create_expense():
     expense_member = ExpenseMember(
       expense_id = new_expense.id,
       user_id = member,
-      amount_owed = each_amount_owed,
+      amount_owed = each_amount,
       settled = False
     )
     db.session.add(expense_member)
@@ -115,12 +121,17 @@ def update_expense(id):
     if (expense.expense_owner != current_user.id):
         return {"errors": {"message": "Unauthorized"}}, 403
 
-    expense_members = ExpenseMember.query.filter_by(expense_id=id).all()
-    if (member.settled for member in expense_members):
-        return {"errors": {"message": "Cannot edit expense: some payments have already been made"}}, 403
+    if expense.status == "settled":
+        return {"errors": {"message": "Cannot edit a settled expense"}}, 403
 
     data = request.json
     errors = {}
+
+    expense_members = ExpenseMember.query.filter_by(expense_id=id).all()
+    has_settled_members = any(
+        member.settled for member in expense_members
+        if member.user_id != expense.expense_owner #don't check for the expense owner since they have already "paid"
+    )
 
     if not isinstance(data.get('description'), str):
         errors['description'] = "Description must be a string"
@@ -132,8 +143,20 @@ def update_expense(id):
     if errors:
         return {"errors": errors}, 400
 
-    #make update
     expense.description = data['description']
+
+    if not has_settled_members and 'amount' in data:
+      try:
+        new_amount = Decimal(data['amount']).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+        if new_amount <= Decimal('0'):
+          errors['amount'] = "Amount must be positive"
+        else:
+          each_amount = (new_amount / Decimal(len(expense_members))).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+          for member in expense_members:
+            member.amount_owed = each_amount
+      except (ValueError, TypeError):
+        errors['amount'] = "Amount must be a number"
+
     db.session.commit()
 
     return {
@@ -146,19 +169,26 @@ def update_expense(id):
 def delete_expense(id):
     expense = Expense.query.get(id)
     if not expense:
-        return {"errors": {"message": "Expense not found"}}, 404
+      return {"errors": {"message": "Expense not found"}}, 404
 
     if expense.expense_owner != current_user.id:
-        return {"errors": {"message": "Unauthorized: only the expense owner can delete this"}}, 403
+      return {"errors": {"message": "Unauthorized: only the expense owner can delete this"}}, 403
 
     expense_members = ExpenseMember.query.filter_by(expense_id=id).all()
-    if any(member.settled for member in expense_members):
-        return {"errors": {"message": "Cannot delete expense: some payments have already been made"}}, 403
+
+    has_settled_members = False #loop through members to see if anyone has paid, disregard expense owner (they already paid)
+    for member in expense_members:
+      if member.user_id != expense.expense_owner and member.settled:
+        has_settled_members = True
+        break
+
+    if has_settled_members:
+      return {"errors": {"message": "Cannot delete expense: some payments have already been made"}}, 403
 
     db.session.delete(expense)
     db.session.commit()
 
     return {
-        "message": "Successfully deleted",
-        "id": id
+      "message": "Successfully deleted",
+      "id": id
     }, 200

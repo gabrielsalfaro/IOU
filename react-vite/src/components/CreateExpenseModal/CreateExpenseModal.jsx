@@ -3,30 +3,19 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { createExpense } from "../../redux/expenses";
 import { getExpenses } from "../../redux/expenses";
+import { useNavigate } from 'react-router-dom';
+import './CreateExpenseModal.css'
 
 function ExpenseDetailModal({ selectedFriends }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
+  const navigate = useNavigate();
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if(!description) {
-      setErrors({
-        description: "Description is required",
-      })
-      return;
-    }
-
-    if(!amount) {
-      setErrors({
-        amount: "Amount is required"
-      })
-      return;
-    }
 
     const expenseData = {
       description,
@@ -41,6 +30,7 @@ function ExpenseDetailModal({ selectedFriends }) {
     } else {
       await dispatch(getExpenses());
       closeModal();
+      navigate(`/expenses/${response.data.expense.id}`);
     }
   }
 
@@ -79,7 +69,7 @@ function ExpenseDetailModal({ selectedFriends }) {
         <div className="selected-friends-preview">
           <p>Splitting with {selectedFriends.length} friend{selectedFriends.length !== 1 ? 's' : ''}</p>
           <p className="amount-per-person">
-            {amount ? `$${(parseFloat(amount) / (selectedFriends.length + 1)).toFixed(2)} per person` : ''}
+            {amount ? `$${((amount) / (selectedFriends.length + 1)).toFixed(2)} per person` : ''}
           </p>
         </div>
 

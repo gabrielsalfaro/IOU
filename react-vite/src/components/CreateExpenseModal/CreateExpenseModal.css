@@ -1,0 +1,89 @@
+.expense-detail-modal {
+  background-color: white;
+  padding: 24px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 10px black;
+  border-radius: 12px;
+}
+
+.expense-detail-modal h2 {
+  margin-bottom: 24px;
+  text-align: center;
+  color: black;
+}
+
+.create-expense-description-container,
+.create-expense-amount-container {
+  margin-bottom: 20px;
+  padding: 0 16px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.create-expense-description-container label,
+.create-expense-amount-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.expense-description-input,
+.expense-amount-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.selected-friends-preview {
+  padding: 16px;
+  text-align: center;
+  color: #666;
+}
+
+.amount-per-person {
+  color: #6CDBAB;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.expense-creation-button-container {
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.create-expense-button {
+  padding: 12px 24px;
+  background-color: #6CDBAB;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.create-expense-cancel-button {
+  padding: 12px 24px;
+  background-color: #F24822;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.error {
+  color: #F24822;
+  font-size: 0.9em;
+  margin-top: 4px;
+  padding-left: 4px;
+}

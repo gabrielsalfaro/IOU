@@ -2,6 +2,7 @@ const GET_ALL_EXPENSES = 'expenses/GET_EXPENSES';
 const GET_SPECIFIC_EXPENSE = 'expenses/GET_SPECIFIC_EXPENSE';
 const CREATE_EXPENSE = 'expense/CREATE_EXPENSE';
 const DELETE_EXPENSE = 'expenses/DELETE_EXPENSE';
+const UPDATE_EXPENSE = 'expenses/UPDATE_EXPENSE';
 
 const loadExpenses = (expenses) => ({
   type: GET_ALL_EXPENSES,
@@ -16,6 +17,11 @@ const getSpecificExpense = (expenseData) => ({
 const createNewExpense = (expense) => ({
   type: CREATE_EXPENSE,
   expense
+});
+
+export const updateExpense = (expenseData) => ({
+  type: UPDATE_EXPENSE,
+  payload: expenseData
 });
 
 const deleteExpense = (expenseId) => ({
@@ -76,6 +82,25 @@ export const createExpense = (expenseData) => async (dispatch) => {
   }
 };
 
+export const editExpense = (expenseId, data) => async (dispatch) => {
+  const response = await fetch(`/api/expenses/${expenseId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(updateExpense(data));
+    return data;
+  } else {
+    const errors = await response.json();
+    return errors;
+  }
+};
+
 export const deleteUserExpense = (expenseId) => async (dispatch) => {
   try {
     const response = await fetch(`/api/expenses/${expenseId}`, {
@@ -124,6 +149,16 @@ export default function expensesReducer(state = initialState, action) {
           ...state.expenses,
           [action.expense.id]: action.expense
         }
+      }
+    }
+    case UPDATE_EXPENSE: {
+      return {
+        ...state,
+        expenses: {
+          ...state.expenses,
+          [action.payload.expense.id]: action.payload.expense
+        },
+        currentExpense: action.payload
       }
     }
     case DELETE_EXPENSE: {

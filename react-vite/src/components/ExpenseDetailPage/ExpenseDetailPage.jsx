@@ -1,17 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useModal } from "../../context/Modal";
 import { getExpenseById, deleteUserExpense } from '../../redux/expenses';
 import Comments from '../Comments/Comments';
 import PaymentModal from '../PaymentModal/PaymentModal';
+import EditExpenseModal from '../EditExpenseModal/EditExpenseModal';
 import './ExpenseDetailPage.css';
 
 function ExpenseDetailPage() {
   const { expenseId } = useParams();
+  const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { setModalContent } = useModal();
   const expense = useSelector(state => state.expenses.currentExpense?.expense);
   const members = useSelector(state => state.expenses.currentExpense?.members);
+  const isOwner = expense?.expense_owner === sessionUser?.id;
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
 
@@ -19,10 +24,27 @@ function ExpenseDetailPage() {
     dispatch(getExpenseById(expenseId));
   }, [dispatch, expenseId]);
 
-  const hasSettledMembers = members?.filter(member => member.settled).length > 0;
+  const hasSettledMembers = () => {
+    for (let member of members) {
+      if ((member?.user_id !== expense?.expense_owner) && member?.settled) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const handleDelete = async () => {
-    if (hasSettledMembers) {
+    if(!isOwner) {
+      alert("You can only delete expense you created");
+      return;
+    }
+
+    if(expense.status === "settled"){
+      alert("Cannot delete expense: Expense has been settled");
+      return;
+    }
+
+    if (hasSettledMembers()) {
       alert("Cannot delete expense: some members have already paid");
       return;
     }
@@ -36,6 +58,8 @@ function ExpenseDetailPage() {
     }
   }
 
+
+
   const handlePaymentSubmit = () => {
     setShowComingSoon(true);
   };
@@ -45,17 +69,19 @@ function ExpenseDetailPage() {
       <div className="expense-detail-top-header">
         <h1>Expense</h1>
         <div className="expense-detail-expense-buttons">
-          <button className="expense-detail-edit-button">
+          <button
+            className="expense-detail-edit-button"
+            onClick={() => setModalContent(<EditExpenseModal expense={expense} members={members} />)}
+          >
             Edit Expense
           </button>
           <button
             className="expense-detail-delete-button"
             onClick={handleDelete}
-            disabled={hasSettledMembers}
           >
             Delete Expense
           </button>
-          <button 
+          <button
             className="expense-detail-pay-up-button"
             onClick={() => setShowPaymentModal(true)}
           >
@@ -65,7 +91,7 @@ function ExpenseDetailPage() {
       </div>
 
       {showPaymentModal && (
-        <PaymentModal 
+        <PaymentModal
           expenseId={expenseId}
           onClose={() => {
             setShowPaymentModal(false);
@@ -83,7 +109,7 @@ function ExpenseDetailPage() {
 
         <span className="expense-detail-amount">
           ${(expense?.expense_members) ? expense.expense_members.reduce((total, member) =>
-                total + (parseFloat(member.amount_owed) || 0), 0).toFixed(2) : '0.00'}
+                total + (parseFloat(member?.amount_owed)), 0).toFixed(2) : '0.00'}
         </span>
 
         <div className="expense-detail-status">

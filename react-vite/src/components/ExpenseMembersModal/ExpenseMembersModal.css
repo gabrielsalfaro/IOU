@@ -1,7 +1,7 @@
+
 .expense-members-modal {
   background-color: white;
   padding: 24px;
-  border-radius: 8px;
   width: 500px;
   display: flex;
   flex-direction: column;
@@ -85,7 +85,7 @@
 }
 
 .members-next-button {
-  width: 100%;
+  width: 90%;
   padding: 12px;
   background-color: #6CDBAB;
   color: white;
@@ -94,7 +94,8 @@
   font-size: 1rem;
   cursor: pointer;
   text-align: center;
-  display: flex;
+  display: block;
+  margin: 0 auto;
   justify-content: center;
   align-items: center;
 }
@@ -103,4 +104,17 @@
   text-align: center;
   color: #666;
   padding: 20px;
+}
+
+.select-friend-message {
+  color: #666;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+}
+
+.members-next-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
 }

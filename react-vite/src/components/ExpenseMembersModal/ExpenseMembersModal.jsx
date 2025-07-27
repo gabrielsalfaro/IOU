@@ -21,9 +21,6 @@ function ExpenseMembersModal() {
   }, [dispatch]);
 
   const nextModal = () => {
-    //need to add error when user does not select any friends
-    //if(selectedFriends.length === 0)
-
     setModalContent(
       <CreateExpenseModal selectedFriends={selectedFriends}/>
     )
@@ -86,6 +83,9 @@ function ExpenseMembersModal() {
       </div>
 
       <div className="expense-members-button-container">
+        {selectedFriends.length === 0 && (
+          <p className="select-friend-message"><em>Select at least one friend to split the expense with!</em></p>
+        )}
         <button
           className="members-next-button"
           onClick={nextModal}
