@@ -92,3 +92,9 @@
 .profile-dropdown div {
   cursor: pointer;
 }
+
+.nav-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}

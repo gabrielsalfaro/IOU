@@ -10,10 +10,14 @@ function Navigation() {
       <ul className="nav-content">
 
         <li className="nav-home">
-          
+
           {/* Home link changes if authenticated */}
           <NavLink to={sessionUser ? "/dashboard" : "/"}>
-            <b>ExpenseApp</b>
+            <img
+              src="./public/IOU_Logo.png"
+              alt="IOU logo"
+              className="nav-logo"
+            />
           </NavLink>
         </li>
 
@@ -47,10 +51,10 @@ function Navigation() {
             <ProfileButton user={sessionUser} />
           </li>
         {/* )} */}
-        
+
       </ul>
     </div>
-    
+
   );
 }
 
