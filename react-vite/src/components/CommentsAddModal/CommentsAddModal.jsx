@@ -32,17 +32,26 @@ const CommentsAddModal = ({ expenseId }) => {
   return (
     <div className="modal-container" onClick={closeModal}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>Leave a Comment</h2>
-        <form onSubmit={handleSubmit}>
+        <h1 className="modal-title">Leave a Comment</h1>
+        <form onSubmit={handleSubmit} className="comment-form">
           <textarea
+            className="comment-textarea"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Write your comment"
             required
           />
-          {errors.content && <p>{errors.content}</p>}
-          <button type="submit" disabled={loading}>Post Comment</button>
-          <button type="button" onClick={closeModal}>Cancel</button>
+          {errors.content && <p className="error-message">{errors.content}</p>}
+          <div className="comment-button-group">
+            <button type="submit" 
+              className="new-comment-add-button" 
+              disabled={loading}><center>Post Comment</center>
+            </button>
+            <button type="button" 
+              className="new-comment-cancel-button" 
+              onClick={closeModal}><center>Cancel</center>
+            </button>
+          </div>
         </form>
       </div>
     </div>

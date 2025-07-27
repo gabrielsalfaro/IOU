@@ -1,0 +1,73 @@
+.modal-container {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 24px;
+  border-radius: 8px;
+  width: 400px;
+}
+
+.modal-title {
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+/* Form */
+.comment-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+
+/* error */
+.error-message {
+  color: red;
+  margin-top: 4px;
+  font-size: 0.9rem;
+}
+
+/* buttons */
+.comment-button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.new-comment-add-button,
+.new-comment-cancel-button {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.new-comment-add-button {
+  background-color: #6CDBAB;
+}
+
+.new-comment-cancel-button {
+  background-color: #F24822;
+}

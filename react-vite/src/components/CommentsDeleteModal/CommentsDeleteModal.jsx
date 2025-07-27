@@ -17,12 +17,25 @@ const CommentsDeleteModal = ({ commentId, expenseId }) => {
   };
 
   return (
-    <div className="comments-delete-container" onClick={closeModal}>
-      <div className="comments-delete-content" onClick={(e) => e.stopPropagation()}>
-        <h1>Confirm Delete</h1>
-        <label>Are you sure you want to remove your comment?</label>
-        <button className="comments-delete-button" onClick={handleDelete}>Confirm</button>
-        <button className="comments-cancel-button" onClick={closeModal}>Cancel</button>
+    <div className="modal-container" onClick={closeModal}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <h1 className="modal-title">Confirm Delete</h1>
+        <p className="modal-description">Are you sure you want to remove your comment?</p>
+
+        <div className="comment-button-group">
+          <button 
+            className="new-comment-cancel-button" 
+            onClick={handleDelete}
+          >
+            <center>Yes, Delete</center>
+          </button>
+          <button 
+            className="new-comment-add-button" 
+            onClick={closeModal}
+          >
+            <center>Cancel</center>
+          </button>
+        </div>
       </div>
     </div>
   );

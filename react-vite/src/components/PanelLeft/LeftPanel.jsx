@@ -34,10 +34,13 @@ const LeftPanel = () => {
           <NavLink to='/payments' className='panel-link'>Payment History</NavLink>
           <NavLink to='/friends' className='panel-link'>Friends</NavLink> {/*  temp, for my sanitiy */}
         </div>
+
         <div className="left-panel-friends">
           {/* display short friends list here when not in Friends page */}
+          
           {isFriendsPage ? ('') : (
           <div className="mini-friends-list">
+            
             {friends.length === 0 ? (
               <p className="friend-item">No friends yet.</p>
             ) : (
@@ -50,32 +53,25 @@ const LeftPanel = () => {
                   </center>
                 </div>
                 {friends.slice(0,3).map(friend => (
-                  <li key={friend.id} className="friend-item">
+                  <li key={friend.id} className="mini-friend-item">
 
                     <div className="friend-content">
-                      <div className="friend-info">
+                      <div className="mini-friend-info">
                         <NavLink to={`/users/${friend.friend.id}`} >
                           {friend.friend.firstname} {friend.friend.lastname}
                         </NavLink>
                       </div>
                         
-
-                      {/* <div className="friend-actions"> */}
-                        {/* <button onClick={() => handleDelete(friend.friend.id)} className='friend-remove-button'>Remove</button> */}
-                        {/* <OpenModalButton
-                          buttonText="Remove"
-                          className="friend-remove-button"
-                          modalComponent={<FriendsAddRemoveModal actionType="remove" friend={friend.friend} />}
-                        /> */}
-
-                      {/* </div> */}
                     </div>
 
                   </li>
                 ))}
-                <NavLink to="/friends" className="view-all-friends-link">
-                          + View All Friends
-                        </NavLink>
+                <div className="view-all-friends-link">
+                  <NavLink to="/friends">
+                    + View All Friends
+                  </NavLink>
+                </div>
+                
               </ul>
             )}
           </div>

@@ -12,6 +12,10 @@ const FriendsPending = () => {
   const dispatch = useDispatch();
   const [successMessage, setSuccessMessage] = useState('');
   const [messageType, setMessageType] = useState(""); // 'accepted' or 'declined' for colors
+  // const [acceptedFriendId, setAcceptedFriendId] = useState(null);
+  const [acceptedFriend, setAcceptedFriend] = useState(null);
+  const [declinedFriend, setDeclinedFriend] = useState(null);
+
 
   const pendingObj = useSelector(state => state.friends?.pending || {});
   const pending = useMemo(() => Object.values(pendingObj), [pendingObj]);
@@ -22,25 +26,34 @@ const FriendsPending = () => {
   }, [dispatch]);
 
   
-  const handleAccept = async (friendId) => {
-    const success = await dispatch(acceptFriend(friendId));
-    if (success) {
-      setSuccessMessage('Friend request ACCEPTED!');
-      setMessageType('accepted');
-    } else {
-      console.error('Failed to accept friend request');
-    }
-  };
+  const handleAccept = async (friend) => {
+  setAcceptedFriend(friend); 
+  setMessageType('accepted');
 
-  const handleDecline = async (friendId) => {
-    const success = await dispatch(declineFriend(friendId));
-    if (success) {
-      setSuccessMessage('Friend request DECLINED.');
-      setMessageType('declined');
-    } else {
-      console.error('Failed to decline friend request');
-    }
-  };
+  const success = await dispatch(acceptFriend(friend.id));
+  if (success) {
+    setTimeout(() => {
+      setAcceptedFriend(null);
+    }, 3000);
+  } else {
+    console.error('Failed to accept friend request');
+  }
+};
+
+const handleDecline = async (friend) => {
+  setDeclinedFriend(friend); 
+  setMessageType('declined');
+
+  const success = await dispatch(declineFriend(friend.id));
+  if (success) {
+    setTimeout(() => {
+      setDeclinedFriend(null);
+    }, 3000);
+  } else {
+    console.error('Failed to decline friend request');
+  }
+};
+
 
   useEffect(() => {
     if (successMessage) {
@@ -78,11 +91,33 @@ const FriendsPending = () => {
           </div>
         {/* )} */}
 
+        {acceptedFriend && (
+          <div className="confirmation-dropdown fixed-toast">
+            <center>
+              <p>
+                {acceptedFriend.firstname} is now your friend!
+              </p>
+            </center>
+            <button className="close-btn" onClick={() => setAcceptedFriend(null)}>×</button>
+          </div>
+        )}
+        {declinedFriend && (
+          <div className="confirmation-dropdown fixed-toast">
+            <center>
+              <p style={{color: '#F24822'}}>
+                {declinedFriend.firstname} {'won\'t be your friend. How sad!'}!
+              </p>
+            </center>
+            <button className="close-btn" onClick={() => setDeclinedFriend(null)}>×</button>
+          </div>
+        )}
+
         {pending.length === 0 ? (
           <p className="friend-item">No pending requests.</p>
         ) : (
 
           <div className="all-friends-list">
+            
             {pending.map(request => (
               <li key={request.id} className="friend-item">
                 <div className="friend-info">
@@ -98,9 +133,12 @@ const FriendsPending = () => {
                       modalComponent={<FriendsAddRemoveModal requestId={request.id} />} 
                     /> */}
                     <div>
-                      <button onClick={() => handleAccept(request.friend.id)} className="pending-friend-accept-btn">
+                      
+                      <button onClick={() => handleAccept(request.friend)} className="pending-friend-accept-btn">
                         Accept
                       </button>
+
+      
                     </div>
                     
                     {/* <OpenModalButton
@@ -109,7 +147,8 @@ const FriendsPending = () => {
                       modalComponent={<FriendsAddRemoveModal requestId={request.id} />} 
                     /> */}
                     <div>
-                      <button onClick={() => handleDecline(request.friend.id)} className="pending-friend-decline-btn">
+                      
+                      <button onClick={() => handleDecline(request.friend)} className="pending-friend-decline-btn">
                         Decline
                       </button>
                     </div>

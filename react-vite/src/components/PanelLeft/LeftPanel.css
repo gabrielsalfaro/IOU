@@ -1,3 +1,11 @@
+.left-panel-contianer {
+  width: 240px; 
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f8f8; 
+  border-right: 1px solid #ddd;
+}
+
 .left-panel {
   width: 240px; 
   display: flex;
@@ -25,4 +33,39 @@
 .mini-friends-list {
   margin-top: 30px;
   padding: 20px;
+}
+
+.friends-group-name {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.mini-friend-item {
+  color: #333;
+  padding: 5px;
+}
+
+/* .mini-friend-info {
+
+} */
+
+.view-all-friends-link {
+  margin-top: 10px;
+  padding-top: 10px;
+  font-size: .8em;
+  /* font-weight: bold; */
+}
+
+.edit-comment-button {
+  font-weight: bold;
+  color: #6CDBAB;
+  /* border: 1px solid #ddd; */
+}
+
+.delete-comment-button {
+  font-weight: bold;
+  color: #F24822;
+  /* border: 1px solid #ddd; */
 }

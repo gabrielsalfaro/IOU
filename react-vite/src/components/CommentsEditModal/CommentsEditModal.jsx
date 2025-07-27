@@ -48,10 +48,11 @@ function CommentsEditModal({ commentId }) {
     <div className="modal-container" onClick={closeModal}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
 
-        <h2>Edit Your Comment</h2>
+        <h1 className="modal-title">Edit Comment</h1>
 
         <form onSubmit={handleSubmit} className="edit-comment-form">
           <textarea
+            className="comment-textarea"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
@@ -59,12 +60,21 @@ function CommentsEditModal({ commentId }) {
           />
           {errors.general && <p className="error-message">{errors.general}</p>}
 
-          <div className="modal-buttons">
-            <button type="submit" disabled={loading}>
-              {loading ? "Saving..." : "Save Changes"}
+          <div className="comment-button-group">
+            <button
+              type="submit"
+              className="new-comment-add-button"
+              disabled={loading}
+            >
+              {/* {loading ? "Saving..." : "Save Changes"} */}
+              <center>Save Changes</center>
             </button>
-            <button type="button" onClick={closeModal}>
-              Cancel
+            <button
+              type="button"
+              className="new-comment-cancel-button"
+              onClick={closeModal}
+            >
+              <center>Cancel</center>
             </button>
           </div>
         </form>
