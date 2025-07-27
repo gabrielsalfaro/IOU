@@ -1,6 +1,6 @@
-# Budget Project
+# IOU App
 
-This project is a web app for tracking shared expenses and splitting bills with friends, roommates, or travel groups. Whether you're sharing rent, planning a group trip, or just grabbing dinner, this_app helps keep everything fair and transparent.
+IOU is a web app for tracking shared expenses and splitting bills with friends, roommates, or travel groups. Whether you're sharing rent, planning a group trip, or just grabbing dinner, this_app helps keep everything fair and transparent.
 
 ## Features
 * Add and track shared expenses
@@ -34,16 +34,18 @@ git clone https://github.com/gabrielsalfaro/pgp.git
 Set up the backend:
 
 ```
+cd backend
 pipenv install -r requirements.txt
-flask db upgrade
-flask run
+pipenv run flask db upgrade
+pipenv run flask run
 ```
 
 
 Set up the frontend:
 
 ```
+cd frontend
 npm install
-npm start
+npm run dev
 ```
 
