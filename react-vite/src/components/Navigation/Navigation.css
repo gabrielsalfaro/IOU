@@ -66,11 +66,36 @@
 
 .profile-dropdown {
   font-size: 16px;
-  padding: 10px 10px 10px 15px;
+  padding: 20px 20px 20px 25px;
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
+
+.profile-dropdown-login-items-container {
+  display: flex;
+  justify-content: flex-end; 
+  width: 100%;
+}
+
+.profile-dropdown-login-content {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 5px;
+  font-weight: bold;
+  text-align: right;
+}
+
+button.profile-dropdown-login-item:hover {
+  text-decoration: underline;
+}
+
+li.profile-dropdown-login-item span:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 
 .nav-profile {
   margin-left: 20px;
@@ -99,6 +124,10 @@
 
 .profile-dropdown div {
   cursor: pointer;
+}
+
+.dropdown-user-profile:hover {
+  text-decoration: underline;
 }
 
 .nav-logo {

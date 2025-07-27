@@ -14,7 +14,7 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-  const [usernameMessage, setUsernameMessage] = useState();
+  // const [usernameMessage, setUsernameMessage] = useState();
   const [passwordMessage, setPasswordMessage] = useState();
 
   // give me demo data
@@ -34,7 +34,7 @@ function SignupFormModal() {
     setPassword("password");
     setConfirmPassword("password");
     setPasswordMessage('( password: password )')
-    setUsernameMessage(`( username: ${demoUsername} )`)
+    // setUsernameMessage(`( username: ${demoUsername} )`)
 
     setErrors({});
   };
@@ -93,7 +93,7 @@ function SignupFormModal() {
         <form onSubmit={handleSubmit} className="login-form">
           {/* {errors.credential && <p className="error-message">{errors.credential}</p>} */}
           <label>
-            Email
+            <div className="signup-label-title">Email</div>
             <input
               type="text"
               value={email}
@@ -104,7 +104,16 @@ function SignupFormModal() {
           {errors.email && <p>{errors.email}</p>}
 
           <label>
-            Username
+            <div className="signup-label-title">Username</div>
+
+          {/* {usernameMessage && 
+            <span 
+              style={{padding: '5px 0', color: 'gray'}} 
+              className="demo-message">
+                {' '}
+                {usernameMessage}
+            </span>} */}
+
             <input
               type="text"
               value={username}
@@ -113,10 +122,9 @@ function SignupFormModal() {
             />
           </label>
           {errors.username && <p>{errors.username}</p>}
-          {usernameMessage && <p style={{padding: '5px 0', color: 'gray'}} className="demo-message">{usernameMessage}</p>}
           
           <label>
-            First Name
+            <div className="signup-label-title">First Name</div>
             <input
               type="text"
               value={firstname}
@@ -127,7 +135,7 @@ function SignupFormModal() {
           {errors.firstname && <p>{errors.firstname}</p>}
           
           <label>
-            Last Name
+            <div className="signup-label-title">Last Name</div>
             <input
               type="text"
               value={lastname}
@@ -138,7 +146,15 @@ function SignupFormModal() {
           {errors.lastname && <p>{errors.lastname}</p>}
 
           <label>
-            Password
+            <div className="signup-label-title">Password</div>
+            
+          {passwordMessage && 
+          <span 
+            style={{padding: '5px 0', color: 'gray'}} 
+            className="demo-message">
+              {' '}
+              {passwordMessage}
+          </span>}
             <input
               type="password"
               value={password}
@@ -147,10 +163,9 @@ function SignupFormModal() {
             />
           </label>
           {errors.password && <p>{errors.password}</p>}
-          {passwordMessage && <p style={{padding: '5px 0', color: 'gray'}} className="demo-message">{passwordMessage}</p>}
 
           <label>
-            Confirm Password
+            <div className="signup-label-title">Confirm Password</div>
             <input
               type="password"
               value={confirmPassword}

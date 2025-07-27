@@ -146,6 +146,8 @@ const FriendsPending = () => {
           <p className="friend-item">No pending requests.</p>
         ) : (
 
+          <div className="all-friends-list-container">
+          <center>
           <div className="all-friends-list">
             
             {pending.map(request => (
@@ -196,6 +198,8 @@ const FriendsPending = () => {
               </li>
             ))}
           </div>
+                  </center>
+        </div>
 
         )}
 

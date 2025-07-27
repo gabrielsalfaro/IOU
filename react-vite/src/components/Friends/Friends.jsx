@@ -99,7 +99,9 @@ const Friends = () => {
         >
             {/* <center>{successMessage}</center> */}
         </div>
-
+        
+        <div className="all-friends-list-container">
+          <center>
         <div className="all-friends-list">
           {friends.length === 0 ? (
             <p className="friend-item">No friends yet.</p>
@@ -130,6 +132,8 @@ const Friends = () => {
               ))}
             </ul>
           )}
+        </div>
+        </center>
         </div>
       </div>
     </div>

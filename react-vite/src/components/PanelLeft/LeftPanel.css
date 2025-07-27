@@ -50,9 +50,16 @@
   padding: 5px;
 }
 
-/* .mini-friend-info {
+.friend-group-button:hover {
+  text-decoration: underline;
+}
+.mini-friend-info:hover {
+  text-decoration: underline;
+}
 
-} */
+.view-all-friends-link:hover {
+  text-decoration: underline;
+}
 
 .view-all-friends-link {
   margin-top: 10px;

@@ -66,27 +66,35 @@ function ProfileButton() {
               <li>{user.email}</li>
               <hr />
               <li>
-                <button onClick={goToProfile}>User Profile</button>
+                <button onClick={goToProfile} className="dropdown-user-profile">User Profile</button>
               </li>
               <hr />
               <li>
-                <button onClick={logout}>Log Out</button>
+                <button onClick={logout} className="dropdown-user-profile">Log Out</button>
               </li>
             </>
           ) : (
-            <div>
-              <OpenModalMenuItem
-                itemText="Log In"
-                onItemClick={closeMenu}
-                modalComponent={<LoginFormModal
-                  onLoginSuccess={() => navigate('/dashboard')}
-                /> }
-              />
-              <OpenModalMenuItem
-                itemText="Sign Up"
-                onItemClick={closeMenu}
-                modalComponent={<SignupFormModal />}
-              />
+
+            <div className="profile-dropdown-login-items-container">
+              {/* <center> */}
+                <div className="profile-dropdown-login-content">
+                  <OpenModalMenuItem
+                    className="profile-dropdown-login-item"
+                    itemText="Log In"
+                    onItemClick={closeMenu}
+                    modalComponent={<LoginFormModal
+                      onLoginSuccess={() => navigate('/dashboard')}
+                    /> }
+                  />
+                  <div></div>
+                  <OpenModalMenuItem
+                    className="profile-dropdown-login-item"
+                    itemText="Sign Up"
+                    onItemClick={closeMenu}
+                    modalComponent={<SignupFormModal />}
+                  />
+                </div>
+              {/* </center> */}
             </div>
           )}
         </ul>

@@ -54,7 +54,7 @@ function LoginFormModal({ onLoginSuccess }) {
         <form onSubmit={handleSubmit} className="login-form">
           {/* {errors.credential && <p className="error-message">{errors.credential}</p>} */}
           <label>
-            Email
+            <div className="signup-label-title">Email</div>
             <input
               type="text"
               value={email}
@@ -64,7 +64,7 @@ function LoginFormModal({ onLoginSuccess }) {
           </label>
           {errors.email && <p>{errors.email}</p>}
           <label>
-            Password
+            <div className="signup-label-title">Password</div>
             <input
               type="password"
               value={password}

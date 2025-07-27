@@ -63,6 +63,15 @@
     align-self: center;
 }
 
+.login-button:hover {
+  background: #5bc79a;
+
+}
+
 .demo-user-container {
     margin-top: 20px;
+}
+
+.demo-user:hover {
+    text-decoration: underline;
 }

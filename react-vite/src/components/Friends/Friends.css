@@ -34,13 +34,22 @@
   background-color: #6CDBAB;
 }
 
+.add-friend-button:hover {
+  background: #5bc79a;
+}
+
 .pending-friend-request-button {
   background-color: #F24822;
 }
 
+/* .all-friends-list-contianer {
+  justify-content: center;
+  justify-items: center;
+} */
+
 .all-friends-list {
   margin-top: 1.5rem;
-  /* max-height: 600px; */
+  max-width: 800px;
   overflow-y: auto;
 }
 
@@ -56,14 +65,17 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem;
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 500;
   color: #555;
   transition: background-color 0.2s;
+  border-radius: 6px;
+  border: 1px solid #ddd;
 }
 
 .friend-item:hover {
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
+  background-color: #f0f7ff;
   cursor: pointer;
 }
 
@@ -109,6 +121,7 @@
   transition: background-color 0.2s;
 }
 
-.friend-remove-button:hover {
+.friend-remove-button:hover,
+.pending-friend-request-button:hover {
   background-color: #c0392b;
 }
