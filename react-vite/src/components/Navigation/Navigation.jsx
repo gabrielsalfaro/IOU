@@ -14,7 +14,8 @@ function Navigation() {
           {/* Home link changes if authenticated */}
           <NavLink to={sessionUser ? "/dashboard" : "/"}>
             <img
-              src="https://i.imgur.com/0V54BM4.png"
+              // src="https://i.imgur.com/0V54BM4.png"
+              src="/IOU_Logo.png"
               alt="IOU logo"
               className="nav-logo"
             />

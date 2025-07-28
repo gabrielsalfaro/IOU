@@ -78,6 +78,10 @@
   width: 100%;
 }
 
+.profile-dropdown-login-item {
+  color: #555;
+}
+
 .profile-dropdown-login-content {
   display: flex;
   flex-direction: column;
