@@ -37,8 +37,11 @@ export default function UserProfilePage() {
     <div className="profile-container">
       <div className="profile-card">
         <div className="profile-avatar">
-          {user.firstname?.[0]}
-          {user.lastname?.[0]}
+          {user.profile_img ? (
+          <img src={user.profile_img} alt={`${user.firstname} ${user.lastname}`} />
+        ) : (
+          `${user.firstname?.[0]}${user.lastname?.[0]}`
+        )}
         </div>
 
         <div className="profile-info">
@@ -69,7 +72,7 @@ export default function UserProfilePage() {
         <div className="confirmation-dropdown">
           <p>Friend request sent to {user.firstname}!</p>
           <button className="close-btn" onClick={() => setShowConfirmation(false)}>
-            ×
+            x
           </button>
         </div>
       )}

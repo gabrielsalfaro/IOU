@@ -153,6 +153,9 @@ const FriendsPending = () => {
             {pending.map(request => (
               <li key={request.id} className="friend-item">
                 <div className="friend-info">
+                  <div className="main-friend-img">
+                        <img src={request.friend.profile_img} alt="" />
+                  </div>
                   <NavLink to={`/users/${request.friend.id}`} >
                     <b>{request.friend?.firstname} {request.friend?.lastname} (@{request.friend?.username})</b>
                   </NavLink>

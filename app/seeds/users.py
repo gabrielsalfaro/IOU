@@ -11,8 +11,8 @@ def seed_users():
         lastname='User',
         email='demo@aa.io', 
         password='password',
-        created_at=datetime(2025, 2, 15) 
-        # profile_img='url'
+        created_at=datetime(2025, 2, 15),
+        profile_img='https://i.imgur.com/sNiiBeb.png'
         )
     marnie = User(
         username='marnie',
@@ -20,17 +20,17 @@ def seed_users():
         lastname='Johnson',
         email='marnie@aa.io', 
         password='password',
-        created_at=datetime(2024, 12, 23) 
-        # profile_img='url'
+        created_at=datetime(2024, 12, 23),
+        profile_img='https://i.imgur.com/8bglUJr.png'
         )
     bobbie = User(
         username='bobbie',
         firstname='Bobbie',
-        lastname='Thompson',
+        lastname='Jones',
         email='bobbie@aa.io', 
         password='password',
-        created_at=datetime(2024, 11, 23) 
-        # profile_img='url'
+        created_at=datetime(2024, 11, 23),
+        profile_img='https://i.imgur.com/2R116Ik.png'
         )
     liam = User(
         username='liam',
@@ -38,8 +38,8 @@ def seed_users():
         lastname='Garcia',
         email='liam@aa.io', 
         password='password',
-        created_at=datetime(2024, 10, 25) 
-        # profile_img='url'
+        created_at=datetime(2024, 10, 25),
+        profile_img='https://i.imgur.com/BKlPDyf.png'
         )
     noah = User(
         username='noah',
@@ -47,8 +47,8 @@ def seed_users():
         lastname='Patel',
         email='noah@aa.io', 
         password='password',
-        created_at=datetime(2024, 2, 10) 
-        # profile_img='url'
+        created_at=datetime(2024, 2, 10),
+        profile_img='https://i.imgur.com/7Haj7qw.png'
         )
     sophia = User(
         username='sophia',
@@ -56,8 +56,8 @@ def seed_users():
         lastname='Kim',
         email='sophia@aa.io', 
         password='password',
-        created_at=datetime(2024, 9, 9) 
-        # profile_img='url'
+        created_at=datetime(2024, 9, 9),
+        profile_img='https://i.imgur.com/KMyNymJ.png'
         )
     emma = User(
         username='emma',
@@ -65,8 +65,8 @@ def seed_users():
         lastname='Nguyen',
         email='emma@aa.io', 
         password='password',
-        created_at=datetime(2024, 8, 7) 
-        # profile_img='url'
+        created_at=datetime(2024, 8, 7),
+        profile_img='https://i.imgur.com/faSab6r.png'
     )
 
     jackson = User(
@@ -75,8 +75,8 @@ def seed_users():
         lastname='Lee',
         email='jackson@aa.io', 
         password='password',
-        created_at=datetime(2024, 6, 15) 
-        # profile_img='url'
+        created_at=datetime(2024, 6, 15),
+        profile_img='https://i.imgur.com/aMKpU0q.png'
     )
 
     olivia = User(
@@ -85,8 +85,8 @@ def seed_users():
         lastname='Martinez',
         email='olivia@aa.io', 
         password='password',
-        created_at=datetime(2024, 2, 15) 
-        # profile_img='url'
+        created_at=datetime(2024, 2, 15),
+        profile_img='https://i.imgur.com/CnExz0s.png'
     )
 
     db.session.add(demo)

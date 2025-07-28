@@ -112,8 +112,12 @@ const Friends = () => {
 
                   <div className="friend-content">
                     <div className="friend-info">
+
+                      <div className="main-friend-img">
+                        <img src={friend.friend.profile_img} alt="" />
+                      </div>
                       <NavLink to={`/users/${friend.friend.id}`} >
-                      <b>{friend.friend.firstname} {friend.friend.lastname}</b>
+                        <b>{friend.friend.firstname} {friend.friend.lastname} (@{friend.friend?.username})</b>
                       </NavLink>
                     </div>
 

@@ -36,7 +36,16 @@ function Navigation() {
             <div className="nav-user-container">
               {/* <NavLink to={`/users/${sessionUser.id}`} > */}
                 <div className="nav-user-img">
-                  {/* {sessionUser.profile_img} */}
+                  {/* <img src={sessionUser.profile_img} alt="" /> */}
+                  {sessionUser.profile_img ? (
+                    <img src={sessionUser.profile_img} alt={`${sessionUser.firstname} ${sessionUser.lastname}`} />
+                  ) : (
+                    // `${sessionUser.firstname?.[0]}${sessionUser.lastname?.[0]}`
+                    ``
+                  )}
+                </div>
+                <div className="main-friend-img">
+                  
                 </div>
                 <div className="nav-user-name">
                   {sessionUser.firstname} {' '}

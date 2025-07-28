@@ -57,8 +57,11 @@ const LeftPanel = () => {
 
                     <div className="friend-content">
                       <div className="mini-friend-info">
+                        <div className="mini-friend-img">
+                          <img src={friend.friend.profile_img} alt="" />
+                        </div>
                         <NavLink to={`/users/${friend.friend.id}`} >
-                          {friend.friend.firstname} {friend.friend.lastname}
+                          <span className="mini-friend-name">{friend.friend.firstname} {friend.friend.lastname}</span>
                         </NavLink>
                       </div>
                         
