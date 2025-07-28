@@ -75,3 +75,23 @@
 .demo-user:hover {
     text-decoration: underline;
 }
+
+.login-button:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: grab;
+}
+
+.login-button:disabled:hover {
+    background-color: #ccc;
+    color: #666;
+    cursor: grab;
+}
+
+/* error */
+.error-message {
+  color: red;
+  margin-top: 4px;
+  font-size: 0.9rem;
+  font-weight: 400;
+}

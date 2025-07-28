@@ -54,7 +54,7 @@ function SignupFormModal() {
     if (password !== confirmPassword) {
       return setErrors({
         confirmPassword:
-          "Confirm Password field must be the same as the Password field",
+          "Password does not match",
       });
     }
 
@@ -93,7 +93,9 @@ function SignupFormModal() {
         <form onSubmit={handleSubmit} className="login-form">
           {/* {errors.credential && <p className="error-message">{errors.credential}</p>} */}
           <label>
-            <div className="signup-label-title">Email</div>
+            <div className="signup-label-title">Email
+              {errors.email && <span className="error-message"> {errors.email}</span>}
+            </div>
             <input
               type="text"
               value={email}
@@ -101,10 +103,12 @@ function SignupFormModal() {
               required
             />
           </label>
-          {errors.email && <p>{errors.email}</p>}
+          
 
           <label>
-            <div className="signup-label-title">Username</div>
+            <div className="signup-label-title">Username
+              {errors.username && <span className="error-message"> {errors.username}</span>}
+            </div>
 
           {/* {usernameMessage && 
             <span 
@@ -121,10 +125,12 @@ function SignupFormModal() {
               required
             />
           </label>
-          {errors.username && <p>{errors.username}</p>}
+          
           
           <label>
-            <div className="signup-label-title">First Name</div>
+            <div className="signup-label-title">First Name
+              {errors.firstname && <span className="error-message"> {errors.firstname}</span>}
+            </div>
             <input
               type="text"
               value={firstname}
@@ -132,10 +138,12 @@ function SignupFormModal() {
               required
             />
           </label>
-          {errors.firstname && <p>{errors.firstname}</p>}
+          
           
           <label>
-            <div className="signup-label-title">Last Name</div>
+            <div className="signup-label-title">Last Name
+              {errors.lastname && <span className="error-message">{errors.lastname}</span>}
+            </div>
             <input
               type="text"
               value={lastname}
@@ -143,10 +151,12 @@ function SignupFormModal() {
               required
             />
           </label>
-          {errors.lastname && <p>{errors.lastname}</p>}
+          
 
           <label>
-            <div className="signup-label-title">Password</div>
+            <div className="signup-label-title">Password
+              {errors.password && <span className="error-message">{errors.password}</span>}
+            </div>
             
           {passwordMessage && 
           <span 
@@ -162,10 +172,12 @@ function SignupFormModal() {
               required
             />
           </label>
-          {errors.password && <p>{errors.password}</p>}
+          
 
           <label>
-            <div className="signup-label-title">Confirm Password</div>
+            <div className="signup-label-title">Confirm Password
+              {errors.confirmPassword && <span className="error-message"> {errors.confirmPassword}</span>}
+            </div>
             <input
               type="password"
               value={confirmPassword}
@@ -173,7 +185,7 @@ function SignupFormModal() {
               required
             />
           </label>
-          {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+          
 
           <center>
             <button 

@@ -46,6 +46,8 @@ function LoginFormModal({ onLoginSuccess }) {
       });
   };
 
+  const isDisabled = email.length < 4 || password.length < 6;
+
 
   return (
     <div className="modal-container" onClick={() => closeModal()}>
@@ -54,7 +56,9 @@ function LoginFormModal({ onLoginSuccess }) {
         <form onSubmit={handleSubmit} className="login-form">
           {/* {errors.credential && <p className="error-message">{errors.credential}</p>} */}
           <label>
-            <div className="signup-label-title">Email</div>
+            <div className="signup-label-title">Email
+              {errors.email && <span className="error-message"> {errors.email}</span>}
+            </div>
             <input
               type="text"
               value={email}
@@ -62,9 +66,11 @@ function LoginFormModal({ onLoginSuccess }) {
               required
             />
           </label>
-          {errors.email && <p>{errors.email}</p>}
+          
           <label>
-            <div className="signup-label-title">Password</div>
+            <div className="signup-label-title">Password
+              {errors.password && <span className="error-message"> {errors.password}</span>}
+            </div>
             <input
               type="password"
               value={password}
@@ -72,8 +78,15 @@ function LoginFormModal({ onLoginSuccess }) {
               required
             />
           </label>
-          {errors.password && <p>{errors.password}</p>}
-          <center><button type="submit" className="login-button">Log In</button></center>
+          
+          <center>
+            <button 
+              type="submit" 
+              className="login-button"
+              disabled={isDisabled}
+              >Log In
+            </button>
+          </center>
 
           <div className="demo-user-container">
             <a href="#" className="demo-user" onClick={(e) => {
