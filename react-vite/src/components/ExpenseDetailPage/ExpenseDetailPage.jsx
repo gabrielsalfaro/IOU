@@ -150,7 +150,7 @@ function ExpenseDetailPage() {
 
         <div className="expense-detail-status-message">
           Status
-          <span className={`expense-detail-status ${expense?.settled ? 'settled' : 'unsettled'}`}>
+          <span className={`expense-detail-status ${expense?.status === 'settled' ? 'settled' : 'pending'}`}>
             {expense?.status}
           </span>
         </div>

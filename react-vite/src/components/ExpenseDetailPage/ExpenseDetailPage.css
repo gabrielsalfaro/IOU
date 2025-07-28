@@ -139,7 +139,7 @@
   color: #2e7d32;
 }
 
-.expense-detail-status.unsettled {
+.expense-detail-status.pending {
   background-color: #fff3e0;
   color: #f57c00;
 }

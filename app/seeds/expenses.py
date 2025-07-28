@@ -3,19 +3,19 @@ from sqlalchemy.sql import text
 
 def seed_expenses():
     #6 total users seeded, 1 being the demo user
-    expense1 = Expense(description="Lunch", expense_owner=1, status="open")
+    expense1 = Expense(description="Lunch", expense_owner=1, status="pending")
     expense2 = Expense(description="Groceries", expense_owner=1, status="settled")
-    expense3 = Expense(description="Gas for the weekend trip", expense_owner=1, status="open")
-    expense4 = Expense(description="Dinner with coworkers", expense_owner=1, status="open")
+    expense3 = Expense(description="Gas for the weekend trip", expense_owner=1, status="pending")
+    expense4 = Expense(description="Dinner with coworkers", expense_owner=1, status="pending")
     expense5 = Expense(description="Monthly rent payment", expense_owner=1, status="settled")
-    expense6 = Expense(description="Internet and cable bill", expense_owner=2, status="open")
+    expense6 = Expense(description="Internet and cable bill", expense_owner=2, status="pending")
     expense7 = Expense(description="Late night pizza order", expense_owner=2, status="settled")
     expense8 = Expense(description="Coffee and bagels", expense_owner=3, status="settled")
-    expense9 = Expense(description="Birthday cake", expense_owner=3, status="open")
-    expense10 = Expense(description="Shared Uber to airport", expense_owner=3, status="open")
-    expense11 = Expense(description="Breakfast", expense_owner=4, status="open")
-    expense12 = Expense(description="Monthly gym membership", expense_owner=4, status="open")
-    expense13 = Expense(description="Parking fee", expense_owner=5, status="open")
+    expense9 = Expense(description="Birthday cake", expense_owner=3, status="pending")
+    expense10 = Expense(description="Shared Uber to airport", expense_owner=3, status="pending")
+    expense11 = Expense(description="Breakfast", expense_owner=4, status="pending")
+    expense12 = Expense(description="Monthly gym membership", expense_owner=4, status="pending")
+    expense13 = Expense(description="Parking fee", expense_owner=5, status="pending")
     expense14 = Expense(description="Snacks for movie night", expense_owner=6, status="settled")
     expense15 = Expense(description="Weekend trip Airbnb", expense_owner=6, status="settled")
 
