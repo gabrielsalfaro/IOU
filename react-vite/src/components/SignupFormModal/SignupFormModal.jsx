@@ -39,8 +39,17 @@ function SignupFormModal() {
     setErrors({});
   };
 
+  // email regex
+  const emailRegex = /^[\w.!#$%&'*+/=?^`{|}~-]+@[a-z\d](?:[a-z\d-]{0,61}[a-z\d])?(?:\.[a-z\d](?:[a-z\d-]{0,61}[a-z\d])?)*$/i;
+
+  // name regex, no numbers in names
+  const firstNameRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+  const lastNameRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+
+
   const emptyFields = (
     !email.trim() ||
+    // !emailRegex.test(email) ||
     !username.trim() || (username.trim().length < 4) ||
     !firstname.trim() ||
     !lastname.trim() ||
@@ -48,8 +57,25 @@ function SignupFormModal() {
     !confirmPassword.trim()
   )
 
+  // if (!emailRegex.test(email)) {
+  //   return setErrors({ email: "Please enter a valid email address" });
+  // }
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!emailRegex.test(email)) {
+      return setErrors({ email: "Please enter a valid email address" });
+    }
+
+    if (!firstNameRegex.test(firstname)) {
+      return setErrors({ firstname: "First name must contain only letters" });
+    }
+    
+    if (!lastNameRegex.test(lastname)) {
+      return setErrors({ lastname: "Last name must contain only letters" });
+    }
 
     if (password !== confirmPassword) {
       return setErrors({
@@ -94,7 +120,7 @@ function SignupFormModal() {
           {/* {errors.credential && <p className="error-message">{errors.credential}</p>} */}
           <label>
             <div className="signup-label-title">Email
-              {errors.email && <span className="error-message"> {errors.email}</span>}
+              {errors.email && <span className="error-message"> {' '}{errors.email}</span>}
             </div>
             <input
               type="text"
@@ -107,7 +133,7 @@ function SignupFormModal() {
 
           <label>
             <div className="signup-label-title">Username
-              {errors.username && <span className="error-message"> {errors.username}</span>}
+              {errors.username && <span className="error-message"> {' '}{errors.username}</span>}
             </div>
 
           {/* {usernameMessage && 
@@ -129,7 +155,7 @@ function SignupFormModal() {
           
           <label>
             <div className="signup-label-title">First Name
-              {errors.firstname && <span className="error-message"> {errors.firstname}</span>}
+              {errors.firstname && <span className="error-message">{' '} {errors.firstname}</span>}
             </div>
             <input
               type="text"
@@ -142,7 +168,7 @@ function SignupFormModal() {
           
           <label>
             <div className="signup-label-title">Last Name
-              {errors.lastname && <span className="error-message">{errors.lastname}</span>}
+              {errors.lastname && <span className="error-message">{' '}{errors.lastname}</span>}
             </div>
             <input
               type="text"
@@ -155,7 +181,7 @@ function SignupFormModal() {
 
           <label>
             <div className="signup-label-title">Password
-              {errors.password && <span className="error-message">{errors.password}</span>}
+              {errors.password && <span className="error-message">{' '}{errors.password}</span>}
             </div>
             
           {passwordMessage && 
@@ -176,7 +202,7 @@ function SignupFormModal() {
 
           <label>
             <div className="signup-label-title">Confirm Password
-              {errors.confirmPassword && <span className="error-message"> {errors.confirmPassword}</span>}
+              {errors.confirmPassword && <span className="error-message">{' '} {errors.confirmPassword}</span>}
             </div>
             <input
               type="password"
