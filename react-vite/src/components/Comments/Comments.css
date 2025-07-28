@@ -43,6 +43,8 @@
 }
 
 .comment p {
+  display: flex;
+  align-items: center;
   margin: 0 0 6px 0;
   font-size: 1rem;
   color: #222;
@@ -118,3 +120,29 @@
   text-decoration: underline;
 }
 
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.comment-username {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.comment-username:hover {
+  text-decoration: underline;
+}
+
+.comment-content {
+  color: #222;
+}
+
+.comment-mini-friend-img img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}

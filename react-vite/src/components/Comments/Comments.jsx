@@ -84,11 +84,14 @@ const Comments = () => {
 
           return (
             <div key={comment.id} className="comment">
-              <p>
-                <NavLink to={`/users/${comment.user.id}`}>
-                  <strong>{comment.user.username}</strong>
+              <p className="comment-header">
+                <div className="comment-mini-friend-img">
+                  <img src={comment.user.profile_img} alt="" />
+                </div>
+                <NavLink to={`/users/${comment.user.id}`} className="comment-username">
+                  <strong>{comment.user.firstname}</strong> 
                 </NavLink>
-                : {comment.content}
+                :<span className="comment-content">{comment.content}</span>
               </p>
               <small>{new Date(comment.created_at).toLocaleString()}</small>
               {isOwner && (
