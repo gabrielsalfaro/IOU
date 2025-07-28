@@ -35,20 +35,20 @@
 }
 
 .payment-month-group {
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 }
 
 .payment-month-title {
   font-size: 1.2rem;
   color: #555;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   padding-left: 10px;
 }
 
 .payments-box {
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
@@ -64,29 +64,15 @@
 .header-expense {
   flex: 2;
   padding-left: 10px;
-  width:95%; 
+  margin-right: 115px; 
 }
 
-.header-amount {
-  flex: 1;
-  text-align: right;
-  padding-right: 15px;
-  width:90%; 
-  margin-right:15px; 
-}
-
-.header-status {
-  flex: 1;
-  text-align: center;
-  width:90%; 
- 
-
-}
-
+.header-amount,
+.header-status,
 .header-action {
   flex: 1;
-  text-align: right;
-  margin-right: 8px; 
+  text-align: center;
+  margin-left:45px; 
 }
 
 .payment-item {
@@ -95,6 +81,7 @@
   align-items: center;
   padding: 15px 20px;
   border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 4px;
 }
 
 .payment-description-container {
@@ -110,6 +97,7 @@
   flex: 3;
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .payment-amount {
@@ -120,41 +108,38 @@
 }
 
 .payment-status {
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 4px;
   font-size: 0.85rem;
   font-weight: 500;
   flex: 1;
   text-align: center;
-  margin-right: -25px;
-  }
+}
 
 .payment-status.settled {
-  background-color: rgba(108, 219, 171, 0.2);
-  color: #6CDBAB;
-  margin-left: 25px; 
+  background-color: rgba(108, 219, 171, 0.15);
+  color: #35a57c;
 }
 
 .payment-status.open {
   background-color: #fff3e0;
-  color: orange;
-  margin-left: 25px; 
+  color: #e69500;
 }
 
 .payment-review-btn {
+  background-color: white;
+  border: 1px solid #3b82f6;
   color: #3b82f6;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: 4px;
-  flex: 1;
-  text-align: right;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .payment-review-btn:hover {
-  background-color: rgba(59, 130, 246, 0.1);
+  background-color: #e6f0ff;
+  border-color: #2563eb;
+  color: #2563eb;
 }
 
 .payment-history-scroll-container::-webkit-scrollbar {
