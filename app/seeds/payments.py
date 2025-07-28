@@ -29,7 +29,7 @@ def seed_payments():
         Payment(expense_id=4, payer_id=3, amount=12.58, status="ongoing"),
         Payment(expense_id=7, payer_id=3, amount=8.99, status="paid"),
         Payment(expense_id=8, payer_id=3, amount=5.00, status="paid"),
-        Payment(expense_id=9, payer_id=3, amount=7.50, status="ongoing"),
+        Payment(expense_id=9, payer_id=3, amount=7.50, status="paid"),
         Payment(expense_id=10, payer_id=3, amount=15.75, status="paid"),
 
         # Player ID 4 payments (4 ongoing, 4 paid)
