@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useModal } from "../../context/Modal";
-import { getExpenseById, deleteUserExpense, editExpense } from '../../redux/expenses';
+import { getExpenseById, deleteUserExpense } from '../../redux/expenses';
 import Comments from '../Comments/Comments';
 import PaymentModal from '../PaymentModal/PaymentModal';
 import EditExpenseModal from '../EditExpenseModal/EditExpenseModal';
 import ErrorModal from '../ErrorModal/ErrorModal';
+import { submitExpensePayment } from '../../redux/payments';
 import './ExpenseDetailPage.css';
 
 function ExpenseDetailPage() {
@@ -19,7 +20,7 @@ function ExpenseDetailPage() {
   const members = useSelector(state => state.expenses.currentExpense?.members);
   const isOwner = expense?.expense_owner === sessionUser?.id;
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [showComingSoon, setShowComingSoon] = useState(false);
+  //const [showComingSoon, setShowComingSoon] = useState(false);
   const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false);
 
   useEffect(() => {
@@ -79,6 +80,7 @@ function ExpenseDetailPage() {
     }
   }
 
+  /*
   const handlePaymentSubmit = async () => {
     if (expense?.status === "open") {
       await dispatch(editExpense(expense.id, { description: expense.description, status: "settled" }));
@@ -92,6 +94,21 @@ function ExpenseDetailPage() {
       setShowComingSoon(false);
     }
   };
+  */
+
+  const handlePaymentSubmit = async () => {
+  const result = await dispatch(submitExpensePayment(expenseId));
+
+  if (result.payment) {
+    await dispatch(getExpenseById(expenseId));
+    setShowPaymentConfirmation(true);
+    setShowPaymentModal(false);
+    setTimeout(() => setShowPaymentConfirmation(false), 3000);
+  } else {
+    setModalContent(<ErrorModal message="Failed to process payment"/>);
+    setShowPaymentModal(false);
+  }
+}
 
   return (
     <div className="specific-expense-div">
@@ -128,13 +145,12 @@ function ExpenseDetailPage() {
 
       {showPaymentModal && (
         <PaymentModal
-          expenseId={expenseId}
+          //expenseId={expenseId}
           onClose={() => {
             setShowPaymentModal(false);
-            setShowComingSoon(false);
+            //setShowComingSoon(false);
           }}
           onSubmit={handlePaymentSubmit}
-          showComingSoon={showComingSoon}
         />
       )}
 

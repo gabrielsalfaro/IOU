@@ -2,6 +2,7 @@
 const LOAD_PAYMENTS = 'payments/LOAD_PAYMENTS';
 const LOAD_HISTORY = 'payments/LOAD_HISTORY';
 const UPDATE_PAYMENT = 'payments/UPDATE_PAYMENT';
+const PAY_EXPENSE = 'payments/PAY_EXPENSE';
 
 // Action Creators
 const loadPayments = (payments) => ({
@@ -16,6 +17,11 @@ const loadHistory = (payments) => ({
 
 const updatePayment = (payment) => ({
   type: UPDATE_PAYMENT,
+  payment
+});
+
+const payExpense = (payment) => ({
+  type: PAY_EXPENSE,
   payment
 });
 
@@ -53,6 +59,26 @@ export const updatePaymentStatus = (paymentId, status) => async (dispatch) => {
   }
 };
 
+export const submitExpensePayment = (expenseId) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/payments/expenses/${expenseId}/pay`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(payExpense(data));
+      return data;
+    }
+    throw new Error('Error creating payment');
+  } catch (error) {
+    return { errors: error.message };
+  }
+};
+
 // Initial State
 const initialState = {
   paymentsByExpense: [],  // Payments grouped by expense
@@ -63,15 +89,15 @@ const initialState = {
 export default function paymentsReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_PAYMENTS:
-      return { 
-        ...state, 
-        paymentsByExpense: action.payments 
+      return {
+        ...state,
+        paymentsByExpense: action.payments
       };
 
     case LOAD_HISTORY:
-      return { 
-        ...state, 
-        userHistory: action.payments 
+      return {
+        ...state,
+        userHistory: action.payments
       };
 
     case UPDATE_PAYMENT:
@@ -83,6 +109,12 @@ export default function paymentsReducer(state = initialState, action) {
         userHistory: state.userHistory.map(payment =>
           payment.id === action.payment.id ? action.payment : payment
         )
+      };
+
+      case PAY_EXPENSE:
+      return {
+        ...state,
+        userHistory: [...state.userHistory, action.payment.payment]
       };
 
     default:

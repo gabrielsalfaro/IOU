@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
-from app.models import db, Payment, Expense
+from app.models import db, Payment, Expense, ExpenseMember
 
 payments_routes = Blueprint('payments', __name__)
 
@@ -26,6 +26,46 @@ def get_payments_by_expense(expense_id):
         } for payment in payments
     ]), 200
 
+#pay up route
+@payments_routes.route('/expenses/<int:expense_id>/pay', methods=['POST'])
+@login_required
+def pay_up(expense_id):
+    expense = Expense.query.get(expense_id)
+    if expense is None:
+        return {"errors": {"message": "Expense not found"}}, 404
+
+    #get the expensemember details which holds settled value
+    #get the actual member from object
+    member = ExpenseMember.query.filter_by(expense_id = expense_id, user_id = current_user.id).first()
+
+    #validation
+    if member is None:
+        return {"errors": {"message": "Member not found in Expense"}}, 404
+
+    if member.settled == True:
+        return jsonify({"error": "You have already paid this expense"}), 400
+
+    member.settled = True
+
+    #now we have to recheck if al members of the expense have paid to update the expense status
+    all_members = ExpenseMember.query.filter_by(expense_id = expense_id).all()
+    if all(member.settled for member in all_members): expense.status = "settled"
+
+    payment_for_expense = Payment(
+        expense_id=expense_id,
+        payer_id=current_user.id,
+        amount=member.amount_owed,
+        status="paid"
+    )
+
+    db.session.add(payment_for_expense)
+    db.session.commit()
+
+    return {
+    "payment": payment_for_expense.to_dict(),
+    "expense": expense.to_dict(),
+    "members": [member.to_dict() for member in expense.expense_members]
+    }, 201
 
 # Mark payment as paid (PUT /api/payments/:paymentId)
 @payments_routes.route('/payments/<int:payment_id>', methods=['PUT'])
