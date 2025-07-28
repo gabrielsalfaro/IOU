@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useModal } from "../../context/Modal";
-import { getExpenseById, deleteUserExpense } from '../../redux/expenses';
+import { getExpenseById, deleteUserExpense, editExpense } from '../../redux/expenses';
 import Comments from '../Comments/Comments';
 import PaymentModal from '../PaymentModal/PaymentModal';
 import EditExpenseModal from '../EditExpenseModal/EditExpenseModal';
@@ -19,6 +19,7 @@ function ExpenseDetailPage() {
   const isOwner = expense?.expense_owner === sessionUser?.id;
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
+  const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false);
 
   useEffect(() => {
     dispatch(getExpenseById(expenseId));
@@ -58,14 +59,29 @@ function ExpenseDetailPage() {
     }
   }
 
-
-
-  const handlePaymentSubmit = () => {
-    setShowComingSoon(true);
+  const handlePaymentSubmit = async () => {
+    if (expense?.status === "open") {
+      await dispatch(editExpense(expense.id, { description: expense.description, status: "settled" }));
+      dispatch(getExpenseById(expenseId));
+      setShowPaymentModal(false);
+      setShowComingSoon(false);
+      setShowPaymentConfirmation(true);
+      setTimeout(() => setShowPaymentConfirmation(false), 3000);
+    } else {
+      setShowPaymentModal(false);
+      setShowComingSoon(false);
+    }
   };
 
   return (
     <div className="specific-expense-div">
+      {showPaymentConfirmation && (
+        <div className="confirmation-dropdown">
+          <p>Expense payment has been settled.</p>
+          <button className="close-btn" onClick={() => setShowPaymentConfirmation(false)}>×</button>
+        </div>
+      )}
+
       <div className="expense-detail-top-header">
         <h1>Expense</h1>
         <div className="expense-detail-expense-buttons">
