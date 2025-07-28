@@ -112,3 +112,7 @@
 .expense-card-status.pending {
   color: orange;
 }
+
+.add-expense-button:hover {
+  background-color: #5bc79a;
+}

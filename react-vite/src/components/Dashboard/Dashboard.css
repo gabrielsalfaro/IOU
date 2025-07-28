@@ -58,3 +58,7 @@
 .amount-zero {
   color: lightgray;
 }
+
+.dashboard-add-expense:hover {
+  background-color: #5bc79a;
+}

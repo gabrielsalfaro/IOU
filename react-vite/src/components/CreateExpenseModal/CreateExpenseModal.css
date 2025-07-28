@@ -87,3 +87,11 @@
   margin-top: 4px;
   padding-left: 4px;
 }
+
+.create-expense-button:hover {
+  background-color: #5bc79a;
+}
+
+.create-expense-cancel-button:hover {
+  background-color: #c0392b;
+}
