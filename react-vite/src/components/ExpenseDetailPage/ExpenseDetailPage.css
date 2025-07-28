@@ -50,26 +50,40 @@
 }
 
 .expense-detail-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 1.2rem;
   font-weight: 500;
   margin-bottom: 16px;
+}
+
+.expense-detail-info div {
+  flex: 1;
 }
 
 .expense-detail-amount {
   font-size: 1.5rem;
   font-weight: 600;
   color: #333;
-  display: block;
-  margin: 16px 0;
+  text-align: right;
+  margin-left: 20px;
 }
 
-.expense-detail-status,
+.expense-detail-status-message,
 .expense-detail-date {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
   border-bottom: 1px solid #eee;
+}
+
+.expense-detail-status {
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
 }
 
 .expense-detail-members {
@@ -88,34 +102,51 @@
 }
 
 .expense-detail-specific-member {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
   align-items: center;
-  padding: 12px;
+  padding: 8px 0;
+  color: gray;
   border-bottom: 1px solid #eee;
 }
 
 .expense-detail-member-name {
+  text-align: left;
+  padding-left: 5px;
   font-weight: 500;
 }
 
 .expense-detail-member-status {
+  text-align: center;
+  padding-right: 5px;
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.9rem;
 }
 
-.expense-detail-member-status:contains("settled") {
+.expense-detail-member-status.settled {
   background-color: #e8f5e9;
   color: #2e7d32;
 }
 
-.expense-detail-member-status:contains("unsettled") {
+.expense-detail-member-status.unsettled {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.expense-detail-status.settled {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.expense-detail-status.unsettled {
   background-color: #fff3e0;
   color: #f57c00;
 }
 
 .expense-detail-member-amount {
+  text-align: right;
+  padding-right: 25px;
   font-weight: 500;
   color: #333;
 }

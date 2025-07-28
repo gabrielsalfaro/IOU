@@ -121,21 +121,23 @@ function ExpenseDetailPage() {
       <div className="expense-details">
         <div className="expense-detail-info">
           <div>{expense?.description}</div>
+
+          <span className="expense-amount">
+            ${(expense?.expense_members) ? expense.expense_members.reduce((total, member) =>
+                  total + (parseFloat(member.amount_owed) || 0), 0).toFixed(2) : '0.00'}
+          </span>
         </div>
 
-        <span className="expense-detail-amount">
-          ${(expense?.expense_members) ? expense.expense_members.reduce((total, member) =>
-                total + (parseFloat(member?.amount_owed)), 0).toFixed(2) : '0.00'}
-        </span>
-
-        <div className="expense-detail-status">
-          <p>Status</p>
-          <div>{expense?.status}</div>
+        <div className="expense-detail-status-message">
+          Status
+          <span className={`expense-detail-status ${expense?.settled ? 'settled' : 'unsettled'}`}>
+            {expense?.status}
+          </span>
         </div>
 
         <div className="expense-detail-date">
           <p>Date</p>
-          <div>{expense?.created_at}</div>
+          <div>{new Date(expense?.created_at).toLocaleString()}</div>
         </div>
       </div>
 
@@ -145,9 +147,9 @@ function ExpenseDetailPage() {
           {members?.map(member => (
             <div key={member.id} className="expense-detail-specific-member">
               <div className="expense-detail-member-name">{member?.user.firstname} {member?.user?.lastname}</div>
-              <div className="expense-detail-member-status">
+              <span className={`expense-detail-member-status ${member.settled ? 'settled' : 'unsettled'}`}>
                 {member.settled ? 'settled' : 'unsettled'}
-              </div>
+              </span>
               <div className="expense-detail-member-amount">${member.amount_owed}</div>
             </div>
           ))}

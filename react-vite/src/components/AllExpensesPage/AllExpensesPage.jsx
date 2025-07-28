@@ -12,7 +12,7 @@ function AllExpensesPage() {
   const navigate = useNavigate();
   // const expenses = useSelector(state => Object.values(state.expenses.expenses));
   const rawExpenses = useSelector(state => state.expenses.expenses);
-  const expenseList = useMemo(() => Object.values(rawExpenses), [rawExpenses]);
+  const expenseList = useMemo(() => Object.values(rawExpenses).reverse(), [rawExpenses]);
   const { setModalContent } = useModal();
 
   const openExpenseModal = () => {
@@ -58,8 +58,8 @@ function AllExpensesPage() {
           <div className="expense-members">
             {expense?.expense_members?.map(member => (
               <div key={member?.id} className="member-row">
-                <span>{member?.user?.firstname} {member?.user?.lastname}</span>
-                <span>${parseFloat(member.amount_owed)}</span>
+                <span className="all-expense-member-name">{member?.user?.firstname} {member?.user?.lastname}</span>
+                <span className="all-expense-amount-due">${parseFloat(member.amount_owed).toFixed(2)}</span>
                 <span className={`expense-card-status ${member.settled ? 'settled' : 'pending'}`}>
                   {member.settled ? 'Settled' : 'Pending'}
                 </span>

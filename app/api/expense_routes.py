@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from decimal import Decimal, ROUND_HALF_EVEN, ROUND_HALF_UP
+from decimal import Decimal, ROUND_HALF_UP
 from app.models import db, Expense, ExpenseMember
 
 expense_routes = Blueprint('expenses', __name__)
@@ -55,7 +55,7 @@ def create_expense():
     errors['amount'] = "Amount can not be empty"
   else:
       try:
-        amount = Decimal(data['amount']).quantize(Decimal('0.00'), rounding=ROUND_HALF_EVEN) #use decimal library (decimal TYPE) to handle amounts
+        amount = Decimal(data['amount']).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP) #use decimal library (decimal TYPE) to handle amounts
         if amount <= Decimal('0'):
           errors['amount'] = "Amount must be positive"
       except (ValueError, TypeError): #make sure amount is not mixed with other strings, as well as a valid number
