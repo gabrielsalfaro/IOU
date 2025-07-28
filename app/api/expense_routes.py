@@ -27,10 +27,17 @@ def get_expense(id):
   if expense is None:
     return {"errors": {"message": "Expense not found"}}, 404
 
-  #add check if current user is authorized to view expense
+  #add check if current user is authorized to view expense, check if not owner or not a member
+  is_member = any(member.user_id == current_user.id for member in expense.expense_members)
+  if not is_member:
+      return {"errors": {"message": "Unauthorized to view this expense"}}, 403
 
   #get all members as list
   expense_members = ExpenseMember.query.filter_by(expense_id=id).all()
+
+  #can't view deleted expenses, check if there are no members
+  if not expense_members:
+     return {"errors": {"message": "Expense not found"}}, 404
 
   #return expense and expense members detail
   return {

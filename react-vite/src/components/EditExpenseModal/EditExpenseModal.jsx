@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { editExpense } from '../../redux/expenses';
 import './EditExpenseModal.css';
@@ -7,27 +7,10 @@ import './EditExpenseModal.css';
 function ExpenseEditModal({ expense, members }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
-  const sessionUser = useSelector(state => state.session.user);
   const [description, setDescription] = useState(expense.description);
   const [amount, setAmount] = useState('');
   const [errors, setErrors] = useState({});
 
-  const isOwner = expense?.expense_owner === sessionUser?.id;
-  const isSettled = expense.status === 'settled';
-
-  useEffect(() => {
-    if (!isOwner) {
-      alert("You can only edit expenses you created");
-      closeModal();
-      return;
-    }
-
-    if (isSettled) {
-      alert("Cannot edit expense: Expense has been settled");
-      closeModal();
-      return;
-    }
-  }, [isOwner, isSettled, closeModal]);
 
   const hasSettledMembers = () => {
       for (let member of members) {

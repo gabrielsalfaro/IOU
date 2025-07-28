@@ -6,6 +6,7 @@ import { getExpenseById, deleteUserExpense, editExpense } from '../../redux/expe
 import Comments from '../Comments/Comments';
 import PaymentModal from '../PaymentModal/PaymentModal';
 import EditExpenseModal from '../EditExpenseModal/EditExpenseModal';
+import ErrorModal from '../ErrorModal/ErrorModal';
 import './ExpenseDetailPage.css';
 
 function ExpenseDetailPage() {
@@ -34,19 +35,38 @@ function ExpenseDetailPage() {
     return false;
   };
 
-  const handleDelete = async () => {
+  const handleEdit = async () => {
     if(!isOwner) {
-      alert("You can only delete expense you created");
+      setModalContent(<ErrorModal message="You can only edit expenses you created"/>);
       return;
     }
 
     if(expense.status === "settled"){
-      alert("Cannot delete expense: Expense has been settled");
+      setModalContent(<ErrorModal message="Cannot edit expense: Expense has been settled"/>);
       return;
     }
 
     if (hasSettledMembers()) {
-      alert("Cannot delete expense: some members have already paid");
+      setModalContent(<ErrorModal message="Cannot edit expense: some members have already paid"/>);
+      return;
+    }
+
+    setModalContent(<EditExpenseModal expense={expense} members={members} />)
+  }
+
+  const handleDelete = async () => {
+    if(!isOwner) {
+      setModalContent(<ErrorModal message="You can only delete expenses you created"/>);
+      return;
+    }
+
+    if(expense.status === "settled"){
+      setModalContent(<ErrorModal message="Cannot delete expense: Expense has been settled"/>);
+      return;
+    }
+
+    if (hasSettledMembers()) {
+      setModalContent(<ErrorModal message="Cannot delete expense: some members have already paid"/>);
       return;
     }
 
@@ -55,7 +75,7 @@ function ExpenseDetailPage() {
     if (result === true) {
       navigate('/dashboard');
     } else {
-      alert("Failed to delete expense");
+      setModalContent(<ErrorModal message="Failed to delete expense"/>);
     }
   }
 
@@ -87,7 +107,7 @@ function ExpenseDetailPage() {
         <div className="expense-detail-expense-buttons">
           <button
             className="expense-detail-edit-button"
-            onClick={() => setModalContent(<EditExpenseModal expense={expense} members={members} />)}
+            onClick={handleEdit}
           >
             Edit Expense
           </button>
