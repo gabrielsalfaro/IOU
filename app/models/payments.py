@@ -22,12 +22,12 @@ class Payment(db.Model):
     # I believe this shows payment status
     status = db.Column(db.String(20), nullable=False, default="pending")
 
-   
+
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    
-    expense = db.relationship('Expense', backref='payments')
+
+    expense = db.relationship('Expense', back_populates='payments')
     payer = db.relationship('User', backref='payments')
 
     def to_dict(self):

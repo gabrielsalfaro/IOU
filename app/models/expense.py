@@ -16,6 +16,7 @@ class Expense(db.Model):
 
   expense_members = db.relationship("ExpenseMember",back_populates="expense", cascade="all")
   comments = db.relationship("Comment", back_populates="expense", cascade="all")
+  payments = db.relationship("Payment", back_populates="expense", cascade="all")
 
   def to_dict(self):
       return {
